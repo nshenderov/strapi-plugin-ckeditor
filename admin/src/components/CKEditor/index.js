@@ -23,7 +23,8 @@ const Editor = ({ onChange, name, value, disabled  }) => {
 
 //####### strapi media lib connector #############################################################################################
 	const [mediaLibVisible, setMediaLibVisible] = useState(false);
-	const [editor, setEditor] = useState(null);
+	const [editor, setEditor] = useState();
+	const [uploadCfg, setUploadCfg] = useState();
 	const toggleMediaLib = (editor) => {
 		if (editor) {
 		  setEditor(editor);
@@ -34,15 +35,20 @@ const Editor = ({ onChange, name, value, disabled  }) => {
 		let newValue = value ? value : "";
 		assets.map((asset) => {
 		if (asset.mime.includes("image")) {
-			let set =''
-			let keys = Object.keys(asset.formats)
-			console.log(asset)
-			keys?.map(k=>{
-			let str = prefixFileUrlWithBackendUrl(asset.formats[k].url) + ` ${asset.formats[k].width}w,` 
-			set = set + str
-			})
-			const imgTag = `<figure><img src="${asset.url}" alt="${asset.alt}" srcset="${set}"></img></figure>`;
-			newValue = `${newValue}${imgTag}`;
+			if(uploadCfg?.responsiveDimensions){
+				let set =''
+				let keys = Object.keys(asset.formats)
+				console.log(asset)
+				keys?.map(k=>{
+				let str = prefixFileUrlWithBackendUrl(asset.formats[k].url) + ` ${asset.formats[k].width}w,` 
+				set = set + str
+				})
+				const imgTag = `<figure><img src="${asset.url}" alt="${asset.alt}" srcset="${set}"></img></figure>`;
+				newValue = `${newValue}${imgTag}`;
+			}else{
+				const imgTag = `<figure><img src="${asset.url}" alt="${asset.alt}"></img></figure>`;
+				newValue = `${newValue}${imgTag}`;
+			}
 		}
 		// Handle videos and other type of files by adding some code
 		});
@@ -60,6 +66,7 @@ const Editor = ({ onChange, name, value, disabled  }) => {
 		(async () => {
 		  const editor = await request(`/${pluginId}/config/editor`, { method: 'GET' });
 		  const plugin = await request(`/${pluginId}/config/plugin`, { method: 'GET' });
+		  const upload = await request(`/${pluginId}/config/uploadcfg`, { method: 'GET' });
 
 		  if(editor){
 			setConfig({
@@ -83,6 +90,12 @@ const Editor = ({ onChange, name, value, disabled  }) => {
 				...plugin,
 			})
 		  }
+		  if(upload){
+			setUploadCfg({
+				...uploadCfg,
+				...upload,
+			})
+		  }
 		})();
 	
 		return () => {
@@ -91,8 +104,8 @@ const Editor = ({ onChange, name, value, disabled  }) => {
 
   
 //####### theme #############################################################################################
-  const strapiTheme = localStorage.getItem('STRAPI_THEME');
-  useEffect(() => {
+useEffect(() => {
+	const strapiTheme = localStorage.getItem('STRAPI_THEME');
     if (strapiTheme)
     document.documentElement.setAttribute('data-theme', strapiTheme)
     return () => {

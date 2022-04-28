@@ -3,7 +3,13 @@
 module.exports = {
   getConfig: async (ctx) => {
     const { configKey } = ctx.params;
-    const config = await strapi.plugin('ckeditor').service('config').getConfig(configKey);
-    ctx.send(config);
+    if(configKey === 'uploadcfg'){
+      const uploadConfig = await strapi.plugin('ckeditor').service('config').getUploadConfig('upload').getSettings();
+      ctx.send(uploadConfig);
+    }else{
+      const config = await strapi.plugin('ckeditor').service('config').getConfig(configKey);
+      ctx.send(config);
+    }
+    
   },
 };
