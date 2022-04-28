@@ -1,0 +1,44 @@
+{
+  "name": "@_sh/strapi-plugin-ckeditor",
+  "version": "1.0.0",
+  "description": "Replaces the default Strapi WYSIWYG editor with a customized buil of CKEditor 5 packed with useful plugins.",
+  "private": false,
+  "keywords": [
+    "strapi",
+    "ckeditor",
+    "ckeditor5",
+    "ckeditor 5",
+    "wysiwyg",
+    "rich text",
+    "editor"
+  ],
+  "strapi": {
+    "icon": "edit",
+    "name": "ckeditor",
+    "displayName": "CKEditor 5",
+    "description": "Replaces the default Strapi WYSIWYG editor with a customized buil of CKEditor 5 packed with useful plugins.",
+    "kind": "plugin"
+  },
+  "dependencies": {
+    "@ckeditor/ckeditor5-react": "5.0.0"
+  },
+  "peerDependencies": {
+    "@strapi/strapi": "^4.0.0"
+  },
+  "author": {
+    "name": "nshenderov"
+  },
+  "homepage": "https://github.com/nshenderov/strapi-plugin-ckeditor",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nshenderov/strapi-plugin-ckeditor.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no tests specified\" && exit 1"
+  },
+  "engines": {
+    "node": ">=12.x.x <=16.x.x",
+    "npm": ">=6.0.0"
+  },
+  "license": "MIT"
+}
