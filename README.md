@@ -1,6 +1,6 @@
 # CKEditor 5 for Strapi 
 
-<img src="./assets/ckeditor1.jpg" />
+<img src="./assets/ckeditor1.jpg"/>
   
 <br/>
   
@@ -14,18 +14,17 @@ https://github.com/leknoppix/ckeditor5-fullscreen
 https://github.com/gtomato/ckeditor5-strapi-upload-plugin  
 https://github.com/pshurygin/ckeditor5-font-color  
   
-
+  
 
 ## Plugins
   
 <br/>
 <img src="./assets/ckeditor-toolbar.jpg" width="900"/>
 <br/>
-<br/>
   
 - <b>Lots of default plugins:</b>
   
-    For text styling, images, tables and so on.
+    For styling text, images, tables and so on.
 <br/>
 <br/>
  
@@ -33,7 +32,6 @@ https://github.com/pshurygin/ckeditor5-font-color
   
 <img src="./assets/ckeditor-d-2.jpg" width="900"/>
   
-<br/>
 <br/>
  
 - <b>Fullscreen mode</b>
@@ -45,10 +43,10 @@ https://github.com/pshurygin/ckeditor5-font-color
  
 <br/>
  
-<img src="./assets/ckeditor-fontcolor3.jpg" width="200"/>
+ 
 <img src="./assets/ckeditor-fontcolor1.jpg" width="200"/>
+<img src="./assets/ckeditor-fontcolor3.jpg" width="200"/>
   
-<br/>
  
 - <b>Upload udapter:</b>
   
@@ -58,28 +56,30 @@ https://github.com/pshurygin/ckeditor5-font-color
 - <b>Strapi media library button</b>
 
   
-- ```Also supports strapi theme swithing```
+- <b>Also supports strapi theme swithing</b>
 
-- ```Supports responsive images - plugin adds srcset attribute to images based on their "formats"```
+- <b>Supports responsive images - plugin adds srcset attribute to images based on their "formats"</b>
 
 
 ## How to install
+Install the dependency via npm
 ```
-# Install the dependency via npm
 npm install @_sh/strapi-plugin-ckeditor
-# or yarn
+```
+or yarn
+```
 yarn add @_sh/strapi-plugin-ckeditor
 ```
 In ./config/plugins.js file add
 ```
-'ckeditor': {
-      enabled: true
-}
+ckeditor: true
 ```
 Then run build
 ```
 npm run build
-# or
+```
+or
+```
 yarn build
 ```
 
