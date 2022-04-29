@@ -230,18 +230,6 @@ module.exports = () => {
               {
               model: 'h3b',
               view: {name: 'h3', classes: 'ck-heading_h3_b'}, title: 'H3 (border)', class: 'ck-heading_heading3', converterPriority: 'high'
-              },
-              {
-                model: 'h4b',
-                view: {name: 'h4', classes: 'ck-heading_h4_b'}, title: 'H4 (border)', class: 'ck-heading_heading4', converterPriority: 'high'
-              },
-              {
-                model: 'h5b',
-                view: {name: 'h5', classes: 'ck-heading_h5_b'}, title: 'H5 (border)', class: 'ck-heading_heading5', converterPriority: 'high'
-              },
-              {
-                model: 'h6b',
-                view: {name: 'h6', classes: 'ck-heading_h6_b'}, title: 'H6 (border)', class: 'ck-heading_heading6', converterPriority: 'high'
               }
             ]
           }
