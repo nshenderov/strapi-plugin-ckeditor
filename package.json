@@ -1,6 +1,6 @@
 {
   "name": "@_sh/strapi-plugin-ckeditor",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Replaces the default Strapi WYSIWYG editor with a customized buil of CKEditor 5 packed with useful plugins.",
   "private": false,
   "keywords": [

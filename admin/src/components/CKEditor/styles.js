@@ -1,15 +1,15 @@
 const styles = `
 
 .ck-editor__main {
-	--ck-font-face:"Source Sans Pro",system-ui,Roboto,"Helvetica Neue","Helvetica",Arial,sans-serif;
-    min-height: ${200 / 16}em;
-	color:var(--ck-color-editor-base-text);
-	font-family:var(--ck-font-face);
+        --ck-font-face:"Source Sans Pro",system-ui,Roboto,"Helvetica Neue","Helvetica",Arial,sans-serif;
+        min-height: ${200 / 16}em;
+        color:var(--ck-color-editor-base-text);
+        font-family:var(--ck-font-face);
 	> div {
-	min-height: ${200 / 16}em;
+	    min-height: ${200 / 16}em;
 	}
 	.ck-editor__editable {
-	line-height: initial;
+	    line-height: initial;
 	}
 	
 	div, applet, object, iframe, 
@@ -25,44 +25,44 @@ const styles = `
 	details, embed, figure, figcaption,
 	footer, header, hgroup, menu, nav, output,
 	ruby, section, summary, time, mark, audio, video {
-	font: revert;
-	margin:revert;
-	font-family:revert;
+        font: revert;
+        margin:revert;
+        font-family:revert;
 	}
 	h1, .ck-heading_h1_b {
-	font-size: 2.36em;
-	line-height: 1.33em;
-	padding-top: 1em;
-	margin-bottom: 1.67em;
-	font-weight: 400;
+        font-size: 2.36em;
+        line-height: 1.33em;
+        padding-top: 1em;
+        margin-bottom: 1.67em;
+        font-weight: 400;
 	}
 	h2, .ck-heading_h2_b {
-	font-size: 1.68em;
-	line-height: 1.68em;
-	padding-top: 0.8em;
-	margin-bottom: 0.4em;
-	padding-bottom: 0.2em;
-	font-weight: 400;
+        font-size: 1.68em;
+        line-height: 1.68em;
+        padding-top: 0.8em;
+        margin-bottom: 0.4em;
+        padding-bottom: 0.2em;
+        font-weight: 400;
 	}
 	h3, .ck-heading_h3_b{
-	font-size: 1.36em;
-	line-height: 1.5em;
-	padding-top: 0.8em;
-	margin-bottom: 0.2em;
-	font-weight: 400;
+        font-size: 1.36em;
+        line-height: 1.5em;
+        padding-top: 0.8em;
+        margin-bottom: 0.2em;
+        font-weight: 400;
 	}
 	h4 {
-	font-size: 1.15em;
-	line-height: 1.4em;
-	padding-top: 0.7em;
-	margin-bottom: 0.1em;
-	font-weight: 400;
+        font-size: 1.15em;
+        line-height: 1.4em;
+        padding-top: 0.7em;
+        margin-bottom: 0.1em;
+        font-weight: 400;
 	}
 	p{
-	font-size: 1em;
-	line-height: 1.6em;
-	padding-top: 0.2em;
-	margin-bottom: 0.8em;
+        font-size: 1em;
+        line-height: 1.6em;
+        padding-top: 0.2em;
+        margin-bottom: 0.8em;
 	}
 	.ck-heading_h1_b, h2.ck-heading_h2_b, .ck-heading_h3_b{
 		border-bottom: 1px solid #e9e9e9;
@@ -98,8 +98,6 @@ const styles = `
     sup{
         vertical-align: super
     }
-
-    
 }
 
 /*
@@ -515,6 +513,6 @@ const styles = `
         display: none;
     }
 }
-`
+`;
 
 export default styles

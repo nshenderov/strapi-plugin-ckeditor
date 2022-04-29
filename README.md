@@ -16,7 +16,7 @@
 * [Thanks](#thanks)
 
 ## <a id="features"></a>✨ Features
-This plugin works on custom build of CKEditor 5 packed with useful plugins.
+
 * **Lots of default plugins:** for styling text, images, tables and so on.
 * **Font color picker:** choose colors for font styling that's not defined in config from the color palette.
 * **Upload adapter for Strapi:** for upload images to your library when you drop an image into the editor.
@@ -62,7 +62,7 @@ or
 yarn build
 ```
 
-## <a id="configuration"></a>🔧 Configuration
+## <a id="configuration"></a>⚙️ Configuration
 CKEditor config should be defined in `config.editor` field.
 
 Learn more about configuration from [official documentation](https://ckeditor.com/docs/ckeditor5/latest/installation/getting-started/configuration.html).
