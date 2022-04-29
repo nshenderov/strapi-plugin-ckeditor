@@ -1,6 +1,6 @@
 {
   "name": "@_sh/strapi-plugin-ckeditor",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Replaces the default Strapi WYSIWYG editor with a customized buil of CKEditor 5 packed with useful plugins.",
   "private": false,
   "keywords": [
@@ -19,6 +19,12 @@
     "description": "Replaces the default Strapi WYSIWYG editor with a customized buil of CKEditor 5 packed with useful plugins.",
     "kind": "plugin"
   },
+  "files": [
+    "admin",
+    "server",
+    "strapi-admin.js",
+    "strapi-server.js"
+  ],
   "dependencies": {
     "@ckeditor/ckeditor5-react": "5.0.0"
   },

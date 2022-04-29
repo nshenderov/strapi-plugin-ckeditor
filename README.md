@@ -250,7 +250,7 @@ For theme colors switching this plugin uses css variables depending on html data
 
 [**👔 Default styles**](https://github.com/nshenderov/strapi-plugin-ckeditor/blob/master/admin/src/components/CKEditor/styles.js#L3-L517)
 
-[**🎨 Default colour variables**](https://github.com/nshenderov/strapi-plugin-ckeditor/blob/master/admin/src/components/CKEditor/theme-colors.css#L105-L333)
+[**🎨 Default colour variables**](https://github.com/nshenderov/strapi-plugin-ckeditor/blob/master/assets/theme-colors.css#L105-L333)
 
 **Example of customization:**
 ```js
