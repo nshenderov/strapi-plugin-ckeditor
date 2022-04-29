@@ -4,7 +4,7 @@
 
 <h1 align="center">CKEditor 5 for Strapi</h1>
 
-<p align="center">Replaces the default Strapi WYSIWYG editor with a customized build of CKEditor 5 html editor packed with useful plugins.</p>
+<p align="center">Replaces the default Strapi WYSIWYG editor with a customized build of CKEditor 5 packed with useful plugins.</p>
 
 ## 👋 Get Started
 
