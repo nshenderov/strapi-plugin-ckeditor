@@ -1,110 +1,84 @@
-# CKEditor 5 for Strapi 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/nshenderov/strapi-plugin-ckeditor/master/assets/ckeditor5.png" alt="CKEditor5-Strapi" width="700" />
+</p>
 
-<img src="./assets/ckeditor1.jpg"/>
-  
-<br/>
-  
-Replaces the default Strapi WYSIWYG editor with a customized build of CKEditor 5 html editor packed with useful plugins. 
-  
-This plugin works on custom build of CKEditor 5 html editor packed with useful plugins.
-  
-<br/>
+<h1 align="center">CKEditor 5 for Strapi</h1>
 
-## Included plugins
-  
-<br/>
-  
-- <b>Lots of default plugins:</b>
-  
-    For styling text, images, tables and so on.
+<p align="center">Replaces the default Strapi WYSIWYG editor with a customized build of CKEditor 5 html editor packed with useful plugins.</p>
 
-- <b>Font color picker:</b>
-  
-    Gives you ability to choose colors for font styling that's not defined in config from the color palette.
- 
-- <b>Upload adapter for Strapi:</b>
-  
-    For upload images to your library when you drop an image into the editor.
+## 👋 Get Started
 
-- <b>Fullscreen mode button</b>
- 
-- <b>Strapi media library button</b>
+* [Features](#features)
+* [Installation](#installation)
+* [Configuration](#configuration)
+* [Theme customization](#themecustomization)
+* [Requirements](#requirements)
+* [Thanks](#thanks)
 
-- <b>Also supports strapi theme swithing</b>
+## <a id="features"></a>✨ Features
+This plugin works on custom build of CKEditor 5 packed with useful plugins.
+* **Lots of default plugins:** for styling text, images, tables and so on.
+* **Font color picker:** choose colors for font styling that's not defined in config from the color palette.
+* **Upload adapter for Strapi:** for upload images to your library when you drop an image into the editor.
+* **Fullscreen mode button.**
+* **Strapi media library button.**
+* **Supports strapi theme swithing.**
+* **Supports responsive images:** plugin adds srcset attribute to images based on their `formats` if responsive enable in strapi settings.
 
-- <b>Supports responsive images:</b>
- 
-    Plugin adds srcset attribute to images based on their "formats" if responsive enable in strapi settings</b>
+## <a id="installation"></a>🔧 Installation
 
-<br/>
-<img src="./assets/ckeditor-toolbar.jpg" width="900"/>
-<br/>
-<img src="./assets/ckeditor-tables.jpg" width="900"/>
-  
-<img src="./assets/ckeditor-d-2.jpg" width="900"/>
+Inside your Strapi app, add the package:
 
-
-<table>
-  <tr>
-    <td><img src="./assets/ckeditor-fontcolor1.jpg" width=200></td>
-    <td><img src="./assets/ckeditor-fontcolor3.jpg" width=200></td>
-  </tr>
- </table>
-
-## How to install
-Install the dependency via npm
-```
+With `npm`:
+```bash
 npm install @_sh/strapi-plugin-ckeditor
 ```
-or yarn
-```
+With `yarn`:
+```bash
 yarn add @_sh/strapi-plugin-ckeditor
 ```
-In ./config/plugins.js file add
-```
+
+In `config/plugins.js` file add:
+```js
 ckeditor: true
 ```
+
 If you do not yet have this file, then create and add:
-```
-module.exports = ({ env }) => {
+```js
+module.exports = () => {
     return {
         ckeditor: true
     }
 }
 ```
-Then run build
-```
+
+Then run build:
+```bash
 npm run build
 ```
+
 or
-```
+```bash
 yarn build
 ```
 
-## How to customize  
-  
-Via config in plugins.js
+## <a id="configuration"></a>🔧 Configuration
+CKEditor config should be defined in `config.editor` field.
 
-  Ckeditor settings should be defined in <b>config.editor</b> field
-    
-  Read more about configuration https://ckeditor.com/docs/ckeditor5/latest/installation/getting-started/configuration.html
-    
+Learn more about configuration from [official documentation](https://ckeditor.com/docs/ckeditor5/latest/installation/getting-started/configuration.html).
 
-<details>
-  <summary><b>Default config</b></summary>
-  
-  
-  ```javascript
-
-  ckeditor: {
-      enabled: true,
-      config:{
+**Default configuration:**
+```js
+// plugins.js
+module.exports = () => {
+   return {
+    ckeditor: {
+     enabled: true,
+     config:{
         plugin:{
-       // styles applies to editor container
-          styles:``
+          styles:` // styles applied to editor container `
         },
-       // editor default config 
-        editor:{
+        editor:{ // editor default config
           toolbar: {
             items: [
               'paragraph',
@@ -274,74 +248,66 @@ Via config in plugins.js
         }
       }
     }
-  ```
-  
-</details>
-<br/>
+    }
+}
+```
+## <a id="themecustomization"></a>💅 Theme customization
+If you want to customize editor styles you should define styles in `config.plugin.styles` field it will replace default styles applied to the editor.
 
-If you want to customize editor styles you should define styles in <b>config.plugin.styles</b> field it will replace default styles applied to the editor
- 
-Since Strapi resets css styles, it needs some styles to revert back, those styles defined below also check https://ckeditor.com/docs/ckeditor5/latest/installation/advanced/content-styles.html
- 
-Also for theme colors switching this plugin uses css variables depending on html data-theme attribute, e.g. html[data-theme='light'] or html[data-theme='dark']
-  
-More info about theming https://ckeditor.com/docs/ckeditor5/latest/framework/guides/deep-dive/ui/theme-customization.html
+Since Strapi resets css styles, it needs some styles to revert back, these styles defined below, also check [official documentation](https://ckeditor.com/docs/ckeditor5/latest/installation/advanced/content-styles.html).
 
-<details>
-  <summary><b>Example of customizing</b></summary>  
-  
-  ```javascript
-# plugins.js
+For theme colors switching this plugin uses css variables depending on html data-theme attribute, e.g. `html[data-theme='light']` or `html[data-theme='dark']`
 
+[More info about theming](https://ckeditor.com/docs/ckeditor5/latest/framework/guides/deep-dive/ui/theme-customization.html)
+
+[**👔 Default styles**](https://github.com/nshenderov/strapi-plugin-ckeditor/blob/master/admin/src/components/CKEditor/styles.js#L3-L517)
+
+[**🎨 Default colour variables**](https://github.com/nshenderov/strapi-plugin-ckeditor/blob/master/admin/src/components/CKEditor/theme-colors.css#L105-L333)
+
+**Example of customization:**
+```js
+// plugins.js
 const defStyles = require('./styles.js')
 
-  ckeditor: {
-      enabled: true,
-      config:{
-        plugin:{
-       // styles aplyies to editor container
-          styles:`
-          ${defStyles()}
-          --ck-color-editor-base-text:red;
-          `
-        },
-       // editor default config 
-        editor:{
-            //...
-        }
-          
-      }
-    }
+module.exports = () => {
+    return {
+        ckeditor: {
+          enabled: true,
+          config:{
+             plugin:{
+                // styles applied to editor container
+                styles:`
+                ${defStyles()}
+                --ck-color-editor-base-text:red;
+                `
+             },
+             // editor default config
+             editor:{
+                 //...
+             }
+         }
+     }
+   }
+}
 
-# styles.js
+// styles.js
+const defStyles = () =>`
 
-    const defStyles = () =>`
-        ### all default styles from link below ###
+        ### All default styles ###
     `
-    module.exports = defStyles;
+module.exports = defStyles;
+```
 
-  ```
-  
-</details>
- 
- <br/>
+## <a id="requirements"></a>⚠️ Requirements
+Strapi **v4**
 
-<b>[Default colour variables for the editor](admin/src/components/CKEditor/theme-colors.css)</b>
- 
-<b>[Default styles](admin/src/components/CKEditor/styles.js)</b>
+Tested on **v4.18 - 4.19**
 
- 
-<br/>   
+## <a id="thanks"></a>👍 This build includes some useful plugins based on these repos so thanks to them:
+https://github.com/Roslovets-Inc/strapi-plugin-ckeditor5
 
-## Requirements
-Strapi v4
-  
-Tested on v4.18 - 4.19
+https://github.com/leknoppix/ckeditor5-fullscreen
 
+https://github.com/gtomato/ckeditor5-strapi-upload-plugin
 
-## This build includes some useful plugins based on those repos so thanks to them:  
-https://github.com/Roslovets-Inc/strapi-plugin-ckeditor5  
-https://github.com/leknoppix/ckeditor5-fullscreen  
-https://github.com/gtomato/ckeditor5-strapi-upload-plugin  
-https://github.com/pshurygin/ckeditor5-font-color  
-  
+https://github.com/pshurygin/ckeditor5-font-color
