@@ -18,12 +18,13 @@
 ## <a id="features"></a>✨ Features
 
 * **Lots of default plugins:** for styling text, images, tables and so on.
-* **Font color picker:** choose colors for font styling that's not defined in config from the color palette.
+* **Font color picker:** choose color for font styling that's not defined in default palette.
 * **Upload adapter for Strapi:** for upload images to your library when you drop an image into the editor.
 * **Fullscreen mode button.**
 * **Strapi media library button.**
 * **Supports strapi theme swithing.**
 * **Supports responsive images:** plugin adds srcset attribute to images based on their `formats` if responsive enable in strapi settings.
+* **Language support:** you can set the preferred language for the UI or the content in the configuration, by default it will use the language defined in the user profile if that language is supported.
 
 ## <a id="installation"></a>🔧 Installation
 
@@ -67,6 +68,90 @@ CKEditor config should be defined in `config.editor` field.
 
 Learn more about configuration from [official documentation](https://ckeditor.com/docs/ckeditor5/latest/installation/getting-started/configuration.html).
 
+<details>
+  <summary>(spoiler) <b>Built in plugins:</b> </summary>
+
+```js
+plugins: [
+StrapiUploadAdapter,
+Alignment,
+Autoformat,
+AutoImage,
+AutoLink,
+Autosave,
+BlockQuote,
+Bold,
+CloudServices,
+Code,
+CodeBlock,
+DataFilter,
+DataSchema,
+Essentials,
+FindAndReplace,
+FontBackgroundColor,
+FontColor,
+FontFamily,
+FontSize,
+GeneralHtmlSupport,
+Heading,
+HeadingButtonsUI,
+ParagraphButtonUI,
+Highlight,
+HorizontalLine,
+HtmlComment,
+HtmlEmbed,
+Image,
+ImageCaption,
+ImageInsert,
+ImageResize,
+ImageStyle,
+ImageToolbar,
+ImageUpload,
+Indent,
+IndentBlock,
+Italic,
+Link,
+LinkImage,
+List,
+ListProperties,
+MediaEmbed,
+MediaEmbedToolbar,
+Mention,
+PageBreak,
+Paragraph,
+PasteFromOffice,
+RemoveFormat,
+SourceEditing,
+SpecialCharacters,
+SpecialCharactersArrows,
+SpecialCharactersCurrency,
+SpecialCharactersEssentials,
+SpecialCharactersLatin,
+SpecialCharactersMathematical,
+SpecialCharactersText,
+StandardEditingMode,
+Strikethrough,
+Subscript,
+Superscript,
+Table,
+TableCaption,
+TableCellProperties,
+TableProperties,
+TableToolbar,
+TextPartLanguage,
+TextTransformation,
+TodoList,
+Underline,
+WordCount,
+Markdown,
+StrapiMediaLib,
+FullScreen
+] 
+
+```
+
+</details>
+
 **Default configuration:**
 ```js
 // plugins.js
@@ -79,6 +164,10 @@ module.exports = () => {
           styles:` // styles applied to editor container `
         },
         editor:{ // editor default config
+          // https://ckeditor.com/docs/ckeditor5/latest/features/markdown.html
+          // if you need markdown support and output set it to removePlugins: [''],
+          // default is removePlugins: ['Markdown'],
+          // https://ckeditor.com/docs/ckeditor5/latest/features/toolbar/toolbar.html
           toolbar: {
             items: [
               'paragraph',
@@ -126,6 +215,7 @@ module.exports = () => {
               'redo'
             ]
           },
+          // https://ckeditor.com/docs/ckeditor5/latest/features/font.html
           fontSize: {
             options: [
                 9,
@@ -167,7 +257,9 @@ module.exports = () => {
             columns: 5,
             documentColors: 10,
           },
+          // https://ckeditor.com/docs/ckeditor5/latest/features/ui-language.html
           language: 'en',
+          // https://ckeditor.com/docs/ckeditor5/latest/features/images/images-overview.html
           image: {
             resizeUnit: "%",
             resizeOptions: [ {
@@ -200,6 +292,7 @@ module.exports = () => {
               'resizeImage:25', 'resizeImage:50', 'resizeImage:75', 'resizeImage:original'
             ]
           },
+          // https://ckeditor.com/docs/ckeditor5/latest/features/table.html
           table: {
             contentToolbar: [
               'tableColumn',
@@ -210,6 +303,7 @@ module.exports = () => {
               'toggleTableCaption'
             ]
           },
+          // https://ckeditor.com/docs/ckeditor5/latest/features/headings.html
           heading: {
             options: [
               { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
@@ -220,19 +314,85 @@ module.exports = () => {
               { model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5' },
               { model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' },
               {
-                  model: 'h1b',
-                  view: {name: 'h1', classes: 'ck-heading_h1_b'}, title: 'H1 (border)', class: 'ck-heading_heading1', converterPriority: 'high'
+              model: 'h1b',
+              view: {name: 'h1', classes: 'ck-heading_h1_b'},
+              title: 'H1 (border)',
+              class: 'ck-heading_heading1',
+              converterPriority: 'high'
               },
               {
-                model: 'h2b',
-                view: {name: 'h2', classes: 'ck-heading_h2_b'}, title: 'H2 (border)', class: 'ck-heading_heading2', converterPriority: 'high'
+              model: 'h2b',
+              view: {name: 'h2', classes: 'ck-heading_h2_b'},
+              title: 'H2 (border)',
+              class: 'ck-heading_heading2',
+              converterPriority: 'high'
               },
               {
               model: 'h3b',
-              view: {name: 'h3', classes: 'ck-heading_h3_b'}, title: 'H3 (border)', class: 'ck-heading_heading3', converterPriority: 'high'
+              view: {name: 'h3', classes: 'ck-heading_h3_b'},
+              title: 'H3 (border)',
+              class: 'ck-heading_heading3',
+              converterPriority: 'high'
+              },
+              { model: 'custom',
+              view: {name: 'custom', classes: 'Heading 1'},
+              title: 'custom',
+              class: 'ck-heading_heading3',
+              converterPriority: 'high'
               }
             ]
-          }
+          },
+          // https://ckeditor.com/docs/ckeditor5/latest/features/general-html-support.html
+          // if you need more tags
+          // htmlSupport: {
+          //     allow: [
+          //         // Enables plain <div> elements.
+          //         {
+          //             name: 'div'
+          //         },
+          
+          //         // Enables plain <div>, <section> and <article> elements.
+          //         {
+          //             name: /^(div|section|article)$/
+          //         },
+          
+          //         // Enables <div>s with all inline styles (but no other attributes).
+          //         {
+          //             name: 'div',
+          //             styles: true
+          //         },
+          
+          //         // Enables <div>s with foo and bar classes.
+          //         {
+          //             name: 'div',
+          //             classes: [ 'foo', 'bar' ]
+          //         },
+          
+          //         // Adds support for `foo` and `bar` classes to the already supported
+          //         // <p> elements (those are enabled by the dedicated paragraph feature).
+          //         {
+          //             name: 'p',
+          //             classes: [ 'foo', 'bar' ]
+          //         },
+          
+          //         // Enables <div>s with foo="true" attribute and bar attribute that
+          //         // can accept any value (boolean `true` value works as an asterisk).
+          //         {
+          //             name: 'div',
+          //             attributes: {
+          //                 foo: 'true',
+          //                 bar: true
+          //             }
+          //         },
+          
+          //         // Adds support for style="color: *" to the already supported
+          //         // <p> and <h2-h4> elements.
+          //         {
+          //             name: `/^(p|h[2-4])$/'`,
+          //             styles: { 'color': true }
+          //         },
+          //     ]
+          // },
         }
       }
     }

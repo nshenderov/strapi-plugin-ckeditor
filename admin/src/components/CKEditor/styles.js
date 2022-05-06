@@ -124,6 +124,49 @@ const styles = `
     --ck-todo-list-checkmark-size: 16px;
 }
 
+.ck.ck-reset.ck-dropdown__panel.ck-dropdown__panel_sw.ck-dropdown__panel-visible{
+    border-radius:4px;
+}
+
+.ck.ck-editor__main .ck-focused, .ck-blurred{
+    overflow-y: auto;
+    overflow-x: hidden;
+    transition: max-height 0.5s ease-in-out;
+
+    ::-webkit-scrollbar {
+        width: 7px;
+        
+    }
+    
+    ::-webkit-scrollbar-track {
+        background: var(--ck-scroll-track-background);
+        border: none;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        transition:background 2s;
+        background: var(--ck-scroll-thumb-background);
+        border: 1px solid var(--ck-scroll-thumb-border-color);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        transition:background 2s;
+        background: var(--ck-scroll-thumb-hover-background);
+    }
+
+    ::-webkit-scrollbar-thumb:active {
+        background: var(--ck-scroll-thumb-active-background);
+    }
+}
+
+.ck.ck-editor__main .ck-blurred{
+    max-height: 200px;
+}
+.ck.ck-editor__main .ck-focused{
+    max-height: 700px;
+}
+
+
 .ck.ck-sticky-panel .ck-sticky-panel__content_sticky{ top:64px }
 
 /* ckeditor5-block-quote/theme/blockquote.css */

@@ -73,6 +73,7 @@ const Editor = ({ onChange, name, value, disabled  }) => {
 				...config,
 				editor:{
 					...editor,
+					language:editor.language?editor.language:auth.getUserInfo().preferedLanguage,
 					strapiMediaLib:{
 						onToggle: toggleMediaLib,
 						label: 'Media library'
@@ -80,10 +81,26 @@ const Editor = ({ onChange, name, value, disabled  }) => {
 					strapiUpload:{
 						uploadUrl,
 						headers,
-					}
+					},
 				}
 			})
-		  }
+			
+			if(editor.language){
+				if(editor.language.ui){
+					import(/* webpackMode: "eager" */ `./build/translations/${editor.language.ui}.js`).catch(()=>null)
+				}
+				if(editor.language.content){
+					import(/* webpackMode: "eager" */ `./build/translations/${editor.language.content}.js`).catch(()=>null)
+				}
+				if(typeof editor.language !== 'object'){
+					import(/* webpackMode: "eager" */ `./build/translations/${editor.language}.js`).catch(()=>null)
+				}
+			}
+			if(!editor.language){
+				import(/* webpackMode: "eager" */ `./build/translations/${auth.getUserInfo().preferedLanguage}.js`).catch(()=>null)
+			}
+			
+		}
 		  if(plugin){
 			setPluginCfg({
 				...pluginCfg,
