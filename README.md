@@ -24,7 +24,7 @@
 * **Strapi media library button.**
 * **Supports strapi theme swithing.**
 * **Supports responsive images:** plugin adds srcset attribute to images based on their `formats` if responsive enable in strapi settings.
-* **Language support:** you can set the preferred language for the UI or the content in the configuration, by default it will use the language defined in the user profile if that language is supported.
+* **Language support:** you can set the preferred language for the UI or the content in the configuration, by default it will use the language defined in the user profile if that language [is supported](https://github.com/nshenderov/strapi-plugin-ckeditor/tree/master/admin/src/components/CKEditor/build/translations).
 
 ## <a id="installation"></a>🔧 Installation
 
@@ -63,6 +63,10 @@ or
 yarn build
 ```
 
+> 💡 `sizes` and `loading` attributes for image can be set in source mode.
+> If you use default upload provider and you want prefix img url with api path you need to add `baseURL` in `api.js` file `(config/api.js)`
+
+
 ## <a id="configuration"></a>⚙️ Configuration
 CKEditor config should be defined in `config.editor` field.
 
@@ -81,7 +85,6 @@ AutoLink,
 Autosave,
 BlockQuote,
 Bold,
-CloudServices,
 Code,
 CodeBlock,
 DataFilter,
@@ -156,17 +159,32 @@ FullScreen
 ```js
 // plugins.js
 module.exports = () => {
-   return {
+  return {
     ckeditor: {
      enabled: true,
      config:{
         plugin:{
-          styles:` // styles applied to editor container `
+          // disable data-theme tag setting // 
+          // setAttribute:false,
+
+          // disable strapi theme, will use default ckeditor theme //
+          // strapiTheme:false,
+          
+          // styles applied to editor container (global scope) //
+          // styles:`
+          // :root{
+          //   --ck-color-focus-border:red;
+          //   --ck-color-text:red;
+          // }
+          // `
         },
         editor:{ // editor default config
+
           // https://ckeditor.com/docs/ckeditor5/latest/features/markdown.html
-          // if you need markdown support and output set it to removePlugins: [''],
-          // default is removePlugins: ['Markdown'],
+          // if you need markdown support and output set: removePlugins: [''],
+          // default is 
+          removePlugins: ['Markdown'],
+
           // https://ckeditor.com/docs/ckeditor5/latest/features/toolbar/toolbar.html
           toolbar: {
             items: [
@@ -227,10 +245,6 @@ module.exports = () => {
                 21,
                 27,
                 35,
-                "tiny",
-                "small",
-                "big",
-                "huge"
             ],
             supportAllValues: false
           },
@@ -258,7 +272,7 @@ module.exports = () => {
             documentColors: 10,
           },
           // https://ckeditor.com/docs/ckeditor5/latest/features/ui-language.html
-          language: 'en',
+          // default language: 'en',
           // https://ckeditor.com/docs/ckeditor5/latest/features/images/images-overview.html
           image: {
             resizeUnit: "%",
@@ -311,111 +325,45 @@ module.exports = () => {
               { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
               { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
               { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
-              { model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5' },
-              { model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' },
-              {
-              model: 'h1b',
-              view: {name: 'h1', classes: 'ck-heading_h1_b'},
-              title: 'H1 (border)',
-              class: 'ck-heading_heading1',
-              converterPriority: 'high'
-              },
-              {
-              model: 'h2b',
-              view: {name: 'h2', classes: 'ck-heading_h2_b'},
-              title: 'H2 (border)',
-              class: 'ck-heading_heading2',
-              converterPriority: 'high'
-              },
-              {
-              model: 'h3b',
-              view: {name: 'h3', classes: 'ck-heading_h3_b'},
-              title: 'H3 (border)',
-              class: 'ck-heading_heading3',
-              converterPriority: 'high'
-              },
-              { model: 'custom',
-              view: {name: 'custom', classes: 'Heading 1'},
-              title: 'custom',
-              class: 'ck-heading_heading3',
-              converterPriority: 'high'
-              }
             ]
           },
           // https://ckeditor.com/docs/ckeditor5/latest/features/general-html-support.html
-          // if you need more tags
-          // htmlSupport: {
-          //     allow: [
-          //         // Enables plain <div> elements.
-          //         {
-          //             name: 'div'
-          //         },
-          
-          //         // Enables plain <div>, <section> and <article> elements.
-          //         {
-          //             name: /^(div|section|article)$/
-          //         },
-          
-          //         // Enables <div>s with all inline styles (but no other attributes).
-          //         {
-          //             name: 'div',
-          //             styles: true
-          //         },
-          
-          //         // Enables <div>s with foo and bar classes.
-          //         {
-          //             name: 'div',
-          //             classes: [ 'foo', 'bar' ]
-          //         },
-          
-          //         // Adds support for `foo` and `bar` classes to the already supported
-          //         // <p> elements (those are enabled by the dedicated paragraph feature).
-          //         {
-          //             name: 'p',
-          //             classes: [ 'foo', 'bar' ]
-          //         },
-          
-          //         // Enables <div>s with foo="true" attribute and bar attribute that
-          //         // can accept any value (boolean `true` value works as an asterisk).
-          //         {
-          //             name: 'div',
-          //             attributes: {
-          //                 foo: 'true',
-          //                 bar: true
-          //             }
-          //         },
-          
-          //         // Adds support for style="color: *" to the already supported
-          //         // <p> and <h2-h4> elements.
-          //         {
-          //             name: `/^(p|h[2-4])$/'`,
-          //             styles: { 'color': true }
-          //         },
-          //     ]
-          // },
+          htmlSupport: {
+            allow: [
+                {
+                  name: 'img',
+                  attributes: {
+                      sizes:true,
+                      loading:true,
+                  }
+                },
+            ]
+          },
         }
       }
     }
-    }
+  }
 }
 ```
 ## <a id="themecustomization"></a>💅 Theme customization
-If you want to customize editor styles you should define styles in `config.plugin.styles` field it will replace default styles applied to the editor.
+If you want to customize editor styles you should define styles in `config.plugin.styles` field.
 
 Since Strapi resets css styles, it needs some styles to revert back, these styles defined below, also check [official documentation](https://ckeditor.com/docs/ckeditor5/latest/installation/advanced/content-styles.html).
 
-For theme colors switching this plugin uses css variables depending on html data-theme attribute, e.g. `html[data-theme='light']` or `html[data-theme='dark']`
+For theme colors switching this plugin uses css variables depending on html data-theme attribute, e.g. `html[data-theme='light']` or `html[data-theme='dark']` you cand disable it by `setAttribute:false`
 
-[More info about theming](https://ckeditor.com/docs/ckeditor5/latest/framework/guides/deep-dive/ui/theme-customization.html)
+If you want default ckeditor theme you can set `strapiTheme:false`
 
-[**👔 Default styles**](https://github.com/nshenderov/strapi-plugin-ckeditor/blob/master/admin/src/components/CKEditor/styles.js#L3-L517)
+More [info about ckeditor theming](https://ckeditor.com/docs/ckeditor5/latest/framework/guides/deep-dive/ui/theme-customization.html)
 
-[**🎨 Default colour variables**](https://github.com/nshenderov/strapi-plugin-ckeditor/blob/master/assets/theme-colors.css#L105-L333)
+[**👔 Default styles**](https://github.com/nshenderov/strapi-plugin-ckeditor/blob/master/admin/src/components/CKEditor/styles.js)
+
+[**🎨 Default theme**](https://github.com/nshenderov/strapi-plugin-ckeditor/blob/master/admin/src/components/CKEditor/theme.js)
 
 **Example of customization:**
 ```js
 // plugins.js
-const defStyles = require('./styles.js')
+const styles = require('./styles.js')
 
 module.exports = () => {
     return {
@@ -423,10 +371,31 @@ module.exports = () => {
           enabled: true,
           config:{
              plugin:{
-                // styles applied to editor container
+                // disable data-theme tag setting // 
+                // setAttribute:false,
+
+                // disable strapi theme, will use default ckeditor theme //
+                // strapiTheme:false,
+          
+                // styles applied to editor container, e.g:
                 styles:`
-                ${defStyles()}
-                --ck-color-editor-base-text:red;
+                ${styles()}
+                .ck-editor__styled__container{
+                  background:red;
+                }
+                html[data-theme='light'] {
+                --ck-scroll-track-background:red;
+                --ck-scroll-thumb-background:red;
+                --ck-scroll-thumb-border-color:red;
+                --ck-scroll-thumb-hover-background:red;
+                --ck-scroll-thumb-active-background:red;
+                --ck-color-base-border: red;
+                --ck-color-base-background:red;
+                --ck-custom-background: red;
+                --ck-custom-foreground: red;
+                --ck-custom-border: red;
+                --ck-custom-white: red;
+                }
                 `
              },
              // editor default config
@@ -439,17 +408,21 @@ module.exports = () => {
 }
 
 // styles.js
-const defStyles = () =>`
-
-        ### All default styles ###
-    `
-module.exports = defStyles;
+const styles = () =>`
+  .ck.ck-editor__main .ck-blurred{
+    max-height: 200px;
+  }
+  .ck.ck-editor__main .ck-focused{
+    max-height: 500px;
+  }        
+`
+module.exports = styles;
 ```
 
 ## <a id="requirements"></a>⚠️ Requirements
 Strapi **v4**
 
-Tested on **v4.18 - 4.19**
+Tested on **v4.18 - 4.1.11**
 
 ## <a id="thanks"></a>👍 This build includes some useful plugins based on these repos so thanks to them:
 https://github.com/Roslovets-Inc/strapi-plugin-ckeditor5

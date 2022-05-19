@@ -1,10 +1,9 @@
 const styles = `
-
 .ck-editor__main {
-        --ck-font-face:"Source Sans Pro",system-ui,Roboto,"Helvetica Neue","Helvetica",Arial,sans-serif;
-        min-height: ${200 / 16}em;
-        color:var(--ck-color-editor-base-text);
-        font-family:var(--ck-font-face);
+    --ck-font-face:"Source Sans Pro",system-ui,Roboto,"Helvetica Neue","Helvetica",Arial,sans-serif;
+    min-height: ${200 / 16}em;
+    color:var(--ck-color-editor-base-text);
+    font-family:var(--ck-font-face);
 	> div {
 	    min-height: ${200 / 16}em;
 	}
@@ -29,22 +28,23 @@ const styles = `
         margin:revert;
         font-family:revert;
 	}
-	h1, .ck-heading_h1_b {
-        font-size: 2.36em;
-        line-height: 1.33em;
+	h1 {
+        font-size: 2em;
+        line-height: 2em;
         padding-top: 1em;
-        margin-bottom: 1.67em;
+        margin-bottom: 0.6em;
         font-weight: 400;
+        border-bottom: 1px solid #e9e9e9;
 	}
-	h2, .ck-heading_h2_b {
+	h2 {
         font-size: 1.68em;
         line-height: 1.68em;
         padding-top: 0.8em;
         margin-bottom: 0.4em;
-        padding-bottom: 0.2em;
         font-weight: 400;
+        border-bottom: 1px solid #e9e9e9;
 	}
-	h3, .ck-heading_h3_b{
+	h3 {
         font-size: 1.36em;
         line-height: 1.5em;
         padding-top: 0.8em;
@@ -63,9 +63,6 @@ const styles = `
         line-height: 1.6em;
         padding-top: 0.2em;
         margin-bottom: 0.8em;
-	}
-	.ck-heading_h1_b, h2.ck-heading_h2_b, .ck-heading_h3_b{
-		border-bottom: 1px solid #e9e9e9;
 	}
     figcaption{
         background-color: var(--ck-color-image-caption-background);
@@ -105,7 +102,6 @@ const styles = `
  * Generated on Wed, 27 Apr 2022 06:51:54 GMT.
  * For more information, check out https://ckeditor.com/docs/ckeditor5/latest/installation/advanced/content-styles.html
  */
-
 :root {
     --ck-color-image-caption-background: hsl(0, 0%, 97%);
     --ck-color-image-caption-text: hsl(0, 0%, 20%);
@@ -123,52 +119,6 @@ const styles = `
     --ck-inline-image-style-spacing: calc(var(--ck-image-style-spacing) / 2);
     --ck-todo-list-checkmark-size: 16px;
 }
-
-.ck.ck-reset.ck-dropdown__panel.ck-dropdown__panel_sw.ck-dropdown__panel-visible{
-    border-radius:4px;
-}
-
-.ck.ck-editor__main .ck-focused, .ck-blurred{
-    overflow-y: auto;
-    overflow-x: hidden;
-    transition: max-height 0.5s ease-in-out;
-
-    ::-webkit-scrollbar {
-        width: 7px;
-        
-    }
-    
-    ::-webkit-scrollbar-track {
-        background: var(--ck-scroll-track-background);
-        border: none;
-    }
-    
-    ::-webkit-scrollbar-thumb {
-        transition:background 2s;
-        background: var(--ck-scroll-thumb-background);
-        border: 1px solid var(--ck-scroll-thumb-border-color);
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-        transition:background 2s;
-        background: var(--ck-scroll-thumb-hover-background);
-    }
-
-    ::-webkit-scrollbar-thumb:active {
-        background: var(--ck-scroll-thumb-active-background);
-    }
-}
-
-.ck.ck-editor__main .ck-blurred{
-    max-height: 200px;
-}
-.ck.ck-editor__main .ck-focused{
-    max-height: 700px;
-}
-
-
-.ck.ck-sticky-panel .ck-sticky-panel__content_sticky{ top:64px }
-
 /* ckeditor5-block-quote/theme/blockquote.css */
 .ck-content blockquote {
     overflow: hidden;
