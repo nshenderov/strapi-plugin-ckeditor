@@ -72,6 +72,7 @@ const Editor = ({ onChange, name, value, disabled }) => {
       const editor = await request(`/${pluginId}/config/editor`, { method: "GET" });
       const plugin = await request(`/${pluginId}/config/plugin`, { method: "GET" });
       const upload = await request(`/${pluginId}/config/uploadcfg`, { method: "GET" });
+
       //read i18n locale
       const urlSearchParams = new URLSearchParams(window.location.search);
       const params = Object.fromEntries(urlSearchParams.entries());
@@ -90,7 +91,7 @@ const Editor = ({ onChange, name, value, disabled }) => {
           ...config,
           editor: {
             ...editor,
-            language: editor.language ? editor.language : auth.getUserInfo().preferedLanguage,
+            language: language ? language : auth.getUserInfo().preferedLanguage,
             strapiMediaLib: {
               onToggle: toggleMediaLib,
               label: "Media library",
