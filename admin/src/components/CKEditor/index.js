@@ -78,15 +78,18 @@ const Editor = ({ onChange, name, value, disabled }) => {
       const params = Object.fromEntries(urlSearchParams.entries());
       const languageContent = params["plugins[i18n][locale]"];
 
-      //set locale language code to content
-      let language = editor.language;
-      if (languageContent) {
-        const countryCode = languageContent.split("-")[0]
-        if (countryCode)
-          language = { content: editor.language.content ? editor.language.content : countryCode, ui: editor.language.ui, textPartLanguage: editor.textPartLanguage }
-      }
-
       if (editor) {
+        //set locale language code to content
+        let language = editor.language;
+        if (languageContent) {
+          const countryCode = languageContent.split("-")[0]
+          if (countryCode && language)
+            language = {
+              content: language.content || countryCode,
+              ui: typeof language === "string" && language || language.ui || auth.getUserInfo().preferedLanguage,
+              textPartLanguage: language.textPartLanguage
+            }
+        }
         setConfig({
           ...config,
           editor: {
