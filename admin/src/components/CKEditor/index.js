@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
+import { auth, prefixFileUrlWithBackendUrl, request } from "@strapi/helper-plugin";
 import styled, { createGlobalStyle } from "styled-components";
+
+import { Box } from "@strapi/design-system/Box";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import { Editor as CustomClassicEditor } from "./build/ckeditor";
-import { Box } from "@strapi/design-system/Box";
-import { prefixFileUrlWithBackendUrl, request, auth } from "@strapi/helper-plugin";
 import MediaLib from "../MediaLib";
+import PropTypes from "prop-types";
 import pluginId from "../../pluginId";
 import styles from "./styles";
 import theme from "./theme";
@@ -33,18 +34,19 @@ const Editor = ({ onChange, name, value, disabled }) => {
     }
     setMediaLibVisible((prev) => !prev);
   };
+
   const handleChangeAssets = (assets) => {
-    let newValue = value ? value : "";
+    let newValue = "";
+
     assets.map((asset) => {
       if (asset.mime.includes("image")) {
-        if (asset.formats?.length && uploadCfg?.responsiveDimensions) {
+        if (uploadCfg?.responsiveDimensions) {
           let set = "";
           let keys = Object.keys(asset.formats).sort((a, b) => {
             return asset.formats[a].width - asset.formats[b].width;
           });
-          keys.map((k) => {
-            let str =
-              prefixFileUrlWithBackendUrl(asset.formats[k].url) + ` ${asset.formats[k].width}w,`;
+          keys?.map((k) => {
+            let str = prefixFileUrlWithBackendUrl(asset.formats[k].url) + ` ${asset.formats[k].width}w,`;
             set = set + str;
           });
           const imgTag = `<img src="${asset.url}" alt="${asset.alt}" srcset="${set}"></img>`;
@@ -56,7 +58,11 @@ const Editor = ({ onChange, name, value, disabled }) => {
       }
       // Handle videos and other type of files by adding some code
     });
-    onChange({ target: { name, value: newValue } });
+
+    const viewFragment = editor.data.processor.toView(newValue);
+    const modelFragment = editor.data.toModel(viewFragment);
+    editor.model.insertContent(modelFragment);
+
     toggleMediaLib();
   };
 
@@ -92,27 +98,17 @@ const Editor = ({ onChange, name, value, disabled }) => {
 
         if (editor.language) {
           if (editor.language.ui) {
-            import(
-              /* webpackMode: "eager" */ `./build/translations/${editor.language.ui}.js`
-            ).catch(() => null);
+            import(/* webpackMode: "eager" */ `./build/translations/${editor.language.ui}.js`).catch(() => null);
           }
           if (editor.language.content) {
-            import(
-              /* webpackMode: "eager" */ `./build/translations/${editor.language.content}.js`
-            ).catch(() => null);
+            import(/* webpackMode: "eager" */ `./build/translations/${editor.language.content}.js`).catch(() => null);
           }
           if (typeof editor.language !== "object") {
-            import(/* webpackMode: "eager" */ `./build/translations/${editor.language}.js`).catch(
-              () => null
-            );
+            import(/* webpackMode: "eager" */ `./build/translations/${editor.language}.js`).catch(() => null);
           }
         }
         if (!editor.language) {
-          import(
-            /* webpackMode: "eager" */ `./build/translations/${
-              auth.getUserInfo().preferedLanguage
-            }.js`
-          ).catch(() => null);
+          import(/* webpackMode: "eager" */ `./build/translations/${auth.getUserInfo().preferedLanguage}.js`).catch(() => null);
         }
       }
       if (plugin) {
@@ -136,12 +132,10 @@ const Editor = ({ onChange, name, value, disabled }) => {
   }, []);
 
   //###########################################################################################################
+
   return (
     <Wrapper className="ck-editor__styled__container">
-      <EditorStyle
-        custom={pluginCfg.styles}
-        strapiTheme={pluginCfg.strapiTheme !== false ? theme : ""}
-      />
+      <EditorStyle custom={pluginCfg.styles} strapiTheme={pluginCfg.strapiTheme !== false ? theme : ""} />
       {config && (
         <CKEditor
           editor={CustomClassicEditor}
@@ -149,6 +143,7 @@ const Editor = ({ onChange, name, value, disabled }) => {
           data={value || ""}
           onReady={(editor) => editor.setData(value || "")}
           onChange={(event, editor) => {
+            setEditor(editor);
             const data = editor.getData();
             onChange({ target: { name, value: data } });
           }}
