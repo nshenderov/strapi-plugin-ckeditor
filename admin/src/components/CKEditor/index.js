@@ -40,7 +40,7 @@ const Editor = ({ onChange, name, value, disabled }) => {
 
     assets.map((asset) => {
       if (asset.mime.includes("image")) {
-        if (uploadCfg?.responsiveDimensions) {
+        if (asset.formats && uploadCfg?.responsiveDimensions) {
           let set = "";
           let keys = Object.keys(asset.formats).sort((a, b) => {
             return asset.formats[a].width - asset.formats[b].width;
@@ -143,7 +143,6 @@ const Editor = ({ onChange, name, value, disabled }) => {
           data={value || ""}
           onReady={(editor) => editor.setData(value || "")}
           onChange={(event, editor) => {
-            setEditor(editor);
             const data = editor.getData();
             onChange({ target: { name, value: data } });
           }}
