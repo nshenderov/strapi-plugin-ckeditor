@@ -328,6 +328,7 @@ module.exports = () => {
             ]
           },
           // https://ckeditor.com/docs/ckeditor5/latest/features/general-html-support.html
+          // Regular expressions (/.*/  /^(p|h[2-4])$/' etc) for htmlSupport does not allowed in this config
           htmlSupport: {
             allow: [
                 {
@@ -422,7 +423,7 @@ module.exports = styles;
 ## <a id="requirements"></a>⚠️ Requirements
 Strapi **v4**
 
-Tested on **v4.18 - 4.1.11**
+Tested on **v4.18 - 4.2.3**
 
 ## <a id="thanks"></a>👍 This build includes some useful plugins based on these repos so thanks to them:
 https://github.com/Roslovets-Inc/strapi-plugin-ckeditor5
