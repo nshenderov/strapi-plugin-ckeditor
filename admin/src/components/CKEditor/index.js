@@ -37,7 +37,7 @@ const Editor = ({ onChange, name, value, disabled }) => {
     let newValue = value ? value : "";
     assets.map((asset) => {
       if (asset.mime.includes("image")) {
-        if (asset.formats?.length && uploadCfg?.responsiveDimensions) {
+        if (asset.formats && uploadCfg?.responsiveDimensions) {
           let set = "";
           let keys = Object.keys(asset.formats).sort((a, b) => {
             return asset.formats[a].width - asset.formats[b].width;
