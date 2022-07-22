@@ -12,6 +12,7 @@ import styles from "./styles";
 import theme from "./theme";
 
 const EditorStyle = createGlobalStyle`
+#fullscreeneditor {z-index: 4!important;}
 ${styles}
 ${({ strapiTheme }) => strapiTheme}
 ${({ custom }) => custom}
@@ -165,7 +166,9 @@ const Editor = ({ onChange, name, value, disabled }) => {
           config={config?.editor}
         />
       )}
-      <MediaLib isOpen={mediaLibVisible} onChange={handleChangeAssets} onToggle={toggleMediaLib} />
+      <div style={{zIndex:5}}>
+        <MediaLib isOpen={mediaLibVisible} onChange={handleChangeAssets} onToggle={toggleMediaLib} />
+      </div>
     </Wrapper>
   );
 };
