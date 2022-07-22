@@ -79,12 +79,28 @@ const Editor = ({ onChange, name, value, disabled }) => {
       const plugin = await request(`/${pluginId}/config/plugin`, { method: "GET" });
       const upload = await request(`/${pluginId}/config/uploadcfg`, { method: "GET" });
 
+      //read i18n locale
+      const urlSearchParams = new URLSearchParams(window.location.search);
+      const params = Object.fromEntries(urlSearchParams.entries());
+      const languageContent = params["plugins[i18n][locale]"];
+
       if (editor) {
+        //set locale language code to content
+        let language = editor.language;
+        if (languageContent) {
+          const countryCode = languageContent.split("-")[0]
+          if (countryCode && language)
+            language = {
+              content: language.content || countryCode,
+              ui: typeof language === "string" && language || language.ui || auth.getUserInfo().preferedLanguage,
+              textPartLanguage: language.textPartLanguage
+            }
+        }
         setConfig({
           ...config,
           editor: {
             ...editor,
-            language: editor.language ? editor.language : auth.getUserInfo().preferedLanguage,
+            language: language ? language : auth.getUserInfo().preferedLanguage,
             strapiMediaLib: {
               onToggle: toggleMediaLib,
               label: "Media library",
@@ -128,7 +144,7 @@ const Editor = ({ onChange, name, value, disabled }) => {
       }
     })();
 
-    return () => {};
+    return () => { };
   }, []);
 
   //###########################################################################################################
