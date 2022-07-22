@@ -37,12 +37,12 @@ const Editor = ({ onChange, name, value, disabled }) => {
     let newValue = value ? value : "";
     assets.map((asset) => {
       if (asset.mime.includes("image")) {
-        if (asset.formats?.length && uploadCfg?.responsiveDimensions) {
+        if (uploadCfg?.responsiveDimensions) {
           let set = "";
           let keys = Object.keys(asset.formats).sort((a, b) => {
             return asset.formats[a].width - asset.formats[b].width;
           });
-          keys.map((k) => {
+          keys?.map((k) => {
             let str =
               prefixFileUrlWithBackendUrl(asset.formats[k].url) + ` ${asset.formats[k].width}w,`;
             set = set + str;
