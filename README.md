@@ -423,7 +423,7 @@ module.exports = styles;
 ## <a id="requirements"></a>⚠️ Requirements
 Strapi **v4**
 
-Tested on **v4.18 - 4.2.3**
+Tested on **v4.1.8 - 4.2.3**
 
 ## <a id="thanks"></a>👍 This build includes some useful plugins based on these repos so thanks to them:
 https://github.com/Roslovets-Inc/strapi-plugin-ckeditor5
