@@ -5,6 +5,18 @@ const theme = `
 .ck.ck-editor__main .ck-focused{
     max-height: 900px;
 }
+
+.ck-word-count {
+    margin-top: 0.3rem;
+    display: flex;
+    justify-content: end;
+    gap: 0.3rem;
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: #B3B3C4;
+    text-transform: lowercase;
+}
+
 .ck.ck-sticky-panel .ck-sticky-panel__content_sticky{ top:64px }
 .ck.ck-reset.ck-dropdown__panel.ck-dropdown__panel_sw.ck-dropdown__panel-visible{
     border-radius:4px;

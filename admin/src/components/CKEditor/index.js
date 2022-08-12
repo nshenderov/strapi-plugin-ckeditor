@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { auth, prefixFileUrlWithBackendUrl, request } from "@strapi/helper-plugin";
 import styled, { createGlobalStyle } from "styled-components";
 
@@ -12,7 +12,6 @@ import styles from "./styles";
 import theme from "./theme";
 
 const EditorStyle = createGlobalStyle`
-#fullscreeneditor {z-index: 4!important;}
 ${styles}
 ${({ strapiTheme }) => strapiTheme}
 ${({ custom }) => custom}
@@ -149,16 +148,23 @@ const Editor = ({ onChange, name, value, disabled }) => {
   }, []);
 
   //###########################################################################################################
-
+  const wordCounter = useRef(null);
   return (
-    <Wrapper className="ck-editor__styled__container">
+    <Wrapper className="ck-editor__styled__container" ref={wordCounter}>
       <EditorStyle custom={pluginCfg.styles} strapiTheme={pluginCfg.strapiTheme !== false ? theme : ""} />
       {config && (
         <CKEditor
           editor={CustomClassicEditor}
           disabled={disabled}
           data={value || ""}
-          onReady={(editor) => editor.setData(value || "")}
+          onReady={(editor) => {
+            editor.setData(value || "")
+            if(editor.config.get( 'removePlugins' ).includes("WordCount")===false){
+              const wordCountPlugin = editor.plugins.get( 'WordCount' );
+              const wordCountWrapper = wordCounter.current
+              wordCountWrapper.appendChild( wordCountPlugin.wordCountContainer );
+            }
+          }}
           onChange={(event, editor) => {
             const data = editor.getData();
             onChange({ target: { name, value: data } });
