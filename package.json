@@ -26,7 +26,7 @@
     "strapi-server.js"
   ],
   "dependencies": {
-    "@ckeditor/ckeditor5-react": "5.0.0"
+    "@ckeditor/ckeditor5-react": "5.0.2"
   },
   "peerDependencies": {
     "@strapi/strapi": "^4.0.0"
@@ -43,7 +43,7 @@
     "test": "echo \"Error: no tests specified\" && exit 1"
   },
   "engines": {
-    "node": ">=12.x.x <=16.x.x",
+    "node": ">=14.x.x <=16.x.x",
     "npm": ">=6.0.0"
   },
   "license": "MIT"
