@@ -359,10 +359,12 @@ module.exports = () => {
 }
 ```
 **Some of configuration:**
+
+<h3 align="center">Balloon+Block+Style</h3>
+
 <p align="center">
-  <img src="https://raw.githubusercontent.com/nshenderov/strapi-plugin-ckeditor/master/assets/balloonblockstyles.gif" alt="CKEditor5-Strapi" width="900" />
+  <img src="https://raw.githubusercontent.com/nshenderov/strapi-plugin-ckeditor/master/assets/balloonblockstyles.gif" alt="CKEditor5-Strapi" width="800" />
 </p>
-<p align="center" style="font-weight: 900;">Balloon+Block+Style</p>
 
 <details>
   <summary><b>Balloon+Block+Style config:</b> </summary>
@@ -690,10 +692,11 @@ module.exports = () => {
 ```
 </details>
 
+<h3 align="center">Classic+Balloon</h3>
+
 <p align="center">
-  <img src="https://raw.githubusercontent.com/nshenderov/strapi-plugin-ckeditor/master/assets/230222.jpg" alt="CKEditor5-Strapi" width="900" />
+  <img src="https://raw.githubusercontent.com/nshenderov/strapi-plugin-ckeditor/master/assets/230222.jpg" alt="CKEditor5-Strapi" width="800" />
 </p>
-<p align="center" style="font-weight: 900;">Classic+Balloon</p>
 
 <details>
   <summary><b>Classic+Balloon config:</b> </summary>
