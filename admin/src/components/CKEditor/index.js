@@ -56,7 +56,7 @@ const Editor = ({ onChange, name, value, disabled }) => {
           newValue = `${newValue}${imgTag}`;
         }
       } else if (asset.mime.includes("application/pdf")) {
-        const downloadTag = `<a href="${asset.url}" download="${asset.alt}">${asset.alt || 'Download PDF'}</a>`
+        const downloadTag = `<a href="${prefixFileUrlWithBackendUrl(asset.url)}" download="${asset.alt}">${asset.alt || 'Download PDF'}</a>`
         newValue = `${newValue}${downloadTag}`
       }
       // Handle videos and other type of files by adding some code
