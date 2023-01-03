@@ -10,6 +10,12 @@ module.exports = {
       const config = await strapi.plugin('ckeditor').service('config').getConfig(configKey);
       ctx.send(config);
     }
-    
+
   },
+
+  getEditorConfigScript: async (ctx) => {
+    const config = await strapi.plugin('ckeditor').service('config').getEditorConfigScript();
+    ctx.headers['Content-Type'] = 'application/javascript';
+    ctx.send(config);
+  }
 };
