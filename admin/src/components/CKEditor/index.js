@@ -75,7 +75,7 @@ const Editor = ({ onChange, name, value, disabled }) => {
         : `/${pluginId}/editor-config-script`
 
     // Can't use `request` helper, because it is hardcoded to try to convert response to JSON
-    const response = await fetch(`/${pluginId}/editor-config-script`, {
+    const response = await fetch(url, {
       method: 'GET',
       headers: { Authorization: `Bearer ${auth.getToken()}` },
     });
