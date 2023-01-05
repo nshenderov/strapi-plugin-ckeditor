@@ -71,7 +71,7 @@ const Editor = ({ onChange, name, value, disabled }) => {
 
   const requestEditorConfigJs = async () => {
     const url = strapi.backendURL !== '/'
-        ? `/${strapi.backendURL}${pluginId}/editor-config-script`
+        ? `${strapi.backendURL}/${pluginId}/editor-config-script`
         : `/${pluginId}/editor-config-script`
 
     // Can't use `request` helper, because it is hardcoded to try to convert response to JSON
