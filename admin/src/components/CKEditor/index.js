@@ -69,30 +69,21 @@ const Editor = ({ onChange, name, value, disabled }) => {
   const requestConfig = (key) =>
       request(`/${pluginId}/config/${key}`, { method: "GET" });
 
-  const requestEditorConfigJs = async () => {
+  const insertConfigScript = () => {
     const url = strapi.backendURL !== '/'
-        ? `${strapi.backendURL}/${pluginId}/editor-config-script`
-        : `/${pluginId}/editor-config-script`
+        ? `${strapi.backendURL}/${pluginId}/editor-config-script.js`
+        : `/${pluginId}/editor-config-script.js`
 
-    // Can't use `request` helper, because it is hardcoded to try to convert response to JSON
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: { Authorization: `Bearer ${auth.getToken()}` },
-    });
-
-    return await response.text();
-  }
-
-  const insertConfigScript = (jsCode) => {
     var script = document.createElement('script');
-    script.textContent = jsCode;
+    script.id = 'editor-config'
+    script.src = url;
     document.body.appendChild(script);
   }
 
   const waitForConfigToInitialize = async () => {
     return new Promise((resolve) => {
       (function checkConfigLoaded() {
-        if (globalThis.ckEditorConfig) {
+        if (typeof globalThis.ckEditorConfig !== "undefined") {
           resolve(globalThis.ckEditorConfig)
         } else
           setTimeout(checkConfigLoaded, 5)
@@ -101,13 +92,12 @@ const Editor = ({ onChange, name, value, disabled }) => {
   }
 
   const getEditorConfig = async () => {
-    const editorConfigJs = await requestEditorConfigJs();
-
     // raw config/ckeditor.[js|ts] file
     // Can be used with non-JSON serializable properties
-    if(editorConfigJs) {
-      insertConfigScript(editorConfigJs);
-      return waitForConfigToInitialize();
+    insertConfigScript();
+    const configFromScript = await waitForConfigToInitialize();
+    if(configFromScript) {
+      return configFromScript;
     }
 
     // ckeditor snippet of config/plugins.[js|ts] serialized as JSON

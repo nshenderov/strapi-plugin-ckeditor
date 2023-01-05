@@ -7,10 +7,10 @@ module.exports = [
     },
     {
         method: 'GET',
-        path: '/editor-config-script',
+        path: '/editor-config-script.js',
         handler: 'config.getEditorConfigScript',
         config: {
-            policies: [() => true] // public
+            auth: false // Assume CKEditor config is not sensitive. We can't send a JWT token in a static script tag.
         },
     }
 ];

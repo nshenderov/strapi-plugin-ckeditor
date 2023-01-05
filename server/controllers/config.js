@@ -15,7 +15,7 @@ module.exports = {
 
   getEditorConfigScript: async (ctx) => {
     const config = await strapi.plugin('ckeditor').service('config').getEditorConfigScript();
-    ctx.headers['Content-Type'] = 'application/javascript';
+    ctx.type = 'application/javascript';
     ctx.send(config);
   }
 };

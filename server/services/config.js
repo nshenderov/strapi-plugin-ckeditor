@@ -19,7 +19,7 @@ module.exports = ({ strapi }) => {
       const filename = `${jsDir}/config/ckeditor.js`;
       return fs.existsSync(filename)
         ? fs.readFileSync(filename)
-        : undefined // empty script tag causes no problems
+        : 'globalThis.ckEditorConfig = null' // empty script tag causes no problems
     },
     getUploadConfig(name) {
       return strapi.plugin('upload').service(name) ?? {};
