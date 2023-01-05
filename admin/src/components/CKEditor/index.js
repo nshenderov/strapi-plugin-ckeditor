@@ -70,6 +70,11 @@ const Editor = ({ onChange, name, value, disabled }) => {
       request(`/${pluginId}/config/${key}`, { method: "GET" });
 
   const requestEditorConfigJs = async () => {
+    const url = strapi.backendURL !== '/'
+        ? `/${strapi.backendURL}${pluginId}/editor-config-script`
+        : `/${pluginId}/editor-config-script`
+
+    // Can't use `request` helper, because it is hardcoded to try to convert response to JSON
     const response = await fetch(`/${pluginId}/editor-config-script`, {
       method: 'GET',
       headers: { Authorization: `Bearer ${auth.getToken()}` },
