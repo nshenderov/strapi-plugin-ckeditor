@@ -64,19 +64,61 @@ yarn build
 ```
 
 > 💡 `sizes` and `loading` attributes for image can be set in source mode.
-> If you use default upload provider and you want prefix img url with api path you need to add `baseURL` in `api.js` file `(config/api.js)`
 
 
 ## <a id="configuration"></a>⚙️ Configuration
 CKEditor config should be defined in `config.editor` field in `plugins.js` file.
 
+> ⚠️ Regex patterns and callback functions (/.*/  /^(p|h[2-4])$/' | match => {..} etc) are not allowed in plugins.js config
+
+>According to [this PR](https://github.com/nshenderov/strapi-plugin-ckeditor/pull/54), you can create ckeditor.js file in your /config directory and define editor's config in there. This way you can specify all regex patterns, functions, and so on. (plugin's config still should be placed in plugins.js)
+
+<details>
+  <summary>(spoiler) <b>Example of /config/ckeditor.js:</b> </summary>
+
+```js
+globalThis.ckEditorConfig = {
+    toolbar: {
+        items: [ ]
+    },
+    mediaEmbed: {
+        previewsInData: true,
+
+        providers: [
+            {
+                name: 'youtube',
+                url: [
+                    /^(?:m\.)?youtube\.com\/watch\?v=([\w-]+)(?:&t=(\d+))?/,
+                    /^(?:m\.)?youtube\.com\/v\/([\w-]+)(?:\?t=(\d+))?/,
+                    /^youtube\.com\/embed\/([\w-]+)(?:\?start=(\d+))?/,
+                    /^youtu\.be\/([\w-]+)(?:\?t=(\d+))?/
+                ],
+                html: match => {
+                    const id = match[1];
+                    
+                    return (`<iframe
+                              src="https://www.youtube-nocookie.com/embed/${id}"
+                              frameborder="0"
+                              allow="autoplay; encrypted-media" 
+                              allowfullscreen />
+                        `);
+                }
+            },
+        ]
+    }
+}
+```
+
+</details>
+
+
 **⚠️ `plugins.js` not `plugin.js` ⚠️**
 
 **`plugins.js` file should be placed in `config` folder.**
 
-**💡`fullscreen mode` and `source mode` not supported with `balloon` and `block` toolbars.**
+**💡`fullscreen mode` and `source mode` are not supported with `balloon` and `block` toolbars.**
 
-Learn more about configuration from [official documentation](https://ckeditor.com/docs/ckeditor5/latest/installation/getting-started/configuration.html).
+Learn more about editor's configuration from [official documentation](https://ckeditor.com/docs/ckeditor5/latest/installation/getting-started/configuration.html).
 
 <details>
   <summary>(spoiler) <b>Built in plugins:</b> </summary>
@@ -340,7 +382,6 @@ module.exports = () => {
             ]
           },
           // https://ckeditor.com/docs/ckeditor5/latest/features/general-html-support.html
-          // Regular expressions (/.*/  /^(p|h[2-4])$/' etc) for htmlSupport does not allowed in this config
           htmlSupport: {
             allow: [
                 {
@@ -943,9 +984,9 @@ module.exports = styles;
 ## <a id="requirements"></a>⚠️ Requirements
 Strapi **v4.1.8+**
 
-Node **14 - 16**
+Node **>=14.19.1 <=18.x.x**
 
-Tested on **v4.1.8 - 4.3.4**
+Tested on **v4.1.8 - 4.5.6**
 
 ## <a id="thanks"></a>👍 This build includes some useful plugins based on these repos so thanks to them:
 https://github.com/Roslovets-Inc/strapi-plugin-ckeditor5
