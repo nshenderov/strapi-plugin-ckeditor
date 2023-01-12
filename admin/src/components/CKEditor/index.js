@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useRef } from "react";
-import { auth, prefixFileUrlWithBackendUrl, request } from "@strapi/helper-plugin";
-import styled, { createGlobalStyle } from "styled-components";
+import React, {useEffect, useRef, useState} from "react";
+import {auth, prefixFileUrlWithBackendUrl, request} from "@strapi/helper-plugin";
+import styled, {createGlobalStyle} from "styled-components";
 
-import { Box } from "@strapi/design-system/Box";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import { Editor as CustomClassicEditor } from "./build/ckeditor";
+import {Box} from "@strapi/design-system/Box";
+import {CKEditor} from "@ckeditor/ckeditor5-react";
+import {Editor as CustomClassicEditor} from "./build/ckeditor";
 import MediaLib from "../MediaLib";
 import PropTypes from "prop-types";
 import pluginId from "../../pluginId";
@@ -66,6 +66,48 @@ const Editor = ({ onChange, name, value, disabled }) => {
     toggleMediaLib();
   };
 
+  const requestConfig = (key) =>
+      request(`/${pluginId}/config/${key}`, { method: "GET" });
+
+  const insertConfigScript = () => {
+    const url = strapi.backendURL !== '/'
+        ? `${strapi.backendURL}/${pluginId}/editor-config-script.js`
+        : `/${pluginId}/editor-config-script.js`
+
+    var script = document.createElement('script');
+    script.id = 'editor-config'
+    script.src = url;
+    document.body.appendChild(script);
+  }
+
+  const waitForConfigToInitialize = async () => {
+    return new Promise((resolve) => {
+      (function checkConfigLoaded() {
+        if (typeof globalThis.ckEditorConfig !== "undefined") {
+          resolve(globalThis.ckEditorConfig)
+        } else
+          setTimeout(checkConfigLoaded, 5)
+      })();
+    });
+  }
+
+  const getEditorConfig = async () => {
+    // raw config/ckeditor.[js|ts] file
+    // Can be used with non-JSON serializable properties
+    insertConfigScript();
+    const configFromScript = await waitForConfigToInitialize();
+    if(configFromScript) {
+      return configFromScript;
+    }
+
+    // ckeditor snippet of config/plugins.[js|ts] serialized as JSON
+    // Can't be used with non-JSON serializable properties
+    else {
+      return requestConfig('editor');
+    }
+  }
+
+
   //####### config #############################################################################################
   const [config, setConfig] = useState();
   const [pluginCfg, setPluginCfg] = useState({});
@@ -75,9 +117,10 @@ const Editor = ({ onChange, name, value, disabled }) => {
   useEffect(() => {
     // load the editor config
     (async () => {
-      const editor = await request(`/${pluginId}/config/editor`, { method: "GET" });
-      const plugin = await request(`/${pluginId}/config/plugin`, { method: "GET" });
-      const upload = await request(`/${pluginId}/config/uploadcfg`, { method: "GET" });
+      const editor = await getEditorConfig();
+      const plugin = await requestConfig('plugin');
+      const upload = await requestConfig('uploadcfg');
+
 
       //read i18n locale
       const urlSearchParams = new URLSearchParams(window.location.search);
