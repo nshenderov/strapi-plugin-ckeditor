@@ -107,6 +107,42 @@ const Editor = ({ onChange, name, value, disabled }) => {
     }
   }
 
+  const setLanguage = (config) => {
+
+    const {
+      ui,
+      content,
+      textPartLanguage,
+      ignorei18n
+    } = config.language || {};
+
+    const preferedLanguage = auth.getUserInfo().preferedLanguage;
+
+     //read i18n locale
+     const urlSearchParams = new URLSearchParams(window.location.search);
+     const params = Object.fromEntries(urlSearchParams.entries());
+     const languageContent = params["plugins[i18n][locale]"];
+
+    //  let language = config.language;
+    if (languageContent) {
+      const locale = languageContent.split("-")[0]
+
+      config.language = {
+        ui: typeof config.language === "string" ? config.language : ui || preferedLanguage,
+        content: ignorei18n ? content : locale,
+        textPartLanguage: textPartLanguage
+      }
+
+      import(/* webpackMode: "eager" */ `./build/translations/${config.language.ui}.js`).catch(() => null);
+      import(/* webpackMode: "eager" */ `./build/translations/${config.language.content}.js`).catch(() => null);
+      
+    } else {
+      config.language = preferedLanguage
+      import(/* webpackMode: "eager" */ `./build/translations/${preferedLanguage}.js`).catch(() => null);
+    };
+
+  }
+
 
   //####### config #############################################################################################
   const [config, setConfig] = useState();
@@ -121,29 +157,14 @@ const Editor = ({ onChange, name, value, disabled }) => {
       const plugin = await requestConfig('plugin');
       const upload = await requestConfig('uploadcfg');
 
-
-      //read i18n locale
-      const urlSearchParams = new URLSearchParams(window.location.search);
-      const params = Object.fromEntries(urlSearchParams.entries());
-      const languageContent = params["plugins[i18n][locale]"];
-
       if (editor) {
-        //set locale language code to content
-        let language = editor.language;
-        if (languageContent) {
-          const countryCode = languageContent.split("-")[0]
-          if (countryCode && language)
-            language = {
-              content: language.content || countryCode,
-              ui: typeof language === "string" && language || language.ui || auth.getUserInfo().preferedLanguage,
-              textPartLanguage: language.textPartLanguage
-            }
-        }
+
+        setLanguage(editor);
+       
         setConfig({
           ...config,
           editor: {
             ...editor,
-            language: language ? language : auth.getUserInfo().preferedLanguage,
             strapiMediaLib: {
               onToggle: toggleMediaLib,
               label: "Media library",
@@ -155,20 +176,6 @@ const Editor = ({ onChange, name, value, disabled }) => {
           },
         });
 
-        if (editor.language) {
-          if (editor.language.ui) {
-            import(/* webpackMode: "eager" */ `./build/translations/${editor.language.ui}.js`).catch(() => null);
-          }
-          if (editor.language.content) {
-            import(/* webpackMode: "eager" */ `./build/translations/${editor.language.content}.js`).catch(() => null);
-          }
-          if (typeof editor.language !== "object") {
-            import(/* webpackMode: "eager" */ `./build/translations/${editor.language}.js`).catch(() => null);
-          }
-        }
-        if (!editor.language) {
-          import(/* webpackMode: "eager" */ `./build/translations/${auth.getUserInfo().preferedLanguage}.js`).catch(() => null);
-        }
       }
       if (plugin) {
         setPluginCfg({
