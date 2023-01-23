@@ -8,21 +8,18 @@ const fs = require("fs");
 
 module.exports = ({ strapi }) => {
   return {
-    getConfig(key = 'editor') {
-      return strapi.plugin('ckeditor').config(key) ?? {};
+    getUploadConfig(name) {
+      return strapi.plugin('upload').service(name) ?? {};
     },
-    getEditorConfigScript() {
+    getCKEditorConfig() {
       const appDir = process.cwd();
       const isTSProject = fs.existsSync(`${appDir}/dist`);
       const jsDir = isTSProject ? `${appDir}/dist` : appDir;
 
-      const filename = `${jsDir}/config/ckeditor.js`;
+      const filename = `${jsDir}/config/ckeditor.txt`;
       return fs.existsSync(filename)
         ? fs.readFileSync(filename)
-        : 'globalThis.ckEditorConfig = null' // empty script tag causes no problems
-    },
-    getUploadConfig(name) {
-      return strapi.plugin('upload').service(name) ?? {};
+        : 'globalThis.CKEditorConfig = null' // empty script tag causes no problems
     },
   };
 };

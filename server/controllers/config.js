@@ -1,20 +1,14 @@
 'use strict';
 
 module.exports = {
-  getConfig: async (ctx) => {
-    const { configKey } = ctx.params;
-    if(configKey === 'uploadcfg'){
-      const uploadConfig = await strapi.plugin('ckeditor').service('config').getUploadConfig('upload').getSettings();
-      ctx.send(uploadConfig);
-    }else{
-      const config = await strapi.plugin('ckeditor').service('config').getConfig(configKey);
-      ctx.send(config);
-    }
 
+  getUploadConfig: async (ctx) => {
+    const uploadConfig = await strapi.plugin('ckeditor').service('config').getUploadConfig('upload').getSettings();
+    ctx.send(uploadConfig);
   },
 
-  getEditorConfigScript: async (ctx) => {
-    const config = await strapi.plugin('ckeditor').service('config').getEditorConfigScript();
+  getCKEditorConfig: async (ctx) => {
+    const config = await strapi.plugin('ckeditor').service('config').getCKEditorConfig();
     ctx.type = 'application/javascript';
     ctx.send(config);
   }

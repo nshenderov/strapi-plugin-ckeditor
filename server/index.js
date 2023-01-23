@@ -9,5 +9,5 @@ module.exports = {
   register,
   controllers,
   routes,
-  services,
+  services
 };

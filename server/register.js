@@ -1,5 +1,9 @@
 'use strict';
 
 module.exports = ({ strapi }) => {
-  // registeration phase
+  strapi.customFields.register({
+    name: 'CKEditor',
+    plugin: 'ckeditor',
+    type: 'richtext'
+  })
 };
