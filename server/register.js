@@ -1,9 +1,11 @@
 'use strict';
 
+const pluginId = require("../admin/src/utils/pluginId");
+
 module.exports = ({ strapi }) => {
   strapi.customFields.register({
     name: 'CKEditor',
-    plugin: 'ckeditor',
+    plugin: pluginId,
     type: 'richtext'
   })
 };

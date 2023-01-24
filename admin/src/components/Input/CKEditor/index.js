@@ -8,6 +8,9 @@ import {getConfiguration} from "./configuration";
 import {getGlobalStyling} from "./styling";
 import MediaLib from "../MediaLib";
 
+import ckeditor5Dll from "ckeditor5/build/ckeditor5-dll.js";
+import ckeditor5EditorClassicDll from "@ckeditor/ckeditor5-editor-classic/build/editor-classic.js";
+
 const GlobalStyling = getGlobalStyling();
 
 const Wrapper = styled("div")`${({ editorStyles }) => editorStyles}`;
@@ -61,7 +64,7 @@ const Editor = ({ onChange, name, value, disabled, preset, maxLength }) => {
                 wordCountWrapper?.appendChild( wordCountPlugin.wordCountContainer );
               }
 
-              if(editor.plugins.get( 'ImageUploadEditing' )){
+              if(editor.plugins.has( 'ImageUploadEditing' )){
                 editor.plugins.get( 'ImageUploadEditing' ).on( 'uploadComplete', ( evt, { data, imageElement } ) =>    
                   editor.model.change( writer => writer.setAttribute( 'alt', data.alt, imageElement ) ) ); 
               }

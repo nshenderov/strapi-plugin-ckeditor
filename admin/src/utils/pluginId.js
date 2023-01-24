@@ -1,3 +1,5 @@
-const pluginId = 'ckeditor';
+const pluginPkg = require('../../../package.json');
 
-export default pluginId;
+const pluginId = pluginPkg.strapi.name || pluginPkg.name.replace(/^(@_sh\/strapi-)plugin-/i, '');
+
+module.exports = pluginId;

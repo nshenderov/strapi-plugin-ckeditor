@@ -2,7 +2,7 @@ import React from "react";
 import { prefixFileUrlWithBackendUrl, useLibrary } from "@strapi/helper-plugin";
 import PropTypes from "prop-types";
 
-const MediaLib = ({ isOpen, onChange, onToggle, editor, uploadConfig:{responsiveDimensions} }) => {
+const MediaLib = ({ isOpen, onChange, onToggle, editor, uploadConfig: { responsiveDimensions } }) => {
   const { components } = useLibrary();
   const MediaLibraryDialog = components["media-library"];
 

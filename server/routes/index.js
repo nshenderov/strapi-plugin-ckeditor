@@ -6,10 +6,10 @@ module.exports = [
     },
     {
         method: 'GET',
-        path: '/ckeditor-config.js',
+        path: '/ckeditor-config',
         handler: 'config.getCKEditorConfig',
         config: {
-            auth: false // Assume CKEditor config is not sensitive. We can't send a JWT token in a static script tag.
+            auth: false
         },
     }
 ];

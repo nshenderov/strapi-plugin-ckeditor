@@ -4,11 +4,13 @@ import cloneDeep from 'lodash/cloneDeep';
 import baseConfigs from "./configs";
 import pluginId from "../../../utils/pluginId";
 
-const importLang = async (configPlugins = [], language) => {
+const importLang = async (config, language) => {
   
   if (!language) return;
 
-  const pluginNames = [...configPlugins.map((p) => p.pluginName)];
+  const { plugins: configPlugins = [] } = config;
+
+  const configPluginNames = [...configPlugins.map((p) => p.pluginName)];
 
   const plugins = [
     { name: "DocumentList", module: "ckeditor5-list" },
@@ -52,7 +54,7 @@ const importLang = async (configPlugins = [], language) => {
 
   await Promise.all(
     plugins
-      .filter(({ name }) => pluginNames.includes(name))
+      .filter(({ name }) => configPluginNames.includes(name))
       .map(
         async ({ module }) =>
           await import(
@@ -61,15 +63,15 @@ const importLang = async (configPlugins = [], language) => {
       )
   );
 
-  if (pluginNames.some((p) => basicStylesPlugin.includes(p)))
+  if (configPluginNames.some((p) => basicStylesPlugin.includes(p)))
     await import(
       /* webpackMode: "lazy-once" */ `@ckeditor/ckeditor5-basic-styles/build/translations/${language}.js`
     ).catch(() => null);
-  if (pluginNames.some((p) => listPlugin.includes(p)))
+  if (configPluginNames.some((p) => listPlugin.includes(p)))
     await import(
       /* webpackMode: "lazy-once" */ `@ckeditor/ckeditor5-list/build/translations/${language}.js`
     ).catch(() => null);
-  if (pluginNames.some((p) => fontPlugin.includes(p)))
+  if (configPluginNames.some((p) => fontPlugin.includes(p)))
     await import(
       /* webpackMode: "lazy-once" */ `@_sh/ckeditor5-font-with-picker/build/translations/${language}.js`
     ).catch(() => null);
@@ -82,27 +84,27 @@ const setLanguage = async (config) => {
 
   const preferedLanguage = auth.getUserInfo().preferedLanguage;
 
-  const { ui, content, textPartLanguage, ignorei18n } = config.language || {};
+  const { ui = preferedLanguage || 'en', content, textPartLanguage, ignorei18n } = config.language || {};
 
   if (languageContent) {
     const locale = languageContent.split("-")[0];
 
     config.language = {
-      ui: typeof config.language === "string" ? config.language : ui || preferedLanguage,
+      ui: typeof config.language === "string" ? config.language : ui,
       content: ignorei18n ? content : locale,
       textPartLanguage: textPartLanguage,
     };
 
-    await importLang(config.plugins, config.language.ui);
-    await importLang(config.plugins, config.language.content);
+    await importLang(config, config.language.ui);
+    await importLang(config, config.language.content);
   } else if (typeof config.language === "object") {
-    await importLang(config.plugins, config.language.ui);
-    await importLang(config.plugins, config.language.content);
+    await importLang(config, config.language.ui);
+    await importLang(config, config.language.content);
   } else if (typeof config.language === "string") {
-    await importLang(config.plugins, config.language);
+    await importLang(config, config.language);
   } else {
     config.language = preferedLanguage;
-    await importLang(config.plugins, preferedLanguage);
+    await importLang(config, preferedLanguage);
   }
 };
 
@@ -132,12 +134,12 @@ const getCurrentConfig = (presetName) => {
 };
 
 const setPlugins = (config, { responsiveDimensions }, toggleMediaLib) => {
-  const pluginNames = [...config?.editorConfig?.plugins.map((p) => p.pluginName)];
+  const configPluginNames = config.editorConfig?.plugins ? [ ...config.editorConfig.plugins.map((p) => p.pluginName)] : [];
 
-  if (pluginNames.includes("StrapiMediaLib")) {
+  if (configPluginNames.includes("StrapiMediaLib")) {
     config.editorConfig.strapiMediaLib = { toggle: toggleMediaLib };
   }
-  if (pluginNames.includes("StrapiUploadAdapter")) {
+  if (configPluginNames.includes("StrapiUploadAdapter")) {
     config.editorConfig.strapiUploadAdapter = {
       uploadUrl: `${strapi.backendURL}/upload`,
       headers: { Authorization: "Bearer " + auth.getToken() },
@@ -145,7 +147,7 @@ const setPlugins = (config, { responsiveDimensions }, toggleMediaLib) => {
       responsive: responsiveDimensions,
     };
   }
-  if (pluginNames.includes("WordCount")) {
+  if (configPluginNames.includes("WordCount")) {
     config.editorConfig.WordCountPlugin = true;
   }
 };

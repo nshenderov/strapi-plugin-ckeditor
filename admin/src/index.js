@@ -1,9 +1,6 @@
 import React from "react";
 import * as yup from "yup";
 
-import ckeditor5Dll from "ckeditor5/build/ckeditor5-dll.js";
-import ckeditor5EditorClassicDll from "@ckeditor/ckeditor5-editor-classic/build/editor-classic.js";
-
 import baseConfigs from "./components/Input/CKEditor/configs";
 import getEditorConfig from "./utils/getEditorConfig";
 import CKEditorIcon from "./components/CKEditorIcon";

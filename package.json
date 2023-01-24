@@ -13,7 +13,7 @@
     "editor"
   ],
   "strapi": {
-    "name": "ckeditor",
+    "name": "ckeditor5",
     "displayName": "CKEditor 5",
     "description": "Integrates CKEditor 5 into your Strapi project as a fully customizable custom field. (Unofficial integration)",
     "kind": "plugin"

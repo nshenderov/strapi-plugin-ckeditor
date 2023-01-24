@@ -1,9 +1,6 @@
 import { css } from "styled-components";
 
 export const common = css`
-  :root{
-    --loader-height:200px;
-  }
   .ck {
     --ck-color-image-caption-background: hsl(0, 0%, 97%);
     --ck-color-image-caption-text: hsl(0, 0%, 20%);
@@ -29,8 +26,6 @@ export const common = css`
   .ck.ck-reset.ck-dropdown__panel.ck-dropdown__panel_sw.ck-dropdown__panel-visible {
     border-radius: 4px;
   }
-
-  
 
   .ck-editor__main {
     
@@ -277,8 +272,5 @@ export const common = css`
   	z-index: 1;
   	transform: scale(1.3);
   }
-
-
-  
 
 `;

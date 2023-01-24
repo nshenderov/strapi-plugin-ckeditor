@@ -2,10 +2,6 @@
 
 const fs = require("fs");
 
-/**
- * config.js configuration service
- */
-
 module.exports = ({ strapi }) => {
   return {
     getUploadConfig(name) {
@@ -19,7 +15,7 @@ module.exports = ({ strapi }) => {
       const filename = `${jsDir}/config/ckeditor.txt`;
       return fs.existsSync(filename)
         ? fs.readFileSync(filename)
-        : 'globalThis.CKEditorConfig = null' // empty script tag causes no problems
+        : 'globalThis.CKEditorConfig = null'
     },
   };
 };

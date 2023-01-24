@@ -1,3 +1,4 @@
+import ckeditor5Dll from "ckeditor5/build/ckeditor5-dll.js";
 import ckeditor5AlignmentDll from "@ckeditor/ckeditor5-alignment/build/alignment.js";
 import ckeditor5AutoformatDll from "@ckeditor/ckeditor5-autoformat/build/autoformat.js";
 import ckeditor5AutosaveDll from "@ckeditor/ckeditor5-autosave/build/autosave.js";
