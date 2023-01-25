@@ -42,14 +42,14 @@ const Editor = ({ onChange, name, value, disabled, preset, maxLength }) => {
   }, []);
 
   return (
+    <>
+    {config && <GlobalStyling />}
     <Wrapper editorStyles={config?.styles} >
       {!config &&
       <LoaderBox hasRadius background="neutral100">
         <Loader>Loading...</Loader>
       </LoaderBox>}
       {config &&
-        <>
-          <GlobalStyling />
           <CKEditor
             editor={window.CKEditor5.editorClassic.ClassicEditor}
             config={config?.editorConfig}
@@ -57,6 +57,7 @@ const Editor = ({ onChange, name, value, disabled, preset, maxLength }) => {
             data={value || ""}
             onReady={(editor) => {
               editor.setData(value || "");
+              
               if(config.editorConfig.WordCountPlugin){
                 const wordCountPlugin = editor.plugins.get( 'WordCount' );
                 wordCountPlugin.on( 'update', ( evt, stats ) =>handleCounter(stats.characters));
@@ -76,17 +77,17 @@ const Editor = ({ onChange, name, value, disabled, preset, maxLength }) => {
               onChange({ target: { name, value: data } });
             }}
           />
-          {config.editorConfig.WordCountPlugin && 
-            <CounterLoaderBox 
-              color={lengthMax?"danger500":"neutral400"} 
-              ref={wordCounter}>
-                {!editorInstance && <Loader small>Loading...</Loader>}
-            </CounterLoaderBox>
-          }
-        </>
+      }
+      {config && config.editorConfig.WordCountPlugin && 
+          <CounterLoaderBox 
+            color={lengthMax?"danger500":"neutral400"} 
+            ref={wordCounter}>
+              {!editorInstance && <Loader small>Loading...</Loader>}
+          </CounterLoaderBox>
       }
       {uploadPluginConfig && <MediaLib isOpen={mediaLibVisible} onToggle={handleToggleMediaLib} editor={editorInstance} uploadConfig={uploadPluginConfig} />}
     </Wrapper>
+    </>
   );
 };
 
