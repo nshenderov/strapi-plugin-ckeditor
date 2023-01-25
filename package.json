@@ -1,7 +1,7 @@
 {
   "name": "@_sh/strapi-plugin-ckeditor",
-  "version": "1.1.3",
-  "description": "Replaces the default Strapi WYSIWYG editor with a customized buil of CKEditor 5 packed with useful plugins.",
+  "version": "2.0.0",
+  "description": "Integrates CKEditor 5 into your Strapi project as a fully customizable custom field. (Unofficial integration)",
   "private": false,
   "keywords": [
     "strapi",
@@ -13,10 +13,9 @@
     "editor"
   ],
   "strapi": {
-    "icon": "edit",
-    "name": "ckeditor",
+    "name": "ckeditor5",
     "displayName": "CKEditor 5",
-    "description": "Replaces the default Strapi WYSIWYG editor with a customized buil of CKEditor 5 packed with useful plugins.",
+    "description": "Integrates CKEditor 5 into your Strapi project as a fully customizable custom field. (Unofficial integration)",
     "kind": "plugin"
   },
   "files": [
@@ -26,10 +25,47 @@
     "strapi-server.js"
   ],
   "dependencies": {
-    "@ckeditor/ckeditor5-react": "^5.0.2"
+    "ckeditor5": "^36.0.0",
+    "@ckeditor/ckeditor5-react": "^5.0.6",
+    "@ckeditor/ckeditor5-alignment": "^36.0.0",
+    "@ckeditor/ckeditor5-autoformat": "^36.0.0",
+    "@ckeditor/ckeditor5-autosave": "^36.0.0",
+    "@ckeditor/ckeditor5-basic-styles": "^36.0.0",
+    "@ckeditor/ckeditor5-block-quote": "^36.0.0",
+    "@ckeditor/ckeditor5-style": "^36.0.0",
+    "@ckeditor/ckeditor5-code-block": "^36.0.0",
+    "@ckeditor/ckeditor5-easy-image": "^36.0.0",
+    "@ckeditor/ckeditor5-editor-classic": "^36.0.0",
+    "@ckeditor/ckeditor5-essentials": "^36.0.0",
+    "@ckeditor/ckeditor5-find-and-replace": "^36.0.0",
+    "@ckeditor/ckeditor5-heading": "^36.0.0",
+    "@ckeditor/ckeditor5-highlight": "^36.0.0",
+    "@ckeditor/ckeditor5-horizontal-line": "^36.0.0",
+    "@ckeditor/ckeditor5-html-embed": "^36.0.0",
+    "@ckeditor/ckeditor5-html-support": "^36.0.0",
+    "@ckeditor/ckeditor5-image": "^36.0.0",
+    "@ckeditor/ckeditor5-indent": "^36.0.0",
+    "@ckeditor/ckeditor5-language": "^36.0.0",
+    "@ckeditor/ckeditor5-link": "^36.0.0",
+    "@ckeditor/ckeditor5-list": "^36.0.0",
+    "@ckeditor/ckeditor5-mention": "^36.0.0",
+    "@ckeditor/ckeditor5-media-embed": "^36.0.0",
+    "@ckeditor/ckeditor5-page-break": "^36.0.0",
+    "@ckeditor/ckeditor5-paragraph": "^36.0.0",
+    "@ckeditor/ckeditor5-paste-from-office": "^36.0.0",
+    "@ckeditor/ckeditor5-remove-format": "^36.0.0",
+    "@ckeditor/ckeditor5-special-characters": "^36.0.0",
+    "@ckeditor/ckeditor5-source-editing": "^36.0.0",
+    "@ckeditor/ckeditor5-table": "^36.0.0",
+    "@ckeditor/ckeditor5-theme-lark": "^36.0.0",
+    "@ckeditor/ckeditor5-typing": "^36.0.0",
+    "@ckeditor/ckeditor5-upload": "^36.0.0",
+    "@ckeditor/ckeditor5-word-count": "^36.0.0",
+    "sanitize-html": "^2.8.1",
+    "@_sh/ckeditor5-font-with-picker": "^0.0.1"
   },
   "peerDependencies": {
-    "@strapi/strapi": "^4.0.0"
+    "@strapi/strapi": "^4.4.0"
   },
   "author": {
     "name": "nshenderov"
