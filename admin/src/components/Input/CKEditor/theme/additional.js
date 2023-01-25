@@ -2,6 +2,8 @@ import { css } from "styled-components";
 
 export const additional = css`
 
+/* --- expanding --- */
+
 .ck.ck-editor__main .ck-blurred {
     max-height: 200px;
   }

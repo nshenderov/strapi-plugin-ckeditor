@@ -29,8 +29,8 @@ export const common = css`
 
   .ck-editor__main {
     
-    --ck-font-face: "Source Sans Pro", system-ui, Roboto, "Helvetica Neue", "Helvetica", Arial,
-      sans-serif;
+    --ck-font-face: "Source Sans Pro", system-ui, Roboto, "Helvetica Neue", "Helvetica", Arial, sans-serif;
+    
     color: var(--ck-color-editor-base-text);
     font-family: var(--ck-font-face);
 
@@ -38,6 +38,7 @@ export const common = css`
       font: revert;
       margin: revert;
     }
+
 
     h1 {
       font-size: 2.3em;

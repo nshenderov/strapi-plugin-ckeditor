@@ -1,59 +1,45 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/nshenderov/strapi-plugin-ckeditor/master/assets/ckeditor5.png" alt="CKEditor5-Strapi" width="700" />
+  <img src="assets/ckeditor5_2_0.png" width="700" />
 </p>
 
 <h1 align="center">CKEditor 5 for Strapi</h1>
 
-<p align="center">Replaces the default Strapi WYSIWYG editor with a customized build of CKEditor 5 packed with useful plugins.</p>
+<p align="center">Integrates CKEditor 5 into your Strapi project as a fully customizable custom field. (Unofficial integration)</p>
 
 ## 👋 Get Started
 
 * [Features](#features)
 * [Installation](#installation)
 * [Configuration](#configuration)
-* [Theme customization](#themecustomization)
+* [Contributing](#contributing)
 * [Requirements](#requirements)
-* [Thanks](#thanks)
 
 ## <a id="features"></a>✨ Features
 
-* **Lots of default plugins:** for styling text, images, tables and so on.
-* **Font color picker:** choose color for font styling that's not defined in default palette.
-* **Upload adapter for Strapi:** for upload images to your library when you drop an image into the editor.
-* **Fullscreen mode button.**
-* **Strapi media library button.**
-* **Supports strapi theme swithing.**
-* **Supports responsive images:** plugin adds srcset attribute to images based on their `formats` if responsive enable in strapi settings.
-* **Language support:** you can set the preferred language for the UI or the content in the configuration, by default it will use the language defined in the user profile if that language [is supported](https://github.com/nshenderov/strapi-plugin-ckeditor/tree/master/admin/src/components/CKEditor/build/translations). i18 also supported.
+* **Media library integration**
+* **Supports responsive images**
+* **Supports Strapi's theme switching with the possibility to define your own theme**
+* **Supports i18n for content and user's preferred language for UI**
+* **Few predefined editor configs with the possibility to add your owns**
+* **Possible to add new plugins**
+
 
 ## <a id="installation"></a>🔧 Installation
+___
 
-Inside your Strapi app, add the package:
+* Inside your Strapi app, add the package:
 
-With `npm`:
 ```bash
 npm install @_sh/strapi-plugin-ckeditor
 ```
-With `yarn`:
+
+or
+
 ```bash
 yarn add @_sh/strapi-plugin-ckeditor
 ```
 
-In `config/plugins.js` file add:
-```js
-ckeditor: true
-```
-
-If you do not yet have this file, then create and add:
-```js
-module.exports = () => {
-    return {
-        ckeditor: true
-    }
-}
-```
-
-Then run build:
+* Then run build:
 ```bash
 npm run build
 ```
@@ -63,932 +49,402 @@ or
 yarn build
 ```
 
-> 💡 `sizes` and `loading` attributes for image can be set in source mode.
 
 
 ## <a id="configuration"></a>⚙️ Configuration
-CKEditor config should be defined in `config.editor` field in `plugins.js` file.
+___
+The plugin is based on [**Strapi's custom fields**](https://docs.strapi.io/developer-docs/latest/development/custom-fields.html#registering-a-custom-field-on-the-server) and [**CKEditor dll build**](https://ckeditor.com/docs/ckeditor5/latest/installation/advanced/alternative-setups/dll-builds.html)
 
-> ⚠️ Regex patterns and callback functions (/.*/  /^(p|h[2-4])$/' | match => {..} etc) are not allowed in plugins.js config
+Plugin configuration should be defined in the `/config/ckeditor.txt` file.
 
->According to [this PR](https://github.com/nshenderov/strapi-plugin-ckeditor/pull/54), you can create ckeditor.js file in your /config directory and define editor's config in there. This way you can specify all regex patterns, functions, and so on. (plugin's config still should be placed in plugins.js)
+It's highly recommended to explore [**the official ckeditor documentation**](https://ckeditor.com/docs/ckeditor5/latest/features/index.html)
 
-<details>
-  <summary>(spoiler) <b>Example of /config/ckeditor.js:</b> </summary>
+Content from ckeditor.txt will be passed into a script tag through the initialization process.
 
-```js
-globalThis.ckEditorConfig = {
-    toolbar: {
-        items: [ ]
-    },
-    mediaEmbed: {
-        previewsInData: true,
+> 📂 Default configs: [**admin/src/components/Input/CKEditor/configs**](admin/src/components/Input/CKEditor/configs)
 
-        providers: [
-            {
-                name: 'youtube',
-                url: [
-                    /^(?:m\.)?youtube\.com\/watch\?v=([\w-]+)(?:&t=(\d+))?/,
-                    /^(?:m\.)?youtube\.com\/v\/([\w-]+)(?:\?t=(\d+))?/,
-                    /^youtube\.com\/embed\/([\w-]+)(?:\?start=(\d+))?/,
-                    /^youtu\.be\/([\w-]+)(?:\?t=(\d+))?/
-                ],
-                html: match => {
-                    const id = match[1];
-                    
-                    return (`<iframe
-                              src="https://www.youtube-nocookie.com/embed/${id}"
-                              frameborder="0"
-                              allow="autoplay; encrypted-media" 
-                              allowfullscreen />
-                        `);
-                }
-            },
-        ]
-    }
-}
-```
+> 📂 Default theme: [**admin/src/components/Input/CKEditor/theme**](admin/src/components/Input/CKEditor/theme)
 
-</details>
-
-
-**⚠️ `plugins.js` not `plugin.js` ⚠️**
-
-**`plugins.js` file should be placed in `config` folder.**
-
-**💡`fullscreen mode` and `source mode` are not supported with `balloon` and `block` toolbars.**
-
-Learn more about editor's configuration from [official documentation](https://ckeditor.com/docs/ckeditor5/latest/installation/getting-started/configuration.html).
-
-<details>
-  <summary>(spoiler) <b>Built in plugins:</b> </summary>
+**ckeditor.txt example:**
 
 ```js
-plugins: [
-StrapiUploadAdapter,
-Alignment,
-Autoformat,
-AutoImage,
-AutoLink,
-Autosave,
-BlockQuote,
-Bold,
-Code,
-CodeBlock,
-DataFilter,
-DataSchema,
-Essentials,
-FindAndReplace,
-FontBackgroundColor,
-FontColor,
-FontFamily,
-FontSize,
-GeneralHtmlSupport,
-Heading,
-HeadingButtonsUI,
-ParagraphButtonUI,
-Highlight,
-HorizontalLine,
-HtmlComment,
-HtmlEmbed,
-Image,
-ImageCaption,
-ImageInsert,
-ImageResize,
-ImageStyle,
-ImageToolbar,
-ImageUpload,
-Indent,
-IndentBlock,
-Italic,
-Link,
-LinkImage,
-List,
-ListProperties,
-MediaEmbed,
-MediaEmbedToolbar,
-Mention,
-PageBreak,
-Paragraph,
-PasteFromOffice,
-RemoveFormat,
-SourceEditing,
-SpecialCharacters,
-SpecialCharactersArrows,
-SpecialCharactersCurrency,
-SpecialCharactersEssentials,
-SpecialCharactersLatin,
-SpecialCharactersMathematical,
-SpecialCharactersText,
-StandardEditingMode,
-Strikethrough,
-Subscript,
-Superscript,
-Table,
-TableCaption,
-TableCellProperties,
-TableProperties,
-TableToolbar,
-TextPartLanguage,
-TextTransformation,
-TodoList,
-Underline,
-WordCount,
-Markdown,
-StrapiMediaLib,
-FullScreen,
-BlockToolbar,
-BalloonToolbar,
-Style
-] 
+globalThis.CKEditorConfig = {
 
-```
+    /* By default configs and theme
+    objects will be spread with
+    default configs and theme
+    these two properties specified below
+    allow you to redefine
+    default objects completely: */
 
-</details>
+    //configsOverwrite:true,
+    //themeOverwrite:true,
 
-**Default configuration:**
-```js
-// plugins.js
-module.exports = () => {
-  return {
-    ckeditor: {
-     enabled: true,
-     config:{
-        plugin:{
-          // disable data-theme tag setting // 
-          // setAttribute:false,
+    /* Here you can redefine default configs
+    or add completely new ones.
+    Each config includes: 
+    "styles", "field" and "editorConfig" properties.
+    Property "field" is required. */
 
-          // disable strapi theme, will use default ckeditor theme //
-          // strapiTheme:false,
-          
-          // styles applied to editor container (global scope) //
-          // styles:`
-          // .ck.ck-editor__main .ck-focused{
-          //   max-height: 700px;
-          // }
-          // :root{
-          //   --ck-color-focus-border:red;
-          //   --ck-color-text:red;
-          // }
-          // `
+    configs:{
+        toolbar:{
+            // styles:``,
+            // field:{},
+            // editorConfig:{}
         },
-        editor:{ // editor default config
+        custom:{
+            
+            /* Styles for this specific editor.
+            This will be passed into the editor's parent container. */
 
-          // https://ckeditor.com/docs/ckeditor5/latest/features/markdown.html
-          // if you need markdown support and output set: removePlugins: [''],
-          // default is 
-          // removePlugins: ['Markdown'],
-
-          // https://ckeditor.com/docs/ckeditor5/latest/features/toolbar/toolbar.html
-          toolbar: {
-            items: [
-              'paragraph',
-              'heading1',
-              'heading2',
-              '|',
-              'bold',
-              'italic',
-              'fontColor',
-              'fontBackgroundColor',
-              'fontFamily',
-              'underline',
-              'fontSize',
-              'removeFormat',
-              '|',
-              'bulletedList',
-              'todoList',
-              'numberedList',
-              '|',
-              'alignment',
-              'outdent',
-              'indent',
-              'horizontalLine',
-              '|',
-              'StrapiMediaLib',
-              'insertTable',
-              'blockQuote',
-              'mediaEmbed',
-              'link',
-              'highlight',
-              '|',
-              'htmlEmbed',
-              'sourceEditing',
-              'code',
-              'codeBlock',
-              '|',
-              'subscript',
-              'superscript',
-              'strikethrough',
-              'specialCharacters',
-              '|',
-              'heading',
-              "fullScreen",
-              'undo',
-              'redo'
-            ]
-          },
-          // https://ckeditor.com/docs/ckeditor5/latest/features/font.html
-          fontSize: {
-            options: [
-                9,
-                11,
-                13,
-                'default',
-                17,
-                19,
-                21,
-                27,
-                35,
-            ],
-            supportAllValues: false
-          },
-          fontFamily: {
-            options: [
-              'default',
-              'Arial, Helvetica Neue, Helvetica, Source Sans Pro, sans-serif',
-              'Courier New, Courier, monospace',
-              'Georgia, serif',
-              'Lucida Sans Unicode, Lucida Grande, sans-serif',
-              'Tahoma, Geneva, sans-serif',
-              'Times New Roman, Times, serif',
-              'Trebuchet MS, Helvetica, sans-serif',
-              'Verdana, Geneva, sans-serif',
-              'Roboto, Roboto Black, Roboto Medium, Roboto Light, sans-serif',
-            ],
-            supportAllValues: true
-          },
-          fontColor: {
-            columns: 5,
-            documentColors: 10,
-          },
-          fontBackgroundColor: {
-            columns: 5,
-            documentColors: 10,
-          },
-          // https://ckeditor.com/docs/ckeditor5/latest/features/ui-language.html
-          // default language: 'en',
-          // https://ckeditor.com/docs/ckeditor5/latest/features/images/images-overview.html
-          image: {
-            resizeUnit: "%",
-            resizeOptions: [ {
-              name: 'resizeImage:original',
-              value: null,
-              icon: 'original'
-            },
-            {
-              name: 'resizeImage:25',
-              value: '25',
-              icon: 'small'
-            },
-            {
-              name: 'resizeImage:50',
-              value: '50',
-              icon: 'medium'
-            },
-            {
-              name: 'resizeImage:75',
-              value: '75',
-              icon: 'large'
-            } ],
-            toolbar: [
-              'toggleImageCaption',
-              'imageTextAlternative',
-              'imageStyle:inline',
-              'imageStyle:block',
-              'imageStyle:side',
-              'linkImage',
-              'resizeImage:25', 'resizeImage:50', 'resizeImage:75', 'resizeImage:original'
-            ]
-          },
-          // https://ckeditor.com/docs/ckeditor5/latest/features/table.html
-          table: {
-            contentToolbar: [
-              'tableColumn',
-              'tableRow',
-              'mergeTableCells',
-              'tableCellProperties',
-              'tableProperties',
-              'toggleTableCaption'
-            ]
-          },
-          // https://ckeditor.com/docs/ckeditor5/latest/features/headings.html
-          heading: {
-            options: [
-              { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
-              { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
-              { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
-              { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
-              { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
-            ]
-          },
-          // https://ckeditor.com/docs/ckeditor5/latest/features/general-html-support.html
-          htmlSupport: {
-            allow: [
-                {
-                  name: 'img',
-                  attributes: {
-                      sizes:true,
-                      loading:true,
-                  }
-                },
-            ]
-          },
-        }
-      }
-    }
-  }
-}
-```
-**Some of configuration:**
-
-<h3 align="center">Balloon+Block+Style</h3>
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/nshenderov/strapi-plugin-ckeditor/master/assets/balloonblockstyles.gif" alt="CKEditor5-Strapi" width="800" />
-</p>
-
-<details>
-  <summary><b>Balloon+Block+Style config:</b> </summary>
-
-```js
-module.exports = () => {
-  return {
-    ckeditor: {
-     enabled: true,
-     config:{
-      plugin:{
             styles:`
-            .ck-content{
-              border-radius:4px !important;
-            }
-            .ck-sticky-panel{
-              display:none !important;
-            }
-          
-            .ck.ck-content h3.category {
-                font-family: 'Bebas Neue';
-                font-size: 20px;
-                font-weight: bold;
-                color: #d1d1d1;
-                letter-spacing: 10px;
-                margin: 0;
-                padding: 0;
-            }
-            
-            .ck.ck-content h2.document-title {
-                font-family: 'Bebas Neue';
-                font-size: 50px;
-                font-weight: bold;
-                margin: 0;
-                padding: 0;
-                border: 0;
-            }
-            
-            .ck.ck-content h3.document-subtitle {
-                font-size: 20px;
-                color: #e91e63;
-                margin: 0 0 1em;
-                font-weight: normal;
-                padding: 0;
-            }
-            
-            .ck.ck-content p.info-box {
-                --background-size: 30px;
-                --background-color: #e91e63;
-                padding: 1.2em 2em;
-                border: 1px solid var(--background-color);
-                background: linear-gradient(135deg, var(--background-color) 0%, var(--background-color) var(--background-size), transparent var(--background-size)), linear-gradient(135deg, transparent calc(100% - var(--background-size)), var(--background-color) calc(100% - var(--background-size)), var(--background-color));
-                border-radius: 10px;
-                margin: 1.5em 2em;
-                box-shadow: 5px 5px 0 #ffe6ef;
-            }
-            
-            .ck.ck-content blockquote.side-quote {
-                font-family: 'Bebas Neue';
-                font-style: normal;
-                float: right;
-                width: 35%;
-                position: relative;
-                border: 0;
-                overflow: visible;
-                z-index: 1;
-                margin-left: 1em;
-            }
-            
-            .ck.ck-content blockquote.side-quote::before {
-                content: "“";
-                position: absolute;
-                top: -37px;
-                left: -10px;
-                display: block;
-                font-size: 200px;
-                color: #e7e7e7;
-                z-index: -1;
-                line-height: 1;
-            }
-            
-            .ck.ck-content blockquote.side-quote p {
-                font-size: 2em;
-                line-height: 1;
-            }
-            
-            .ck.ck-content blockquote.side-quote p:last-child:not(:first-child) {
-                font-size: 1.3em;
-                text-align: right;
-                color: #555;
-            }
-            
-            .ck.ck-content span.marker {
-                background: yellow;
-            }
-            
-            .ck.ck-content span.spoiler {
-                background: #000;
-                color: #000;
-            }
-            
-            .ck.ck-content span.spoiler:hover {
-                background: #000;
-                color: #fff;
-            }
-            
-            .ck.ck-content pre.fancy-code {
-                border: 0;
-                margin-left: 2em;
-                margin-right: 2em;
-                border-radius: 10px;
-            }
-            
-            .ck.ck-content pre.fancy-code::before {
-                content: "";
-                display: block;
-                height: 13px;
-                background: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1NCAxMyI+CiAgPGNpcmNsZSBjeD0iNi41IiBjeT0iNi41IiByPSI2LjUiIGZpbGw9IiNGMzZCNUMiLz4KICA8Y2lyY2xlIGN4PSIyNi41IiBjeT0iNi41IiByPSI2LjUiIGZpbGw9IiNGOUJFNEQiLz4KICA8Y2lyY2xlIGN4PSI0Ny41IiBjeT0iNi41IiByPSI2LjUiIGZpbGw9IiM1NkM0NTMiLz4KPC9zdmc+Cg==);
-                margin-bottom: 8px;
-                background-repeat: no-repeat;
-            }
-            
-            .ck.ck-content pre.fancy-code-dark {
-                background: #272822;
-                color: #fff;
-                box-shadow: 5px 5px 0 #0000001f;
-            }
-            
-            .ck.ck-content pre.fancy-code-bright {
-                background: #dddfe0;
-                color: #000;
-                box-shadow: 5px 5px 0 #b3b3b3;
-            }
-            
-            `
-          },
-        editor:{
-          toolbar:[],
-          // https://ckeditor.com/docs/ckeditor5/latest/features/toolbar/blocktoolbar.html
-          blockToolbar: {
-              items: [
-              'heading','style',
-              '|',
-              'outdent',
-              'indent',
-              'horizontalLine',
-              '|',
-              'StrapiMediaLib',
-              '-',
-              'bulletedList', 'numberedList',
-              '|',
-              'insertTable', 'blockQuote',
-              '|',
-              'code'
-              ],
-          },
-          balloonToolbar: [
-            'bold',
-            'italic',
-            'fontColor',
-            'FontBackgroundColor',
-            'fontFamily',
-            'fontSize',
-            'alignment',
-            '|',
-            'removeFormat',
-            'undo',
-            'redo'
-          ],
-          // https://ckeditor.com/docs/ckeditor5/latest/features/style.html
-           style: {
-              definitions: [
-                  {
-                      name: 'Article category',
-                      element: 'h3',
-                      classes: [ 'category' ]
+            //     --ck-focus-ring:3px dashed #5CB176;
+
+            //     .ck.ck-content.ck-editor__editable {
+            //       &.ck-focused:not(.ck-editor__nested-editable) {
+            //         border: var(--ck-focus-ring) !important;
+            //       }
+            //     }
+            //     .ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline.ck-blurred{
+            //       min-height: 400px;
+            //       max-height: 400px;
+            //     }
+            //     .ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline.ck-focused{
+            //       min-height: 400px;
+            //       max-height: 1700px;
+            //     }
+            `,
+
+            /* Custom field option */
+            field: {
+                key: "custom",
+                value: "custom",
+                metadatas: {
+                  intlLabel: {
+                    id: "ckeditor5.preset.custom.label",
+                    defaultMessage: "Custom version",
                   },
-                  {
-                      name: 'Title',
-                      element: 'h2',
-                      classes: [ 'document-title' ]
-                  },
-                  {
-                      name: 'Subtitle',
-                      element: 'h3',
-                      classes: [ 'document-subtitle' ]
-                  },
-                  {
-                      name: 'Info box',
-                      element: 'p',
-                      classes: [ 'info-box' ]
-                  },
-                  {
-                      name: 'Side quote',
-                      element: 'blockquote',
-                      classes: [ 'side-quote' ]
-                  },
-                  {
-                      name: 'Marker',
-                      element: 'span',
-                      classes: [ 'marker' ]
-                  },
-                  {
-                      name: 'Spoiler',
-                      element: 'span',
-                      classes: [ 'spoiler' ]
-                  },
-                  {
-                      name: 'Code (dark)',
-                      element: 'pre',
-                      classes: [ 'fancy-code', 'fancy-code-dark' ]
-                  },
-                  {
-                      name: 'Code (bright)',
-                      element: 'pre',
-                      classes: [ 'fancy-code', 'fancy-code-bright' ]
-                  }
-              ]
-          },
-          fontSize: {
-            options: [
-                9,
-                11,
-                13,
-                'default',
-                17,
-                19,
-                21,
-                27,
-                35,
-            ],
-            supportAllValues: false
-          },
-          fontFamily: {
-            options: [
-              'default',
-              'Arial, Helvetica Neue, Helvetica, Source Sans Pro, sans-serif',
-              'Courier New, Courier, monospace',
-              'Georgia, serif',
-              'Lucida Sans Unicode, Lucida Grande, sans-serif',
-              'Tahoma, Geneva, sans-serif',
-              'Times New Roman, Times, serif',
-              'Trebuchet MS, Helvetica, sans-serif',
-              'Verdana, Geneva, sans-serif',
-              'Roboto, Roboto Black, Roboto Medium, Roboto Light, sans-serif',
-            ],
-            supportAllValues: true
-          },
-          fontColor: {
-            columns: 5,
-            documentColors: 10,
-          },
-          fontBackgroundColor: {
-            columns: 5,
-            documentColors: 10,
-          },
-          image: {
-            resizeUnit: "%",
-            resizeOptions: [ {
-              name: 'resizeImage:original',
-              value: null,
-              icon: 'original'
-            },
-            {
-              name: 'resizeImage:25',
-              value: '25',
-              icon: 'small'
-            },
-            {
-              name: 'resizeImage:50',
-              value: '50',
-              icon: 'medium'
-            },
-            {
-              name: 'resizeImage:75',
-              value: '75',
-              icon: 'large'
-            } ],
-            toolbar: [
-              'toggleImageCaption',
-              'imageTextAlternative',
-              'imageStyle:inline',
-              'imageStyle:block',
-              'imageStyle:side',
-              'linkImage',
-              'resizeImage:25', 'resizeImage:50', 'resizeImage:75', 'resizeImage:original'
-            ]
-          },
-          table: {
-            contentToolbar: [
-              'tableColumn',
-              'tableRow',
-              'mergeTableCells',
-              'tableCellProperties',
-              'tableProperties',
-              'toggleTableCaption'
-            ]
-          },
-          heading: {
-            options: [
-              { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
-              { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
-              { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
-              { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
-              { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
-            ]
-          },
-          htmlSupport: {
-            allow: [
-                {
-                  name: 'img',
-                  attributes: {
-                      sizes:true,
-                      loading:true,
-                  }
                 },
-            ]
-          },
+            },
+            /* CKEditor configuration */
+            editorConfig:{
+                /* All available built-in plugins
+                you can find in admin/src/components/Input/CKEditor/configs/base.js */
+                plugins: [
+                    CKEditor5.autoformat.Autoformat,
+                    CKEditor5.basicStyles.Bold,
+                    CKEditor5.basicStyles.Italic,
+                    CKEditor5.essentials.Essentials,
+                    CKEditor5.heading.Heading,
+                    CKEditor5.image.Image,
+                    CKEditor5.image.ImageCaption,
+                    CKEditor5.image.ImageStyle,
+                    CKEditor5.image.ImageToolbar,
+                    CKEditor5.image.ImageUpload,
+                    CKEditor5.indent.Indent,
+                    CKEditor5.link.Link,
+                    CKEditor5.list.List,
+                    CKEditor5.paragraph.Paragraph,
+                    CKEditor5.pasteFromOffice.PasteFromOffice,
+                    CKEditor5.table.Table,
+                    CKEditor5.table.TableToolbar,
+                    CKEditor5.table.TableColumnResize,
+                    CKEditor5.table.TableCaption,
+                    CKEditor5.strapiPlugins.StrapiMediaLib,
+                    CKEditor5.strapiPlugins.StrapiUploadAdapter,
+                  ],
+
+                  /* By default, for plugin's UI will use
+                  the language defined in this file
+                  or the preferred language from strapi's user config
+                  and 'en' as a fallback.
+                  language.ui -> preferred language -> 'en' */
+
+                  /* For content it will use language based on i18n (if! ignorei18n)
+                  or language.content defined here
+                  and it will use UI language as a fallback.
+                  ignorei18n ? language.content : i18n; -> language.ui */
+
+                  language:{
+                    // ignorei18n: true,
+                    ui:'he',
+                    content:'he'
+                  },
+                  toolbar: [
+                    'heading',
+                    '|',
+                    'bold', 'italic', 'link', 'bulletedList', 'numberedList',
+                    '|',
+                    'strapiMediaLib', 'insertTable',
+                    '|',
+                    'undo', 'redo'
+                  ],
+                  heading: {
+                    options: [
+                      { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                      { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                      { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                      { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+                      { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
+                    ]
+                  },
+                  image: {
+                    toolbar: [
+                      'imageStyle:inline',
+                      'imageStyle:block',
+                      'imageStyle:side',
+                      '|',
+                      'toggleImageCaption',
+                      'imageTextAlternative'
+                    ]
+                  },
+                  table: {
+                    contentToolbar: [
+                      'tableColumn',
+                      'tableRow',
+                      'mergeTableCells',
+                      '|',
+                      'toggleTableCaption'
+                    ]
+                  }
+            }
         }
-      }
+    },
+
+    /* Here you can customize the plugin's theme.
+    This will be passed as "createGlobalStyle". */
+    theme:{
+        // common:``,
+        // light:``,
+        // dark:``,
+        // additional:``
     }
-  }
+
 }
+```
+
+> If you use the default (local) upload provider you should specify a `url` property in the `config/server.js` in order to get the full URL on uploaded files eg:
+```js
+module.exports = ({ env }) => ({
+  url: env("PUBLIC_URL", "http://localhost:1337"),
+  host: env('HOST', '0.0.0.0'),
+  port: env.int('PORT', 1337),
+  app: {
+    keys: env.array('APP_KEYS'),
+  },
+});
+```
+
+> In order to display some content from an external source on your `admin` side you should configure your middlewares.js [**check docs about this**](https://docs.strapi.io/developer-docs/latest/setup-deployment-guides/configurations/required/middlewares.html)
+
+## How to add plugins
+
+___
+Markdown plugin example
+
+* Inside your app:
+
+```js
+yarn add @ckeditor/ckeditor5-markdown-gfm
+```
+or
+```js
+npm install @ckeditor/ckeditor5-markdown-gfm
+```
+
+* your-app/src/armin/**app.js**
+
+```js
+import ckeditor5Dll from "ckeditor5/build/ckeditor5-dll.js";
+import ckeditor5MrkdownDll from "@ckeditor/ckeditor5-markdown-gfm/build/markdown-gfm.js";
+
+
+const config = {};
+
+const bootstrap = (app) => {};
+
+export default {
+  config,
+  bootstrap,
+};
 
 ```
-</details>
 
-<h3 align="center">Classic+Balloon</h3>
+* your-app/config/**ckeditor.txt**
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/nshenderov/strapi-plugin-ckeditor/master/assets/230222.jpg" alt="CKEditor5-Strapi" width="800" />
-</p>
+```js
+globalThis.CKEditorConfig = {
+    configs:{
+        markdown:{
+            field: {
+                key: "markdown",
+                value: "markdown",
+                metadatas: {
+                  intlLabel: {
+                    id: "ckeditor.preset.markdown.label",
+                    defaultMessage: "Markdown version",
+                  },
+                },
+            },
+            editorConfig:{
+                placeholder: 'Markdown editor',
+                plugins: [
+                    CKEditor5.essentials.Essentials,
+                    CKEditor5.autoformat.Autoformat,
+                    CKEditor5.blockQuote.BlockQuote,
+                    CKEditor5.basicStyles.Bold,
+                    CKEditor5.heading.Heading,
+                    CKEditor5.image.Image,
+                    CKEditor5.image.ImageCaption,
+                    CKEditor5.image.ImageStyle,
+                    CKEditor5.image.ImageToolbar,
+                    CKEditor5.image.ImageUpload, 
+                    CKEditor5.indent.Indent,
+                    CKEditor5.basicStyles.Italic,
+                    CKEditor5.link.Link,
+                    CKEditor5.list.List,
+                    CKEditor5.mediaEmbed.MediaEmbed,
+                    CKEditor5.paragraph.Paragraph,
+                    CKEditor5.table.Table,
+                    CKEditor5.table.TableToolbar,
+                    CKEditor5.sourceEditing.SourceEditing, 
+                    CKEditor5.strapiPlugins.StrapiMediaLib,
+                    CKEditor5.strapiPlugins.StrapiUploadAdapter,
+                    CKEditor5.markdownGfm.Markdown,
+                    CKEditor5.basicStyles.Code, 
+                    CKEditor5.codeBlock.CodeBlock,
+                    CKEditor5.list.TodoList,
+                    CKEditor5.basicStyles.Strikethrough,
+                    CKEditor5.horizontalLine.HorizontalLine
+                ],
+                toolbar: {
+                    items: [
+                        'heading',
+                        '|',
+                        'bold',
+                        'italic',
+                        'strikethrough',
+                        'link',
+                        '|',
+                        'bulletedList',
+                        'numberedList',
+                        'todoList',
+                        '|',
+                        'code',
+                        'codeBlock',
+                        '|',
+                        'uploadImage',
+                        'strapiMediaLib',
+                        'blockQuote',
+                        'horizontalLine',
+                        '-',
+                        'sourceEditing',
+                        '|',
+                        'outdent',
+                        'indent',
+                        '|',
+                        'undo',
+                        'redo'
+                    ],
+                    shouldNotGroupWhenFull: true
+                },
+                image: {
+                    toolbar: [ 'imageStyle:inline', 'imageStyle:block', 'imageStyle:side', '|', 'toggleImageCaption', 'imageTextAlternative' ]
+                },
+                codeBlock: {
+                    languages: [
+                        { language: 'css', label: 'CSS' },
+                        { language: 'html', label: 'HTML' },
+                        { language: 'javascript', label: 'JavaScript' },
+                        { language: 'php', label: 'PHP' }
+                    ]
+                },
+            }
+        }
+    }
+}
+```
+
+* Then rebuild your app:
+```bash
+npm run build
+```
+
+or
+```bash
+yarn build
+```
+
+## <a id="contributing"></a>🛠 Contributing
+___
 
 <details>
-  <summary><b>Classic+Balloon config:</b> </summary>
+  <summary><b>This section covers the way how to configure your environment if you want to contribute to this package.</b> </summary>
+  
+### Setting up the environment
 
-```js
-module.exports = () => {
-  return {
-    ckeditor: {
-     enabled: true,
-     config:{
-        editor:{
-          toolbar: {
-            items: [
-              'paragraph',
-              'heading1',
-              'heading2',
-              '|',
-              'bulletedList',
-              'todoList',
-              'numberedList',
-              '|',
-              'outdent',
-              'indent',
-              'horizontalLine',
-              '|',
-              'StrapiMediaLib',
-              'insertTable',
-              'blockQuote',
-              'mediaEmbed',
-              'link',
-              'highlight',
-              '|',
-              'htmlEmbed',
-              'sourceEditing',
-              'code',
-              'codeBlock',
-              '|',
-              'subscript',
-              'superscript',
-              'strikethrough',
-              'specialCharacters',
-              '|',
-              'heading',
-              "fullScreen",
-              'undo',
-              'redo'
-            ]
-          },
-          balloonToolbar: [
-            'bold',
-            'italic',
-            'fontColor',
-            'FontBackgroundColor',
-            'fontFamily',
-            'fontSize',
-            'alignment',
-            '|',
-            'removeFormat',
-            'undo',
-            'redo'
-          ],
-          fontSize: {
-            options: [
-                9,
-                11,
-                13,
-                'default',
-                17,
-                19,
-                21,
-                27,
-                35,
-            ],
-            supportAllValues: false
-          },
-          fontFamily: {
-            options: [
-              'default',
-              'Arial, Helvetica Neue, Helvetica, Source Sans Pro, sans-serif',
-              'Courier New, Courier, monospace',
-              'Georgia, serif',
-              'Lucida Sans Unicode, Lucida Grande, sans-serif',
-              'Tahoma, Geneva, sans-serif',
-              'Times New Roman, Times, serif',
-              'Trebuchet MS, Helvetica, sans-serif',
-              'Verdana, Geneva, sans-serif',
-              'Roboto, Roboto Black, Roboto Medium, Roboto Light, sans-serif',
-            ],
-            supportAllValues: true
-          },
-          fontColor: {
-            columns: 5,
-            documentColors: 10,
-          },
-          fontBackgroundColor: {
-            columns: 5,
-            documentColors: 10,
-          },
-          image: {
-            resizeUnit: "%",
-            resizeOptions: [ {
-              name: 'resizeImage:original',
-              value: null,
-              icon: 'original'
-            },
-            {
-              name: 'resizeImage:25',
-              value: '25',
-              icon: 'small'
-            },
-            {
-              name: 'resizeImage:50',
-              value: '50',
-              icon: 'medium'
-            },
-            {
-              name: 'resizeImage:75',
-              value: '75',
-              icon: 'large'
-            } ],
-            toolbar: [
-              'toggleImageCaption',
-              'imageTextAlternative',
-              'imageStyle:inline',
-              'imageStyle:block',
-              'imageStyle:side',
-              'linkImage',
-              'resizeImage:25', 'resizeImage:50', 'resizeImage:75', 'resizeImage:original'
-            ]
-          },
-          table: {
-            contentToolbar: [
-              'tableColumn',
-              'tableRow',
-              'mergeTableCells',
-              'tableCellProperties',
-              'tableProperties',
-              'toggleTableCaption'
-            ]
-          },
-          heading: {
-            options: [
-              { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
-              { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
-              { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
-              { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
-              { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
-            ]
-          },
-          htmlSupport: {
-            allow: [
-                {
-                  name: 'img',
-                  attributes: {
-                      sizes:true,
-                      loading:true,
-                  }
-                },
-            ]
-          },
-        }
-      }
-    }
-  }
-}
+In order to start making changes in the plugin you first need to install Strapi infrastructure on top of the plugin repository.
 
 ```
+npx create-strapi-app --quickstart strapi
+cd strapi
+```
+
+By default Strapi does not create plugins folder so we need to create it.
+
+```
+mkdir -p src/plugins
+```
+
+Now we should clone this repository so we can work on it.
+
+```
+git clone git@github.com:nshenderov/strapi-plugin-ckeditor.git src/plugins/strapi-plugin-ckeditor
+```
+
+Let's add an entry inside `./package.json` file so, we won't need to use `yarn` inside plugin itself.
+
+```
+"workspaces": ["./src/plugins/strapi-plugin-ckeditor"]
+```
+
+Install dependencies:
+
+```
+yarn install
+```
+
+Now we need to register plugin so strapi can use it. In order to do that we need
+to create (if not already created) `./config/plugins.js` file and add entry to it.
+
+```
+module.exports = ({ env }) => ({
+  ckeditor5: {
+    enabled: true,
+    resolve: "./src/plugins/strapi-plugin-ckeditor"
+  },
+});
+```
+
+Rebuild the project and start the server:
+
+```
+yarn build
+yarn develop
+```
+
 </details>
 
-## <a id="themecustomization"></a>💅 Theme customization
-If you want to customize editor styles you should define styles in `config.plugin.styles` field.
 
-Since Strapi resets css styles, it needs some styles to revert back, these styles defined below, also check [official documentation](https://ckeditor.com/docs/ckeditor5/latest/installation/advanced/content-styles.html).
 
-For theme colors switching this plugin uses css variables depending on html data-theme attribute, e.g. `html[data-theme='light']` or `html[data-theme='dark']` you cand disable it by `setAttribute:false`
-
-If you want default ckeditor theme you can set `strapiTheme:false`
-
-More [info about ckeditor theming](https://ckeditor.com/docs/ckeditor5/latest/framework/guides/deep-dive/ui/theme-customization.html)
-
-[**👔 Default styles**](https://github.com/nshenderov/strapi-plugin-ckeditor/blob/master/admin/src/components/CKEditor/styles.js)
-
-[**🎨 Default theme**](https://github.com/nshenderov/strapi-plugin-ckeditor/blob/master/admin/src/components/CKEditor/theme.js)
-
-**Example of customization:**
-```js
-// plugins.js
-const styles = require('./styles.js')
-
-module.exports = () => {
-    return {
-        ckeditor: {
-          enabled: true,
-          config:{
-             plugin:{
-                // disable data-theme tag setting // 
-                // setAttribute:false,
-
-                // disable strapi theme, will use default ckeditor theme //
-                // strapiTheme:false,
-          
-                // styles applied to editor container, e.g:
-                styles:`
-                ${styles()}
-                .ck-editor__styled__container{
-                  background:red;
-                }
-                html[data-theme='light'] {
-                --ck-scroll-track-background:red;
-                --ck-scroll-thumb-background:red;
-                --ck-scroll-thumb-border-color:red;
-                --ck-scroll-thumb-hover-background:red;
-                --ck-scroll-thumb-active-background:red;
-                --ck-color-base-border: red;
-                --ck-color-base-background:red;
-                --ck-custom-background: red;
-                --ck-custom-foreground: red;
-                --ck-custom-border: red;
-                --ck-custom-white: red;
-                }
-                `
-             },
-             // editor default config
-             editor:{
-                 //...
-             }
-         }
-     }
-   }
-}
-
-// styles.js
-const styles = () =>`
-  .ck.ck-editor__main .ck-blurred{
-    max-height: 200px;
-  }
-  .ck.ck-editor__main .ck-focused{
-    max-height: 500px;
-  }        
-`
-module.exports = styles;
-```
 
 ## <a id="requirements"></a>⚠️ Requirements
-Strapi **v4.1.8+**
+___
+Strapi **v4.4.0+**
 
 Node **>=14.19.1 <=18.x.x**
 
-Tested on **v4.1.8 - 4.5.6**
-
-## <a id="thanks"></a>👍 This build includes some useful plugins based on these repos so thanks to them:
+### 👍 This build includes some useful plugins based on these repos so thanks to them:
 https://github.com/Roslovets-Inc/strapi-plugin-ckeditor5
 
 https://github.com/leknoppix/ckeditor5-fullscreen

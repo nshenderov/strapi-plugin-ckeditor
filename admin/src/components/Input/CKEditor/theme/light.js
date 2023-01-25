@@ -21,7 +21,7 @@ export const light = css`
     --ck-scroll-thumb-hover-background: #f0f0ff;
     --ck-scroll-thumb-active-background: #d9d8ff;
 
-    --ck-color-editor-base-text: #1a1a1a;
+    --ck-color-editor-base-text: #001234;
     /* Overrides the border radius setting in the theme. */
     --ck-border-radius: 4px;
 
