@@ -9,10 +9,9 @@ module.exports = ({ strapi }) => {
     },
     getCKEditorConfig() {
       const appDir = process.cwd();
-      const isTSProject = fs.existsSync(`${appDir}/dist`);
-      const jsDir = isTSProject ? `${appDir}/dist` : appDir;
 
-      const filename = `${jsDir}/config/ckeditor.txt`;
+      const filename = `${appDir}/config/ckeditor.txt`;
+      
       return fs.existsSync(filename)
         ? fs.readFileSync(filename)
         : 'globalThis.CKEditorConfig = null'
