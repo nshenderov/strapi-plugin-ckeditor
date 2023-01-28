@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/ckeditor5_2_0.png" width="700" />
+  <img src="https://raw.githubusercontent.com/nshenderov/strapi-plugin-ckeditor/master/assets/ckeditor5_2_0.png" width="700" />
 </p>
 
 <h1 align="center">CKEditor 5 for Strapi</h1>
@@ -61,9 +61,9 @@ It's highly recommended to explore [**the official ckeditor documentation**](htt
 
 Content from ckeditor.txt will be passed into a script tag through the initialization process.
 
-> 📂 Default configs: [**admin/src/components/Input/CKEditor/configs**](admin/src/components/Input/CKEditor/configs)
+> 📂 Default configs: [**admin/src/components/Input/CKEditor/configs**](https://github.com/nshenderov/strapi-plugin-ckeditor/blob/master/admin/src/components/Input/CKEditor/configs)
 
-> 📂 Default theme: [**admin/src/components/Input/CKEditor/theme**](admin/src/components/Input/CKEditor/theme)
+> 📂 Default theme: [**admin/src/components/Input/CKEditor/theme**](https://github.com/nshenderov/strapi-plugin-ckeditor/blob/master/admin/src/components/Input/CKEditor/theme)
 
 **ckeditor.txt example:**
 
@@ -235,7 +235,7 @@ module.exports = ({ env }) => ({
 });
 ```
 
-> In order to display some content from an external source on your `admin` side you should configure your middlewares.js [**check docs about this**](https://docs.strapi.io/developer-docs/latest/setup-deployment-guides/configurations/required/middlewares.html)
+> In order to display some content from an external source on your `admin` side you should configure your middlewares.js [**check the docs about this**](https://docs.strapi.io/developer-docs/latest/setup-deployment-guides/configurations/required/middlewares.html)
 
 ## How to add plugins
 
@@ -378,8 +378,7 @@ yarn build
 ## <a id="contributing"></a>🛠 Contributing
 ___
 
-<details>
-  <summary><b>This section covers the way how to configure your environment if you want to contribute to this package.</b> </summary>
+This section covers the way how to configure your environment if you want to contribute to this package.
   
 ### Setting up the environment
 
@@ -432,11 +431,6 @@ Rebuild the project and start the server:
 yarn build
 yarn develop
 ```
-
-</details>
-
-
-
 
 ## <a id="requirements"></a>⚠️ Requirements
 ___
