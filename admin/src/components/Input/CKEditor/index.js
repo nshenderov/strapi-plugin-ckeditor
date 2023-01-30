@@ -54,9 +54,8 @@ const Editor = ({ onChange, name, value, disabled, preset, maxLength }) => {
             editor={window.CKEditor5.editorClassic.ClassicEditor}
             config={config?.editorConfig}
             disabled={disabled}
-            data={value || ""}
+            data={value}
             onReady={(editor) => {
-              editor.setData(value || "");
               
               if(config.editorConfig.WordCountPlugin){
                 const wordCountPlugin = editor.plugins.get( 'WordCount' );
