@@ -11,6 +11,52 @@ export const additional = css`
   	max-height: 700px;
   }
 
+/* --- color-grid --- */
+
+.ck.ck-color-ui-dropdown {
+	--ck-color-grid-tile-size: 22px !important;
+}
+.ck.ck-color-grid__tile{
+	width:auto;
+}
+.ck.ck-color-ui-dropdown .ck-color-grid {
+	grid-gap: 2px;
+}
+.ck.ck-color-ui-dropdown .ck-color-grid .ck-button {
+	border-radius: 2px;
+}
+.ck.ck-color-ui-dropdown .ck.ck-color-grid .ck-color-grid__tile:hover:not(.ck-disabled),
+.ck.ck-color-ui-dropdown .ck.ck-color-grid .ck-color-grid__tile:focus:not(.ck-disabled) {
+	z-index: 1;
+	transform: scale(1.1);
+	border-radius: 2px;
+}
+
+/* --- color-picker --- */
+
+.ck[dir=rtl] .ck-color-input{
+  margin: 0 8px 8px 0 !important;
+  padding: 3px 5px 0 0 !important;
+}
+
+.ck .ck-color-input{
+  margin: 0 0 8px 8px ;
+  padding: 3px 0 0 6px;
+  border-radius:2px ;
+  font-size:.77rem !important;
+  width: 58px !important;
+}
+.ck .ck-color-picker{
+  margin: 0 3px 8px 3px;
+  border-radius:2px !important;
+  width: 27px !important;
+}
+.ck .ck-color-picker-save{
+  margin: 0 0 8px 0;
+  border-radius:2px !important;
+  width:27px !important;
+}
+
 
 /* ---- Style feature config ------------------------------------------------------ */
 

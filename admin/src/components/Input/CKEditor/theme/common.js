@@ -217,10 +217,6 @@ export const common = css`
     .ck-block-toolbar-button {
       margin-left: 2px !important ;
     }
-    .ck-color-input{
-      margin: 0 8px 8px 0 !important;
-      padding: 3px 5px 0 0 !important;
-    }
     & + div{
       justify-content: flex-start;
       & > .ck-word-count {
@@ -233,45 +229,4 @@ export const common = css`
       }
     }
   }
-
-
-  .ck .ck-color-input{
-    margin: 0 0 8px 8px !important;
-    padding: 3px 0 0 5px !important;
-    border-radius:0px !important;
-    width: 115px !important;
-    z-index: 1;
-  }
-
-  .ck .ck-color-picker{
-    margin: 0 3px 8px 3px !important;
-    border-radius:0px !important;
-    width: 80px !important;
-  }
-
-  .ck .ck-color-picker-save{
-    margin: 0 0 8px 0 !important;
-    border-radius:0px !important;
-    width: 50px !important;
-  }
-
-
-  .ck.ck-color-ui-dropdown {
-	--ck-color-grid-tile-size: 20px;
-  }
-
-  .ck.ck-color-ui-dropdown .ck-color-grid {
-  	grid-gap: 1px;
-  }
-
-  .ck.ck-color-ui-dropdown .ck-color-grid .ck-button {
-  	border-radius: 0;
-  }
-
-  .ck.ck-color-ui-dropdown .ck.ck-color-grid .ck-color-grid__tile:hover:not(.ck-disabled),
-  .ck.ck-color-ui-dropdown .ck.ck-color-grid .ck-color-grid__tile:focus:not(.ck-disabled) {
-  	z-index: 1;
-  	transform: scale(1.3);
-  }
-
 `;
