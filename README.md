@@ -167,8 +167,8 @@ globalThis.CKEditorConfig = {
 
                   language:{
                     // ignorei18n: true,
-                    ui:'he',
-                    content:'he'
+                    // ui:'he',
+                    // content:'he'
                   },
                   toolbar: [
                     'heading',
