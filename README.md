@@ -252,7 +252,7 @@ or
 npm install @ckeditor/ckeditor5-markdown-gfm
 ```
 
-* your-app/src/armin/**app.js**
+* your-app/src/admin/**app.js**
 
 ```js
 import ckeditor5Dll from "ckeditor5/build/ckeditor5-dll.js";
