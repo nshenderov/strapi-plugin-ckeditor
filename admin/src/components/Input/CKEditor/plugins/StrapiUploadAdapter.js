@@ -24,7 +24,6 @@ export default class StrapiUploadAdapter extends Plugin {
    * @inheritDoc
    */
   init() {
-    
     // backendUrl
     // uploadUrl
     // headers
@@ -140,21 +139,27 @@ class Adapter {
         );
       }
 
-      
       const { backendUrl, responsive } = this.options || {};
-      
-      if (response[0].formats && responsive) {
-        const { name, url, alternativeText, formats } = response[0];
-        let urls = { default: backendUrl + url };
-        let keys = Object.keys(formats).sort((a, b) => formats[a].width - formats[b].width);
+      const { name, url, alternativeText, formats } = response[0];
+
+      // If using a cloud provider, url will be a full URL.
+      const defaultUrl = url.includes("https")
+        ? response[0].url
+        : backendUrl + response[0].url;
+
+      if (formats && responsive) {
+        let urls = { default: defaultUrl };
+        let keys = Object.keys(formats).sort(
+          (a, b) => formats[a].width - formats[b].width
+        );
         keys.map((k) => (urls[formats[k].width] = backendUrl + formats[k].url));
         resolve({ alt: alternativeText || name, urls: urls });
       } else {
         resolve(
-          response[0].url
+          url
             ? {
-                alt: response[0].alternativeText || response[0].name,
-                urls: { default: backendUrl + response[0].url },
+                alt: alternativeText || name,
+                urls: { default: defaultUrl },
               }
             : null
         );
