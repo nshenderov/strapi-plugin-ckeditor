@@ -140,12 +140,8 @@ class Adapter {
       }
 
       const { backendUrl, responsive } = this.options || {};
-      const { name, url, alternativeText, formats } = response[0];
-
-      // If using a cloud provider, url will be a full URL.
-      const defaultUrl = url.includes("https")
-        ? response[0].url
-        : backendUrl + response[0].url;
+      const { name, url, alternativeText, formats, provider } = response[0];
+      const defaultUrl = provider !== "local" ? url : backendUrl + url;
 
       if (formats && responsive) {
         let urls = { default: defaultUrl };
