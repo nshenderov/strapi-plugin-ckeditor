@@ -49,6 +49,8 @@ or
 yarn build
 ```
 
+> 💡 **NOTE:** Since version 2 this plugin works through custom field API it doesn't change the default editor anymore instead it adds a new custom field https://youtu.be/hIKfvLzN6VI
+
 
 
 ## <a id="configuration"></a>⚙️ Configuration
