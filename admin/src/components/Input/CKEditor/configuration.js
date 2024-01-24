@@ -36,6 +36,7 @@ const importLang = async (config, language) => {
     { name: "SourceEditing", module: "ckeditor5-source-editing" },
     { name: "Highlight", module: "ckeditor5-highlight" },
     { name: "Style", module: "ckeditor5-style" },
+    { name: "ShowBlocks", module: "ckeditor5-show-blocks" }
   ];
 
   const basicStylesPlugin = [
@@ -73,7 +74,7 @@ const importLang = async (config, language) => {
     ).catch(() => null);
   if (configPluginNames.some((p) => fontPlugin.includes(p)))
     await import(
-      /* webpackMode: "lazy-once" */ `@_sh/ckeditor5-font-with-picker/build/translations/${language}.js`
+      /* webpackMode: "lazy-once" */ `@ckeditor/ckeditor5-font/build/translations/${language}.js`
     ).catch(() => null);
 };
 
