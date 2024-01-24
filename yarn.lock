@@ -123,6 +123,7 @@
   version "39.0.2"
   resolved "https://registry.yarnpkg.com/@ckeditor/ckeditor5-find-and-replace/-/ckeditor5-find-and-replace-39.0.2.tgz#bb0c6b444c01613b0e1535e59dfec7befe8c27d1"
   integrity sha512-cRD/ozsclBVjcuCokFiPMGEUV8YqbyjMQnHMUbsuc3qGQ2rV7A6tJZJqOdW7EW78asEPrVQ6M0SrIYgrb5lzCQ==
+
   dependencies:
     "@ckeditor/ckeditor5-ui" "39.0.2"
     ckeditor5 "39.0.2"
@@ -301,6 +302,7 @@
   version "39.0.2"
   resolved "https://registry.yarnpkg.com/@ckeditor/ckeditor5-theme-lark/-/ckeditor5-theme-lark-39.0.2.tgz#37e67ee3113c5fb385e66a2dad3de1033c786260"
   integrity sha512-v6S3++hkoKgqV71BCafKWYmPA6o/X44kUzdahnFs1rYBM5WS87y9Jb0W8Rv8FXXD5QD0H2axtySw9S6HfYspQw==
+
   dependencies:
     "@ckeditor/ckeditor5-ui" "39.0.2"
 
@@ -939,6 +941,25 @@ crelt@^1.0.5:
   resolved "https://registry.yarnpkg.com/crelt/-/crelt-1.0.6.tgz#7cc898ea74e190fb6ef9dae57f8f81cf7302df72"
   integrity sha512-VQ2MBenTq1fWZUH9DJNGti7kKv6EeAuYr3cLwxUWhIu1baTaXh4Ib5W2CqHVqib4/MqbYGJqiL3Zb8GJZr3l4g==
 
+ckeditor5@^37.1.0:
+  version "37.1.0"
+  resolved "https://registry.yarnpkg.com/ckeditor5/-/ckeditor5-37.1.0.tgz#8cbdd8fb2d5ea08fe49699df3668b96c439bc539"
+  integrity sha512-sT/w0+pZ/p8ANrNaFI+LtUYRSUECFC1lvhQqGczGWEYD+pdYQTQxYVDy8QEYE5V9E5I7uvt4Dbcq9w6TjlLC/w==
+  dependencies:
+    "@ckeditor/ckeditor5-clipboard" "^37.1.0"
+    "@ckeditor/ckeditor5-core" "^37.1.0"
+    "@ckeditor/ckeditor5-engine" "^37.1.0"
+    "@ckeditor/ckeditor5-enter" "^37.1.0"
+    "@ckeditor/ckeditor5-paragraph" "^37.1.0"
+    "@ckeditor/ckeditor5-select-all" "^37.1.0"
+    "@ckeditor/ckeditor5-typing" "^37.1.0"
+    "@ckeditor/ckeditor5-ui" "^37.1.0"
+    "@ckeditor/ckeditor5-undo" "^37.1.0"
+    "@ckeditor/ckeditor5-upload" "^37.1.0"
+    "@ckeditor/ckeditor5-utils" "^37.1.0"
+    "@ckeditor/ckeditor5-watchdog" "^37.1.0"
+    "@ckeditor/ckeditor5-widget" "^37.1.0"
+
 deepmerge@^4.2.2:
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-4.3.1.tgz#44b5f2147cd3b00d4b56137685966f26fd25dd4a"
@@ -1129,6 +1150,7 @@ sanitize-html@^2.8.1:
   version "2.11.0"
   resolved "https://registry.yarnpkg.com/sanitize-html/-/sanitize-html-2.11.0.tgz#9a6434ee8fcaeddc740d8ae7cd5dd71d3981f8f6"
   integrity sha512-BG68EDHRaGKqlsNjJ2xUB7gpInPA8gVx/mvjO743hZaeMCZ2DwzW7xvsqZ+KNU4QKwj86HJ3uu2liISf2qBBUA==
+
   dependencies:
     deepmerge "^4.2.2"
     escape-string-regexp "^4.0.0"
