@@ -2,8 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import {default as CKEditor} from "./CKEditor";
 import { useIntl } from "react-intl";
-import { Field, FieldHint, FieldError, FieldLabel } from "@strapi/design-system/Field";
-import { Stack } from "@strapi/design-system/Stack";
+import { Field, FieldHint, FieldError, FieldLabel } from "@strapi/design-system";
+import { Stack } from "@strapi/design-system";
 
 const Wysiwyg = ({ name, attribute, onChange, value, intlLabel, labelAction, disabled, error, description, required }) => {
   const { formatMessage } = useIntl();
