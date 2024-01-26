@@ -18,9 +18,9 @@
 
 * **Media library integration**
 * **Supports responsive images**
-* **Supports Strapi's theme switching with the possibility to define your own theme**
-* **Supports i18n for content and user's preferred language for UI**
-* **Few predefined editor configs with the possibility to add your owns**
+* **Supports Strapi's theme switching with the ability to set a custom theme**
+* **Supports i18n and different UI translations**
+* **Few predefined editor configs with the ability to add custom ones**
 * **Possible to add new plugins**
 
 
@@ -53,13 +53,13 @@ yarn build
 
 ## <a id="configuration"></a>⚙️ Configuration
 ___
-The plugin is based on [**Strapi's custom fields**](https://docs.strapi.io/developer-docs/latest/development/custom-fields.html#registering-a-custom-field-on-the-server) and [**CKEditor dll build**](https://ckeditor.com/docs/ckeditor5/latest/installation/advanced/alternative-setups/dll-builds.html)
+The plugin uses [**Strapi custom fields API**](https://docs.strapi.io/developer-docs/latest/development/custom-fields.html#registering-a-custom-field-on-the-server) and [**CKEditor dll build**](https://ckeditor.com/docs/ckeditor5/latest/installation/advanced/alternative-setups/dll-builds.html)
 
-Plugin configuration should be defined in the `/config/ckeditor.txt` file.
+The plugin configuration should be defined in the `/config/ckeditor.txt` file.
 
 It's highly recommended to explore [**the official ckeditor documentation**](https://ckeditor.com/docs/ckeditor5/latest/features/index.html)
 
-Content from ckeditor.txt will be passed into a script tag through the initialization process.
+Content of ckeditor.txt will be passed into the script tag during the initialization process.
 
 > 📂 Default configs: [**admin/src/components/Input/CKEditor/configs**](https://github.com/nshenderov/strapi-plugin-ckeditor/blob/master/admin/src/components/Input/CKEditor/configs)
 
@@ -70,12 +70,10 @@ Content from ckeditor.txt will be passed into a script tag through the initializ
 ```js
 globalThis.CKEditorConfig = {
 
-    /* By default configs and theme
-    objects will be spread with
-    default configs and theme
-    these two properties specified below
-    allow you to redefine
-    default objects completely: */
+    /* By default custom configs and theme
+    defined in this file are going to be spread into
+    default configs and theme these two properties below
+    allow you to redefine default objects completely: */
 
     //configsOverwrite:true,
     //themeOverwrite:true,
@@ -94,7 +92,7 @@ globalThis.CKEditorConfig = {
         },
         custom:{
             
-            /* Styles for this specific editor.
+            /* Styles for this specific editor version.
             This will be passed into the editor's parent container. */
 
             styles:`
@@ -128,8 +126,8 @@ globalThis.CKEditorConfig = {
             },
             /* CKEditor configuration */
             editorConfig:{
-                /* All available built-in plugins
-                you can find in admin/src/components/Input/CKEditor/configs/base.js */
+                /* You can find all available built-in plugins
+                in the admin/src/components/Input/CKEditor/configs/base.js */
                 plugins: [
                     CKEditor5.autoformat.Autoformat,
                     CKEditor5.basicStyles.Bold,
@@ -154,14 +152,14 @@ globalThis.CKEditorConfig = {
                     CKEditor5.strapiPlugins.StrapiUploadAdapter,
                   ],
 
-                  /* By default, for plugin's UI will use
-                  the language defined in this file
-                  or the preferred language from strapi's user config
-                  and 'en' as a fallback.
-                  language.ui -> preferred language -> 'en' */
+                  /* By default, the language of the plugin's UI will be chosen
+                  based on the language defined in this config file
+                  or on the preferred language from the strapi's user config
+                  and if both of them are not set then 'en' will be used as a fallback.
+                  ( language.ui -> preferred language -> 'en' ) */
 
-                  /* For content it will use language based on i18n (if! ignorei18n)
-                  or language.content defined here
+                  /* For content it will chose the language based on i18n (if! ignorei18n)
+                  or on language.content property defined here
                   and it will use UI language as a fallback.
                   ignorei18n ? language.content : i18n; -> language.ui */
 
@@ -223,7 +221,7 @@ globalThis.CKEditorConfig = {
 }
 ```
 
-> If you use the default (local) upload provider you should specify a `url` property in the `config/server.js` in order to get the full URL on uploaded files eg:
+> If you use the default (local) upload provider you should specify the `url` property in the `config/server.js` in order to get the full URL on uploaded files eg:
 ```js
 module.exports = ({ env }) => ({
   url: env("PUBLIC_URL", "http://localhost:1337"),
@@ -235,7 +233,7 @@ module.exports = ({ env }) => ({
 });
 ```
 
-> In order to display some content from an external source on your `admin` side you should configure your middlewares.js [**check the docs about this**](https://docs.strapi.io/developer-docs/latest/setup-deployment-guides/configurations/required/middlewares.html)
+> In order to display a content from an external source in your `admin` you should configure your middlewares.js [**check the docs about this**](https://docs.strapi.io/developer-docs/latest/setup-deployment-guides/configurations/required/middlewares.html)
 
 ## How to add plugins
 
@@ -434,15 +432,6 @@ yarn develop
 
 ## <a id="requirements"></a>⚠️ Requirements
 ___
-Strapi **v4.4.0+**
+Strapi **v4.13.0+**
 
-Node **>=14.19.1 <=18.x.x**
-
-### 👍 This build includes some useful plugins based on these repos so thanks to them:
-https://github.com/Roslovets-Inc/strapi-plugin-ckeditor5
-
-https://github.com/leknoppix/ckeditor5-fullscreen
-
-https://github.com/gtomato/ckeditor5-strapi-upload-plugin
-
-https://github.com/pshurygin/ckeditor5-font-color
+Node **>=18.0.0 <=20.x.x**
