@@ -537,7 +537,7 @@ export const toolbarEditorConfig = {
 
 }
 
-export const toolbarBaloonEditorConfig = {
+export const toolbarBalloonEditorConfig = {
   plugins:[...basePlugins, w.BalloonToolbar],
   ...base,
   toolbar: [
@@ -578,7 +578,7 @@ export const toolbarBaloonEditorConfig = {
   ]
 }
 
-export const blockBaloonEditorConfig = {
+export const blockBalloonEditorConfig = {
   plugins:[
     ...basePlugins.filter(({pluginName})=>
       pluginName !== "SourceEditing" &&
