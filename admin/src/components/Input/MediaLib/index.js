@@ -9,15 +9,15 @@ const MediaLib = ({ isOpen, onChange, onToggle, editor, uploadConfig: { responsi
   const handleChangeAssets = (assets) => {
     let newValue = "";
 
-    assets.map(({ name, url, alt, formats, mime }) => {
+    assets.map(({ name, url, alt, formats, mime, width, height }) => {
       if (mime.includes("image")) {
         if (formats && responsiveDimensions) {
           let set = "";
           let keys = Object.keys(formats).sort((a, b) => formats[a].width - formats[b].width);
           keys.map((k) => (set += prefixFileUrlWithBackendUrl(formats[k].url) + ` ${formats[k].width}w,`));
-          newValue += `<img src="${url}" alt="${alt}" width="${formats[keys[keys.length - 1]].width}px" srcset="${set}" />`;
+          newValue += `<img src="${url}" alt="${alt}" width="${width}" height="${height}" srcset="${set}" />`;
         } else {
-          newValue += `<img src="${url}" alt="${alt}" />`;
+          newValue += `<img src="${url}" alt="${alt}" width="${width}" height="${height}" />`;
         }
       } else if (mime.includes("application/pdf")) {
         newValue = `<a href="${prefixFileUrlWithBackendUrl(url)}" download="${name}">${name || "Download PDF"}</a>`;
