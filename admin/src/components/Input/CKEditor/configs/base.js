@@ -27,7 +27,9 @@ import ckeditor5LanguageDll from "@ckeditor/ckeditor5-language/build/language.js
 import ckeditor5HighlightDll from "@ckeditor/ckeditor5-highlight/build/highlight.js";
 import ckeditor5StyleDll from "@ckeditor/ckeditor5-style/build/style.js";
 import ckeditor5MentionDll from "@ckeditor/ckeditor5-mention/build/mention.js";
-import ckeditor5FontWithPickerDll from "@_sh/ckeditor5-font-with-picker/build/font-with-picker.js";
+import ckeditor5FontDll from "@ckeditor/ckeditor5-font/build/font.js";
+import ckeditor5ShowBlocksDll from "@ckeditor/ckeditor5-show-blocks/build/show-blocks.js";
+
 
 import sanitizeHtml from "sanitize-html";
 
@@ -52,10 +54,10 @@ const w = {
   DocumentListProperties: window.CKEditor5.list.DocumentListProperties,
   Essentials: window.CKEditor5.essentials.Essentials,
   FindAndReplace: window.CKEditor5.findAndReplace.FindAndReplace,
-  FontBackgroundColor: window.CKEditor5.fontWithPicker.FontBackgroundColor,
-  FontColor: window.CKEditor5.fontWithPicker.FontColor,
-  FontFamily: window.CKEditor5.fontWithPicker.FontFamily,
-  FontSize: window.CKEditor5.fontWithPicker.FontSize,
+  FontBackgroundColor: window.CKEditor5.font.FontBackgroundColor,
+  FontColor: window.CKEditor5.font.FontColor,
+  FontFamily: window.CKEditor5.font.FontFamily,
+  FontSize: window.CKEditor5.font.FontSize,
   GeneralHtmlSupport: window.CKEditor5.htmlSupport.GeneralHtmlSupport,
   Heading: window.CKEditor5.heading.Heading,
   // HeadingButtonsUI: window.CKEditor5.heading.HeadingButtonsUI,
@@ -100,6 +102,7 @@ const w = {
   Style: window.CKEditor5.style.Style,
   Subscript: window.CKEditor5.basicStyles.Subscript,
   Superscript: window.CKEditor5.basicStyles.Superscript,
+  ShowBlocks: window.CKEditor5.showBlocks.ShowBlocks,
   Table: window.CKEditor5.table.Table,
   TableCaption: window.CKEditor5.table.TableCaption,
   TableCellProperties: window.CKEditor5.table.TableCellProperties,
@@ -478,6 +481,7 @@ w.Strikethrough,
 w.Style,
 w.Subscript,
 w.Superscript,
+w.ShowBlocks,
 w.Table,
 w.TableCaption,
 w.TableCellProperties,
@@ -527,12 +531,13 @@ export const toolbarEditorConfig = {
     '|',
     'insertImage','mediaEmbed','strapiMediaLib','link','blockquote','insertTable','specialCharacters','htmlEmbed','codeBlock',
     '|', 'horizontalLine', 'pageBreak', '|',
+    '|', 'showBlocks',
     '|', 'undo', 'redo', '|',
   ],
 
 }
 
-export const toolbarBaloonEditorConfig = {
+export const toolbarBalloonEditorConfig = {
   plugins:[...basePlugins, w.BalloonToolbar],
   ...base,
   toolbar: [
@@ -551,6 +556,7 @@ export const toolbarBaloonEditorConfig = {
     '|',
     'insertImage','mediaEmbed','strapiMediaLib','link','blockquote','insertTable','specialCharacters','htmlEmbed','codeBlock',
     '|', 'horizontalLine', 'pageBreak', '|','SourceEditing',
+    '|', 'showBlocks',
     '|', 'undo', 'redo', '|',
   ],
   balloonToolbar: [
@@ -572,7 +578,7 @@ export const toolbarBaloonEditorConfig = {
   ]
 }
 
-export const blockBaloonEditorConfig = {
+export const blockBalloonEditorConfig = {
   plugins:[
     ...basePlugins.filter(({pluginName})=>
       pluginName !== "SourceEditing" &&
@@ -608,6 +614,7 @@ export const blockBaloonEditorConfig = {
     'indent',
     '|',
     'insertImage','strapiMediaLib','link','blockquote','insertTable',
+    '|', 'showBlocks',
     '|', 'undo', 'redo', '|',
   ],
   balloonToolbar: [

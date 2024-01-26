@@ -1,11 +1,11 @@
 import { toolbarEditor } from './toolbar';
-import { toolbarBaloonEditor } from './toolbarBaloon';
-import { blockBaloonEditor } from './blockBaloon';
+import { toolbarBalloonEditor } from './toolbarBalloon';
+import { blockBalloonEditor } from './blockBalloon';
 
 const baseConfigs = {
     ...toolbarEditor,
-    ...toolbarBaloonEditor,
-    ...blockBaloonEditor
+    ...toolbarBalloonEditor,
+    ...blockBalloonEditor
 }
 
 export default baseConfigs;

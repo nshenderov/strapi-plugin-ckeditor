@@ -32,32 +32,6 @@ export const additional = css`
 	border-radius: 2px;
 }
 
-/* --- color-picker --- */
-
-.ck[dir=rtl] .ck-color-input{
-  margin: 0 8px 8px 0 !important;
-  padding: 3px 5px 0 0 !important;
-}
-
-.ck .ck-color-input{
-  margin: 0 0 8px 8px ;
-  padding: 3px 0 0 6px;
-  border-radius:2px ;
-  font-size:.77rem !important;
-  width: 58px !important;
-}
-.ck .ck-color-picker{
-  margin: 0 3px 8px 3px;
-  border-radius:2px !important;
-  width: 27px !important;
-}
-.ck .ck-color-picker-save{
-  margin: 0 0 8px 0;
-  border-radius:2px !important;
-  width:27px !important;
-}
-
-
 /* ---- Style feature config ------------------------------------------------------ */
 
 :root {
