@@ -43,6 +43,8 @@ const MediaLib = ({ isOpen, onChange, onToggle, editor, uploadConfig: { responsi
       url: prefixFileUrlWithBackendUrl(f.url),
       mime: f.mime,
       formats: f.formats,
+      width: f.width,
+      height: f.height
     }));
 
     handleChangeAssets(formattedFiles);
