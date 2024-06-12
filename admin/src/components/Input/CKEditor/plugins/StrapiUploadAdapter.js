@@ -148,7 +148,7 @@ class Adapter {
         let keys = Object.keys(formats).sort(
           (a, b) => formats[a].width - formats[b].width
         );
-        keys.map((k) => (urls[formats[k].width] = provider !== 'local' ? url : backendUrl + formats[k].url));
+        keys.map((k) => (urls[formats[k].width] = provider !== 'local' ? formats[k].url : backendUrl + formats[k].url));
         resolve({ alt: alternativeText || name, urls: urls });
       } else {
         resolve(
