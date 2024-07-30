@@ -5,4 +5,5 @@ logs
 results
 node_modules
 .node_history
-
+dist
+.yarn

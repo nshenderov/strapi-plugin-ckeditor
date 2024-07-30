@@ -1,3 +1,3 @@
-'use strict';
+import admin from "./dist/admin";
 
-module.exports = require('./admin/src').default;
+export default admin;

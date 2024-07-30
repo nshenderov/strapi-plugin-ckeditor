@@ -1,0 +1,10 @@
+{
+  "extends": "@strapi/typescript-utils/tsconfigs/admin",
+  "include": ["./src", "./custom.d.ts"],
+  "compilerOptions": {
+    "allowJs": true,
+    "jsx": "react",
+    "rootDir": "../",
+    "baseUrl": "."
+  }
+}

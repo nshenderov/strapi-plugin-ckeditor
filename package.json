@@ -1,8 +1,7 @@
 {
-  "name": "@_sh/strapi-plugin-ckeditor",
-  "version": "2.1.1",
-  "description": "Integrates CKEditor 5 into your Strapi project as a fully customizable custom field. (Unofficial integration)",
-  "private": false,
+  "name": "@jhoward1994/strapi-plugin-ckeditor",
+  "description": "Integrates CKEditor 5 into your Strapi project as a fully customizable custom field. (Unofficial integration). Forked from https://github.com/nshenderov/strapi-plugin-ckeditor as a rafactor for Strapi V5 compatibility",
+  "version": "0.0.1-rc8",
   "keywords": [
     "strapi",
     "ckeditor",
@@ -18,11 +17,27 @@
     "description": "Integrates CKEditor 5 into your Strapi project as a fully customizable custom field. (Unofficial integration)",
     "kind": "plugin"
   },
+  "type": "commonjs",
+  "exports": {
+    "./strapi-admin": {
+      "types": "./dist/admin/src/index.d.ts",
+      "source": "./admin/src/index.ts",
+      "import": "./dist/admin/index.mjs",
+      "require": "./dist/admin/index.js",
+      "default": "./dist/admin/index.js"
+    },
+    "./strapi-server": {
+      "types": "./dist/server/src/index.d.ts",
+      "source": "./server/src/index.ts",
+      "import": "./dist/server/index.mjs",
+      "require": "./dist/server/index.js",
+      "default": "./dist/server/index.js"
+    },
+    "./package.json": "./package.json"
+  },
   "files": [
-    "admin",
-    "server",
-    "strapi-admin.js",
-    "strapi-server.js"
+    "dist",
+    "./strapi-server.js"
   ],
   "dependencies": {
     "@ckeditor/ckeditor5-alignment": "^41.0.0",
@@ -35,13 +50,13 @@
     "@ckeditor/ckeditor5-editor-classic": "^41.0.0",
     "@ckeditor/ckeditor5-essentials": "^41.0.0",
     "@ckeditor/ckeditor5-find-and-replace": "^41.0.0",
+    "@ckeditor/ckeditor5-font": "^41.0.0",
     "@ckeditor/ckeditor5-heading": "^41.0.0",
     "@ckeditor/ckeditor5-highlight": "^41.0.0",
     "@ckeditor/ckeditor5-horizontal-line": "^41.0.0",
     "@ckeditor/ckeditor5-html-embed": "^41.0.0",
     "@ckeditor/ckeditor5-html-support": "^41.0.0",
     "@ckeditor/ckeditor5-image": "^41.0.0",
-    "@ckeditor/ckeditor5-font": "^41.0.0",
     "@ckeditor/ckeditor5-indent": "^41.0.0",
     "@ckeditor/ckeditor5-language": "^41.0.0",
     "@ckeditor/ckeditor5-link": "^41.0.0",
@@ -51,7 +66,9 @@
     "@ckeditor/ckeditor5-page-break": "^41.0.0",
     "@ckeditor/ckeditor5-paragraph": "^41.0.0",
     "@ckeditor/ckeditor5-paste-from-office": "^41.0.0",
+    "@ckeditor/ckeditor5-react": "^6.2.0",
     "@ckeditor/ckeditor5-remove-format": "^41.0.0",
+    "@ckeditor/ckeditor5-show-blocks": "^41.0.0",
     "@ckeditor/ckeditor5-source-editing": "^41.0.0",
     "@ckeditor/ckeditor5-special-characters": "^41.0.0",
     "@ckeditor/ckeditor5-style": "^41.0.0",
@@ -60,16 +77,23 @@
     "@ckeditor/ckeditor5-typing": "^41.0.0",
     "@ckeditor/ckeditor5-upload": "^41.0.0",
     "@ckeditor/ckeditor5-word-count": "^41.0.0",
-    "@ckeditor/ckeditor5-show-blocks": "^41.0.0",
+    "@strapi/design-system": "2.0.0-beta.6",
+    "@strapi/icons": "2.0.0-beta.6",
     "ckeditor5": "^41.0.0",
-    "@ckeditor/ckeditor5-react": "^6.2.0",
-    "@strapi/design-system": "^1.10.1",
     "lodash": "^4.17.21",
     "prop-types": "^15.8.1",
+    "react": "18.3.1",
+    "react-intl": "6.6.2",
     "sanitize-html": "^2.10.0"
   },
+  "devDependencies": {
+    "@strapi/sdk-plugin": "^5.0.0",
+    "@strapi/strapi": "5.0.0-rc.7",
+    "styled-components": "6.1.8"
+  },
   "peerDependencies": {
-    "@strapi/strapi": "^4.13.0"
+    "@strapi/strapi": "5.0.0-rc.7",
+    "styled-components": "^6.0.0"
   },
   "author": {
     "name": "nshenderov"
@@ -80,6 +104,12 @@
     "url": "https://github.com/nshenderov/strapi-plugin-ckeditor.git"
   },
   "scripts": {
+    "build": "strapi-plugin build",
+    "test:ts:back": "run -T tsc -p server/tsconfig.json",
+    "test:ts:front": "run -T tsc -p admin/tsconfig.json",
+    "verify": "strapi-plugin verify",
+    "watch": "strapi-plugin watch",
+    "watch:link": "strapi-plugin watch:link",
     "test": "echo \"Error: no tests specified\" && exit 1"
   },
   "engines": {
