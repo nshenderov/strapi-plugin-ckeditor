@@ -5,13 +5,7 @@ import { useStrapiApp } from '@strapi/strapi/admin';
 
 import { prefixFileUrlWithBackendUrl } from '../../../utils/prefixFileUrlWithBackendUrl';
 
-const MediaLib = ({
-  isOpen,
-  onChange,
-  onToggle,
-  editor,
-  uploadConfig: { responsiveDimensions },
-}) => {
+const MediaLib = ({ isOpen, onToggle, editor, uploadConfig: { responsiveDimensions } }) => {
   const components = useStrapiApp('MediaLib', ({ components }) => components);
 
   const MediaLibraryDialog = components['media-library'];
@@ -71,13 +65,11 @@ const MediaLib = ({
 
 MediaLib.defaultProps = {
   isOpen: false,
-  onChange: () => {},
   onToggle: () => {},
 };
 
 MediaLib.propTypes = {
   isOpen: PropTypes.bool,
-  onChange: PropTypes.func,
   onToggle: PropTypes.func,
 };
 

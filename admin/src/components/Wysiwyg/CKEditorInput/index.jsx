@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import cloneDeep from 'lodash/cloneDeep';
 
-import { useFetchClient } from '@strapi/strapi/admin';
+import { useFetchClient, useField } from '@strapi/strapi/admin';
 import { Box, Loader } from '@strapi/design-system';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import '@ckeditor/ckeditor5-editor-classic/build/editor-classic.js';
@@ -107,8 +107,9 @@ const setPlugins = (config, { responsiveDimensions }, toggleMediaLib, token) => 
   }
 };
 
-export const CKEditorInput = ({ onChange, name, value, disabled, preset, maxLength }) => {
+export const CKEditorInput = ({ name, disabled, preset, maxLength }) => {
   const { get } = useFetchClient();
+  const { onChange, value } = useField(name);
 
   const [editorInstance, setEditorInstance] = React.useState(false);
 
@@ -214,14 +215,11 @@ export const CKEditorInput = ({ onChange, name, value, disabled, preset, maxLeng
 };
 
 CKEditorInput.defaultProps = {
-  value: '',
   disabled: false,
 };
 
 CKEditorInput.propTypes = {
-  onChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
-  value: PropTypes.string,
   disabled: PropTypes.bool,
 };
 

@@ -9,17 +9,13 @@ import { Field, Flex } from '@strapi/design-system';
 export const Wysiwyg = ({
   name,
   attribute,
-  onChange,
   value,
   labelAction,
   disabled,
   error,
   required,
   hint,
-  components,
 }) => {
-  console.log('Wysiwyg 1');
-
   const { formatMessage } = useIntl();
   const { preset, maxLengthCharacters, ...options } = attribute.options;
 
@@ -35,7 +31,6 @@ export const Wysiwyg = ({
         <CKEditorInput
           disabled={disabled}
           name={name}
-          onChange={onChange}
           value={value}
           preset={preset}
           maxLength={maxLengthCharacters}
@@ -62,7 +57,6 @@ Wysiwyg.propTypes = {
   hint: PropTypes.string,
   disabled: PropTypes.bool,
   error: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
   labelAction: PropTypes.object,
   required: PropTypes.bool,
   value: PropTypes.string,

@@ -1,7 +1,7 @@
 {
   "name": "@jhoward1994/strapi-plugin-ckeditor",
   "description": "Integrates CKEditor 5 into your Strapi project as a fully customizable custom field. (Unofficial integration). Forked from https://github.com/nshenderov/strapi-plugin-ckeditor as a refactor for Strapi V5 compatibility",
-  "version": "0.0.1-rc8",
+  "version": "0.0.1-rc.9",
   "keywords": [
     "strapi",
     "ckeditor",
