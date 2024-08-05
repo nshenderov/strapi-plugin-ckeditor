@@ -11,8 +11,6 @@ import MediaLib from "../MediaLib";
 import ckeditor5Dll from "ckeditor5/build/ckeditor5-dll.js";
 import ckeditor5EditorClassicDll from "@ckeditor/ckeditor5-editor-classic/build/editor-classic.js";
 
-const GlobalStyling = getGlobalStyling();
-
 const Wrapper = styled("div")`${({ editorStyles }) => editorStyles}`;
 
 const Editor = ({ onChange, name, value, disabled, preset, maxLength }) => {
@@ -32,6 +30,8 @@ const Editor = ({ onChange, name, value, disabled, preset, maxLength }) => {
   const handleToggleMediaLib = () => setMediaLibVisible(prev => !prev);
 
   const handleCounter = (number) => number > maxLength ? setLengthMax(true) : setLengthMax(false);
+
+  const GlobalStyling = getGlobalStyling();
   
   useEffect(() => {
     (async () => {
