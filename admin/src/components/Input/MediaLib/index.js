@@ -23,10 +23,22 @@ const MediaLib = ({ isOpen, onChange, onToggle, editor, uploadConfig: { responsi
         newValue = `<a href="${prefixFileUrlWithBackendUrl(url)}" download="${name}">${name || "Download PDF"}</a>`;
       } else if (mime.includes("video")) {
         newValue = `
-            <video class="video" controls width="500px">
-                <source src="${prefixFileUrlWithBackendUrl(url)}" type="${mime}" />
-            <video/>`;
+        <video class="video" controls width="500px">
+            <source src="${prefixFileUrlWithBackendUrl(url)}" type="${mime}" />
+        </video>`;
+      } else {
+        newValue = `<a href="${prefixFileUrlWithBackendUrl(url)}" target="_blank" rel="noreferrer">${name || "Open Document"}</a>`;
       }
+      /** Adding support for Excel , msword, excel and other MS office extensions */
+      if (mime.includes("application/vnd.ms-powerpoint") ||
+      mime.includes("application/vnd.openxmlformats-officedocument.presentationml.presentation") ||
+      mime.includes("application/vnd.ms-excel") ||
+      mime.includes("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") ||
+      mime.includes("application/msword") ||
+      mime.includes("application/vnd.openxmlformats-officedocument.wordprocessingml.document")) {
+      // Redirect to Microsoft Office Online Viewer;
+      newValue += `<a href=${prefixFileUrlWithBackendUrl(url)} target="_blank" rel="noreferrer">${name || "Open Document"}</a>`;
+}
     });
 
     const viewFragment = editor.data.processor.toView(newValue);
