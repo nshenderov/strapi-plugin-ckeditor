@@ -351,9 +351,6 @@ const base = {
       "|",
       "resizeImage",
     ],
-    insert: {
-      integrations: ["insertImageViaUrl"],
-    },
   },
   link: {
     decorators: {
