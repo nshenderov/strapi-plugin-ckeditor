@@ -84,7 +84,9 @@
     "prop-types": "^15.8.1",
     "react": "18.3.1",
     "react-intl": "6.6.2",
-    "sanitize-html": "^2.10.0"
+    "react-router-dom": "^6.0.0",
+    "sanitize-html": "^2.10.0",
+    "styled-components": "^6.0.0"
   },
   "devDependencies": {
     "@strapi/sdk-plugin": "^5.0.0",
