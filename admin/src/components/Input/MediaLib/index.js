@@ -15,17 +15,17 @@ const MediaLib = ({ isOpen, onChange, onToggle, editor, uploadConfig: { responsi
           let set = "";
           let keys = Object.keys(formats).sort((a, b) => formats[a].width - formats[b].width);
           keys.map((k) => (set += prefixFileUrlWithBackendUrl(formats[k].url) + ` ${formats[k].width}w,`));
-          newValue += `<img src="${url}" alt="${alt}" width="${width}" height="${height}" srcset="${set}" />`;
+          newValue = `<img src="${prefixFileUrlWithBackendUrl(url)}" alt="${alt}" width="${width}" height="${height}" srcset="${set}" />`;
         } else {
-          newValue += `<img src="${url}" alt="${alt}" width="${width}" height="${height}" />`;
+          newValue = `<img src="${prefixFileUrlWithBackendUrl(url)}" alt="${alt}" width="${width}" height="${height}" />`;
         }
-      } else if (mime.includes("application/pdf")) {
-        newValue = `<a href="${prefixFileUrlWithBackendUrl(url)}" download="${name}">${name || "Download PDF"}</a>`;
       } else if (mime.includes("video")) {
         newValue = `
             <video class="video" controls width="500px">
                 <source src="${prefixFileUrlWithBackendUrl(url)}" type="${mime}" />
-            <video/>`;
+            </video>`;
+      } else {
+        newValue = `<a href="${prefixFileUrlWithBackendUrl(url)}">${name || "Open document"}</a>`;
       }
     });
 
