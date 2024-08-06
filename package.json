@@ -89,11 +89,11 @@
   },
   "devDependencies": {
     "@strapi/sdk-plugin": "^5.0.0",
-    "@strapi/strapi": "5.0.0-rc.7",
+    "@strapi/strapi": "5.0.0-rc.8",
     "styled-components": "6.1.8"
   },
   "peerDependencies": {
-    "@strapi/strapi": "5.0.0-rc.7",
+    "@strapi/strapi": "5.0.0-rc.8",
     "styled-components": "^6.0.0"
   },
   "author": {
