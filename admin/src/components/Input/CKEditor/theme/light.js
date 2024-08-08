@@ -7,11 +7,12 @@ export const light = css`
     --ck-focus-ring: 1px solid rgb(73, 69, 255) !important;
     --ck-color-button-default-hover-background: #F0F0FF !important;
 
-    .ck .ck-color-picker-save {
-      & > svg {
-        stroke: #7b79ff !important;
-      }
-    }
+    --ck-powered-by-background: #ffffff;
+    --ck-powered-by-border-color: #ffffff;
+  }
+
+  .ck.ck-powered-by > a > svg > path:first-child {
+    fill: #001234;
   }
 
   .ck {

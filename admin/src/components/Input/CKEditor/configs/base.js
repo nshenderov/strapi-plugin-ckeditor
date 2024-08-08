@@ -421,6 +421,13 @@ const base = {
       },
     ],
   },
+  ui: {
+    poweredBy: {
+        position: 'inside',
+        side: 'right',
+        label: ''
+    }
+  }
 };
 
 

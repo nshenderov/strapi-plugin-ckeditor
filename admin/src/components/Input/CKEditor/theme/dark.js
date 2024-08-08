@@ -7,18 +7,16 @@ export const dark = css`
     --ck-focus-ring: 1px solid #4945ff !important;
     --ck-color-button-default-hover-background: #262630 !important;
 
-    .ck .ck-color-picker > svg {
-      color: #ffffff !important;
-    }
-    .ck .ck-color-picker-save {
-      & > svg {
-        stroke: #ffffff !important;
-      }
-      & > svg > #primary,
-      #primary-2 {
-        stroke: #7b79ff !important;
-      }
-    }
+    --ck-powered-by-background: #212134;
+    --ck-powered-by-border-color: #212134;
+  }
+
+  .ck.ck-powered-by > a > svg > path:first-child {
+    fill: rgb(236, 236, 236);
+  }
+  
+  .ck.ck-powered-by > a > svg > path:nth-child(3) {
+    fill: rgb(172, 156, 251);
   }
 
   .ck {
