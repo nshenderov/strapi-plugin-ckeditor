@@ -6,9 +6,6 @@ export const light = css`
     --ck-color-focus-disabled-shadow: #e4e3ff !important;
     --ck-focus-ring: 1px solid rgb(73, 69, 255) !important;
     --ck-color-button-default-hover-background: #F0F0FF !important;
-
-    --ck-powered-by-background: #ffffff;
-    --ck-powered-by-border-color: #ffffff;
   }
 
   .ck.ck-powered-by > a > svg > path:first-child {
@@ -132,5 +129,11 @@ export const light = css`
     /* -- Overrides the default colors used by the ckeditor5-link package. ---------------------- */
 
     --ck-color-link-default: hsl(209, 89%, 33%);
+
+    --ck-powered-by-background: transparrent;
+    --ck-powered-by-border-color: var(--ck-color-base-background);
+
+    --ck-color-dialog-background: var(--ck-custom-background);
+    --ck-color-dialog-form-header-border: var(--ck-color-base-border);
   }
 `;
