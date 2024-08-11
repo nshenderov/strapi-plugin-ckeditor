@@ -28,7 +28,7 @@
 
 <p align="right">
     <a href="https://www.buymeacoffee.com/nshenderov" target="_blank">
-        <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" >
+        <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;max-width: 217px !important;" >
     </a>
 </p>
 
@@ -60,29 +60,26 @@ yarn build
 
 ## <a id="usage"></a>✍️ Usage
 
-## Guide:
-<details>
-  <summary><b>Open</b></summary>
-
-* Go to the Content-Type Builder -> Add another field -> switch to `custom` 
+1. Go to the Content-Type Builder -> Add another field -> switch to `custom` 
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/nshenderov/strapi-plugin-ckeditor/master/assets/usage-guide1.png" width="700" />
 </p>
 
-* Click on CKEditor 5
+2. Click on CKEditor 5
+
 <p align="center">
   <img src="https://raw.githubusercontent.com/nshenderov/strapi-plugin-ckeditor/master/assets/usage-guide2.png" width="700" />
 </p>
 
-* Choose the editor version you want
+3. Choose the editor version you want
+
 <p align="center">
   <img src="https://raw.githubusercontent.com/nshenderov/strapi-plugin-ckeditor/master/assets/usage-guide3.png" width="700" />
 </p>
 
-</details>
+## Default versions:
 
-## Editor default versions:
 <details>
   <summary><b>Open</b></summary>
   
@@ -171,6 +168,7 @@ The language determination follows this logic:
 `ignorei18n ? language.content : i18n -> language.ui`
 
 **Example of adding a new editor configuration:**
+
 <details>
    <summary><b>ckeditor.txt</b></summary>
 
@@ -258,6 +256,7 @@ globalThis.CKEditorConfig = {
 </details>
 
 **Example of changing buttons, modifying the plugin list, and adding styles in the default toolbar configuration:**
+
 <details>
    <summary><b>ckeditor.txt</b></summary>
 
@@ -357,7 +356,8 @@ export default {
 
 Add a new configuration option to your config file at `your-app/config/ckeditor.txt`:
 
-## Example of a config file with the new configuration:
+**Example of a config file with the new configuration:**
+
 <details>
   <summary><b>ckeditor.txt</b></summary>
 
