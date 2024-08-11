@@ -35,13 +35,13 @@
     "@ckeditor/ckeditor5-editor-classic": "^43.0.0",
     "@ckeditor/ckeditor5-essentials": "^43.0.0",
     "@ckeditor/ckeditor5-find-and-replace": "^43.0.0",
+    "@ckeditor/ckeditor5-font": "^43.0.0",
     "@ckeditor/ckeditor5-heading": "^43.0.0",
     "@ckeditor/ckeditor5-highlight": "^43.0.0",
     "@ckeditor/ckeditor5-horizontal-line": "^43.0.0",
     "@ckeditor/ckeditor5-html-embed": "^43.0.0",
     "@ckeditor/ckeditor5-html-support": "^43.0.0",
     "@ckeditor/ckeditor5-image": "^43.0.0",
-    "@ckeditor/ckeditor5-font": "^43.0.0",
     "@ckeditor/ckeditor5-indent": "^43.0.0",
     "@ckeditor/ckeditor5-language": "^43.0.0",
     "@ckeditor/ckeditor5-link": "^43.0.0",
@@ -52,6 +52,7 @@
     "@ckeditor/ckeditor5-paragraph": "^43.0.0",
     "@ckeditor/ckeditor5-paste-from-office": "^43.0.0",
     "@ckeditor/ckeditor5-remove-format": "^43.0.0",
+    "@ckeditor/ckeditor5-show-blocks": "^43.0.0",
     "@ckeditor/ckeditor5-source-editing": "^43.0.0",
     "@ckeditor/ckeditor5-special-characters": "^43.0.0",
     "@ckeditor/ckeditor5-style": "^43.0.0",
@@ -60,7 +61,6 @@
     "@ckeditor/ckeditor5-typing": "^43.0.0",
     "@ckeditor/ckeditor5-upload": "^43.0.0",
     "@ckeditor/ckeditor5-word-count": "^43.0.0",
-    "@ckeditor/ckeditor5-show-blocks": "^43.0.0",
     "ckeditor5": "^43.0.0",
     "@ckeditor/ckeditor5-react": "^9.0.0",
     "@strapi/design-system": "^1.19.0",
@@ -80,11 +80,56 @@
     "url": "https://github.com/nshenderov/strapi-plugin-ckeditor.git"
   },
   "scripts": {
-    "test": "echo \"Error: no tests specified\" && exit 1"
+    "release": "release-it"
   },
   "engines": {
     "node": ">=18.0.0 <=20.x.x",
     "npm": ">=6.0.0"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "release-it": "^17.6.0",
+    "@release-it/conventional-changelog": "^8.0.1"
+  },
+  "release-it": {
+        "git": {
+            "commitMesage": "chore: release v${version}"
+        },
+        "github": {
+            "release": true,
+            "releaseName": "v${version}"
+        },
+        "npm": {
+            "publish": true
+        },
+        "plugins": {
+            "@release-it/conventional-changelog": {
+                "preset": {
+                    "name": "conventionalcommits",
+                    "types": [
+                        {
+                            "type": "feat",
+                            "section": "🚀 Features"
+                        },
+                        {
+                            "type": "fix",
+                            "section": "🪲 Bug fixes"
+                        },
+                        {
+                            "type": "docs",
+                            "section": "⚙️ Chore"
+                        },
+                        {
+                            "type": "chore",
+                            "section": "⚙️ Chore"
+                        },
+                        {
+                            "type": "style",
+                            "section": "💅 Style"
+                        }
+                    ]
+                }
+            }
+        }
+    }
 }
