@@ -80,7 +80,8 @@
     "url": "https://github.com/nshenderov/strapi-plugin-ckeditor.git"
   },
   "scripts": {
-    "release": "release-it"
+    "release": "release-it",
+    "release:info": "release-it --changelog"
   },
   "engines": {
     "node": ">=18.0.0 <=20.x.x",
@@ -90,46 +91,5 @@
   "devDependencies": {
     "release-it": "^17.6.0",
     "@release-it/conventional-changelog": "^8.0.1"
-  },
-  "release-it": {
-        "git": {
-            "commitMesage": "chore: release v${version}"
-        },
-        "github": {
-            "release": true,
-            "releaseName": "v${version}"
-        },
-        "npm": {
-            "publish": true
-        },
-        "plugins": {
-            "@release-it/conventional-changelog": {
-                "preset": {
-                    "name": "conventionalcommits",
-                    "types": [
-                        {
-                            "type": "feat",
-                            "section": "🚀 Features"
-                        },
-                        {
-                            "type": "fix",
-                            "section": "🪲 Bug fixes"
-                        },
-                        {
-                            "type": "docs",
-                            "section": "⚙️ Chore"
-                        },
-                        {
-                            "type": "chore",
-                            "section": "⚙️ Chore"
-                        },
-                        {
-                            "type": "style",
-                            "section": "💅 Style"
-                        }
-                    ]
-                }
-            }
-        }
-    }
+  }
 }
