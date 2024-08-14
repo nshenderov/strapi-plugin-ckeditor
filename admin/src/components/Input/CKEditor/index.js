@@ -2,14 +2,14 @@ import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
+import { ClassicEditor } from 'ckeditor5';
 import { Box, Loader } from '@strapi/design-system';
 
 import {getConfiguration} from "./configuration";
 import {getGlobalStyling} from "./styling";
 import MediaLib from "../MediaLib";
 
-import ckeditor5Dll from "ckeditor5/build/ckeditor5-dll.js";
-import ckeditor5EditorClassicDll from "@ckeditor/ckeditor5-editor-classic/build/editor-classic.js";
+import 'ckeditor5/ckeditor5.css';
 
 const Wrapper = styled("div")`${({ editorStyles }) => editorStyles}`;
 
@@ -51,7 +51,7 @@ const Editor = ({ onChange, name, value, disabled, preset, maxLength }) => {
       </LoaderBox>}
       {config &&
           <CKEditor
-            editor={window.CKEditor5.editorClassic.ClassicEditor}
+            editor={ClassicEditor}
             config={config?.editorConfig}
             disabled={disabled}
             data={value}
