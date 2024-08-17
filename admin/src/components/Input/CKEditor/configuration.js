@@ -121,7 +121,7 @@ const getCurrentConfig = (presetName) => {
     if (userConfigs) {
       Object.keys(userConfigs).map(cfgName=>{
         if(baseConfigs.hasOwnProperty(cfgName)){
-          configs[cfgName].fields = { ...baseConfigs[cfgName].field, ...userConfigs[cfgName].field };
+          configs[cfgName].field = { ...baseConfigs[cfgName].field, ...userConfigs[cfgName].field };
           configs[cfgName].styles = userConfigs[cfgName].styles || baseConfigs[cfgName].styles;
           configs[cfgName].editorConfig = { ...baseConfigs[cfgName].editorConfig, ...userConfigs[cfgName].editorConfig };
         } else { configs[cfgName] = userConfigs[cfgName] }
