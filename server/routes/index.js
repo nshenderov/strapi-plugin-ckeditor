@@ -3,6 +3,9 @@ module.exports = [
         method: 'GET',
         path: '/config/upload',
         handler: 'config.getUploadConfig',
+        config: {
+            auth: false
+        },
     },
     {
         method: 'GET',

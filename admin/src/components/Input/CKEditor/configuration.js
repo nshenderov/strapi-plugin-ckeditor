@@ -1,4 +1,5 @@
-import { auth, request } from "@strapi/helper-plugin";
+import axios from 'axios';
+import { auth } from "@strapi/helper-plugin";
 import cloneDeep from 'lodash/cloneDeep';
 
 import baseConfigs from "./configs";
@@ -152,7 +153,7 @@ const setPlugins = (config, { responsiveDimensions }, toggleMediaLib) => {
     config.editorConfig.WordCountPlugin = true;
   }
 };
-const requestConfig = (key) => request(`/${pluginId}/config/${key}`, { method: "GET" });
+const requestConfig = async (key) => await axios.get(`/${pluginId}/config/${key}`);
 
 export const getConfiguration = async (presetName, toggleMediaLib) => {
   const currentConfig = getCurrentConfig(presetName);
