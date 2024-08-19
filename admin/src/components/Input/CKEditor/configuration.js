@@ -111,7 +111,7 @@ const setLanguage = async (config) => {
 };
 
 const getCurrentConfig = (presetName) => {
-  const { configs: userConfigs, configsOverwrite: overwrite } = globalThis.CKEditorConfig || {};
+  const { configs: userConfigs, configsOverwrite: overwrite } = globalThis.CKEConfig || {};
 
   let configs;
 

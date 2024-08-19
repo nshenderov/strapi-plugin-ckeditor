@@ -15,8 +15,8 @@ const insertConfigScript = () => {
 const waitForConfigToInitialize = async () => {
   return new Promise((resolve) => {
     (function checkConfigLoaded() {
-      if (typeof globalThis.CKEditorConfig !== "undefined") {
-        resolve(globalThis.CKEditorConfig);
+      if (typeof globalThis.CKEConfig !== "undefined") {
+        resolve(globalThis.CKEConfig);
       } else setTimeout(checkConfigLoaded, 5);
     })();
   });
