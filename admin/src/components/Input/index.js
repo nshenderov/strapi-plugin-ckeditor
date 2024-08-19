@@ -10,9 +10,9 @@ const Wysiwyg = ({ name, attribute, onChange, value, intlLabel, labelAction, dis
   const { preset, maxLengthCharacters, ...options } = attribute.options;
   
   return (
-    <Field name={name} id={name} error={error} hint={description && formatMessage(description)}>
+    <Field name={name} id={name} error={error} required={required} hint={description && formatMessage(description)}>
       <Stack spacing={1}>
-        <FieldLabel action={labelAction} required={required}>
+        <FieldLabel action={labelAction}>
           {formatMessage(intlLabel)}
         </FieldLabel>
           <CKEditor disabled={disabled} name={name} onChange={onChange} value={value} preset={preset} maxLength={maxLengthCharacters}/>
