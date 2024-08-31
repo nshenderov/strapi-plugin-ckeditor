@@ -1,9 +1,7 @@
-import axios from 'axios';
 import { auth } from "@strapi/helper-plugin";
 import cloneDeep from 'lodash/cloneDeep';
 
 import baseConfigs from "./configs";
-import pluginId from "../../../utils/pluginId";
 
 const importLang = async (config, language) => {
   
@@ -43,7 +41,7 @@ const setLanguage = async (config) => {
 };
 
 const getCurrentConfig = (presetName) => {
-  const { configs: userConfigs, configsOverwrite: overwrite } = globalThis.CKEConfig || {};
+  const { configs: userConfigs, configsOverwrite: overwrite } = globalThis.SH_CKE_CONFIG || {};
 
   let configs;
 
@@ -67,34 +65,35 @@ const getCurrentConfig = (presetName) => {
   return clonedConfig;
 };
 
-const setPlugins = (config, { responsiveDimensions }, toggleMediaLib) => {
-  const configPluginNames = config.editorConfig?.plugins ? [ ...config.editorConfig.plugins.map((p) => p.pluginName)] : [];
+export const setPlugins = (preset, toggleMediaLib) => {
+  const presetPluginNames = preset.ckeditorConfig?.plugins
+    ? [...preset.ckeditorConfig.plugins.map((p) => p.pluginName)]
+    : [];
 
-  if (configPluginNames.includes("StrapiMediaLib")) {
-    config.editorConfig.strapiMediaLib = { toggle: toggleMediaLib };
+  if (presetPluginNames.includes("StrapiMediaLib")) {
+    preset.ckeditorConfig.strapiMediaLib = { toggle: toggleMediaLib };
   }
-  if (configPluginNames.includes("StrapiUploadAdapter")) {
-    config.editorConfig.strapiUploadAdapter = {
+
+  if (presetPluginNames.includes("StrapiUploadAdapter")) {
+    preset.ckeditorConfig.strapiUploadAdapter = {
       uploadUrl: `${strapi.backendURL}/upload`,
       headers: { Authorization: "Bearer " + auth.getToken() },
       backendUrl: strapi.backendURL,
-      responsive: responsiveDimensions,
+      responsive: globalThis.SH_CKE_UPLOAD_ADAPTER_IS_RESPONSIVE,
     };
   }
-  if (configPluginNames.includes("WordCount")) {
-    config.editorConfig.WordCountPlugin = true;
+
+  if (presetPluginNames.includes("WordCount")) {
+    preset.ckeditorConfig.WordCountPlugin = true;
   }
 };
-const requestConfig = async (key) => await axios.get(`/${pluginId}/config/${key}`);
 
 export const getConfiguration = async (presetName, toggleMediaLib) => {
   const currentConfig = getCurrentConfig(presetName);
 
-  const uploadPluginConfig = await requestConfig("upload");
-
-  setPlugins(currentConfig, uploadPluginConfig, toggleMediaLib);
+  setPlugins(currentConfig, toggleMediaLib);
 
   await setLanguage(currentConfig.editorConfig);
 
-  return { currentConfig, uploadPluginConfig };
+  return currentConfig;
 };

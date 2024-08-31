@@ -2,7 +2,7 @@ import React from "react";
 import { prefixFileUrlWithBackendUrl, useLibrary } from "@strapi/helper-plugin";
 import PropTypes from "prop-types";
 
-const MediaLib = ({ isOpen, onChange, onToggle, editor, uploadConfig: { responsiveDimensions } }) => {
+const MediaLib = ({ isOpen, onToggle, editor }) => {
   const { components } = useLibrary();
   const MediaLibraryDialog = components["media-library"];
 
@@ -11,7 +11,7 @@ const MediaLib = ({ isOpen, onChange, onToggle, editor, uploadConfig: { responsi
 
     assets.map(({ name, url, alt, formats, mime, width, height }) => {
       if (mime.includes("image")) {
-        if (formats && responsiveDimensions) {
+        if (formats && globalThis.SH_CKE_UPLOAD_ADAPTER_IS_RESPONSIVE) {
           let set = "";
           let keys = Object.keys(formats).sort((a, b) => formats[a].width - formats[b].width);
           keys.map((k) => (set += prefixFileUrlWithBackendUrl(formats[k].url) + ` ${formats[k].width}w,`));

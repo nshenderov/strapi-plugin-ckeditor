@@ -3,8 +3,8 @@ import pluginId from "./pluginId";
 const insertConfigScript = () => {
   const url =
     strapi.backendURL !== "/"
-      ? `${strapi.backendURL}/${pluginId}/ckeditor-config`
-      : `/${pluginId}/ckeditor-config`;
+      ? `${strapi.backendURL}/${pluginId}/config/ckeditor`
+      : `/${pluginId}/config/ckeditor`;
 
   var script = document.createElement("script");
   script.id = "ckeditor-config";
@@ -15,8 +15,8 @@ const insertConfigScript = () => {
 const waitForConfigToInitialize = async () => {
   return new Promise((resolve) => {
     (function checkConfigLoaded() {
-      if (typeof globalThis.CKEConfig !== "undefined") {
-        resolve(globalThis.CKEConfig);
+      if (typeof globalThis.SH_CKE_CONFIG !== "undefined") {
+        resolve(globalThis.SH_CKE_CONFIG);
       } else setTimeout(checkConfigLoaded, 5);
     })();
   });
@@ -31,7 +31,7 @@ const getEditorConfig = async () => {
     return configFromScript;
   }
 
-    return null;
+  return null;
 };
 
 export default getEditorConfig;

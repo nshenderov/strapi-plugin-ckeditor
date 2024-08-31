@@ -1,17 +1,19 @@
-'use strict';
+"use strict";
 
 const pluginId = require("../../admin/src/utils/pluginId");
 
 module.exports = {
+  getConfig: async (ctx) => {
+    const { responsiveDimensions = false } = await strapi
+      .plugin("upload")
+      .service("upload")
+      .getSettings();
 
-  getUploadConfig: async (ctx) => {
-    const uploadConfig = await strapi.plugin(pluginId).service('config').getUploadConfig('upload').getSettings();
-    ctx.send(uploadConfig);
-  },
+    const config =
+      (await strapi.plugin(pluginId).service("config").getConfig()) +
+      `\nglobalThis.SH_CKE_UPLOAD_ADAPTER_IS_RESPONSIVE = ${responsiveDimensions}`;
 
-  getCKEditorConfig: async (ctx) => {
-    const config = await strapi.plugin(pluginId).service('config').getCKEditorConfig();
-    ctx.type = 'application/javascript';
+    ctx.type = "application/javascript";
     ctx.send(config);
-  }
+  },
 };
