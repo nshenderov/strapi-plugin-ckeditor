@@ -3,8 +3,8 @@ import * as yup from "yup";
 
 import baseConfigs from "./components/Input/CKEditor/configs";
 import getEditorConfig from "./utils/getEditorConfig";
-import CKEditorIcon from "./components/CKEditorIcon";
-import pluginId from "./utils/pluginId";
+import CKEditorIcon from "./CKEditorIcon";
+import pluginId from "./pluginId";
 
 export default {
   async register(app) {
