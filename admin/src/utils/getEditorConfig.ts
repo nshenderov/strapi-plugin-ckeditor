@@ -1,13 +1,13 @@
-import pluginId from "./pluginId";
+import pluginId from './pluginId';
 
 const insertConfigScript = () => {
   const url =
-    window.strapi.backendURL !== "/"
+    window.strapi.backendURL !== '/'
       ? `${window.strapi.backendURL}/${pluginId}/config/ckeditor`
       : `/${pluginId}/config/ckeditor`;
 
-  var script = document.createElement("script");
-  script.id = "ckeditor-config";
+  var script = document.createElement('script');
+  script.id = 'ckeditor-config';
   script.src = url;
   document.body.appendChild(script);
 };
@@ -15,10 +15,9 @@ const insertConfigScript = () => {
 const waitForConfigToInitialize = async () => {
   return new Promise((resolve) => {
     (function checkConfigLoaded() {
-      // TODO
-      // @ts-expect-error
-      if (typeof globalThis.CKEConfig !== "undefined") {
-        // @ts-expect-error
+      // @ts-expect-error TODO
+      if (typeof globalThis.CKEConfig !== 'undefined') {
+        // @ts-expect-error TODO
         resolve(globalThis.CKEConfig);
       } else setTimeout(checkConfigLoaded, 5);
     })();

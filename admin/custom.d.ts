@@ -10,4 +10,7 @@ declare global {
   interface Window {
     strapi: BrowserStrapi;
   }
+  interface globalThis {
+    CKEConfig: any;
+  }
 }

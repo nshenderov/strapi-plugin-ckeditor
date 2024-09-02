@@ -2,7 +2,6 @@
   "name": "@_sh/strapi-plugin-ckeditor",
   "description": "Integrates CKEditor 5 into your Strapi project as a fully customizable custom field. (Unofficial integration).",
   "version": "3.0.0",
-  "private": false,
   "keywords": [
     "strapi",
     "ckeditor",
@@ -47,16 +46,16 @@
     "lodash": "^4.17.21",
     "prop-types": "^15.8.1",
     "react": "18.3.1",
-    "react-intl": "6.6.2",
     "react-dom": "^18.3.1",
+    "react-intl": "6.6.2",
     "react-router-dom": "^6.0.0",
     "sanitize-html": "^2.13.0"
   },
   "devDependencies": {
     "@release-it/conventional-changelog": "^8.0.1",
-    "release-it": "^17.6.0",
     "@strapi/sdk-plugin": "^5.0.0",
     "@strapi/strapi": "5.0.0-rc.8",
+    "release-it": "^17.6.0",
     "styled-components": "6.1.8"
   },
   "peerDependencies": {

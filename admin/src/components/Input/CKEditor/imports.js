@@ -1,3 +1,12 @@
+// TODO
+export const _importLang_new_implementation = async (config, language) => {
+  const translations = await import(
+    /* webpackMode: "lazy-once" */ `ckeditor5/translations/${language}.js`
+  ).catch((e) => console.log(e));
+
+  config.translations = translations.default;
+};
+
 export const importLang = async (config, language) => {
   if (!language) return;
 

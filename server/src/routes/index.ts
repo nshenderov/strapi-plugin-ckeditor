@@ -7,10 +7,10 @@ export default {
         path: '/config/upload',
         handler: 'config.getUploadConfig',
         config: {
-            auth: false
+          auth: false,
         },
-    },
-    {
+      },
+      {
         method: 'GET',
         path: '/config/ckeditor',
         handler: 'config.getCKEditorConfig',

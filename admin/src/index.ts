@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-import baseConfigs from './components/Input/CKEditorInput/configs';
+import baseConfigs from './components/Input/CKEditor/configs';
 import getEditorConfig from './utils/getEditorConfig';
 import { CKEditorIcon } from './components/CKEditorIcon';
 import pluginId from './utils/pluginId';

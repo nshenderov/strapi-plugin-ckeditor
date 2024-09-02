@@ -141,4 +141,11 @@ export const dark = css`
     --ck-color-dialog-background: var(--ck-custom-background);
     --ck-color-dialog-form-header-border: var(--ck-color-base-border);
   }
+
+    --ck-powered-by-background: transparrent;
+    --ck-powered-by-border-color: var(--ck-color-base-background);
+
+    --ck-color-dialog-background: var(--ck-custom-background);
+    --ck-color-dialog-form-header-border: var(--ck-color-base-border);
+  }
 `;

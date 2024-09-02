@@ -5,9 +5,9 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import { useFetchClient, useField } from '@strapi/strapi/admin';
 import { Box, Loader } from '@strapi/design-system';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import '@ckeditor/ckeditor5-editor-classic/build/editor-classic.js';
-import 'ckeditor5/build/ckeditor5-dll.js';
+
+import { CKEditor as CKEditor5Import } from '@ckeditor/ckeditor5-react';
+import { ClassicEditor } from 'ckeditor5';
 
 import baseConfigs from './configs';
 import { getGlobalStyling } from './styling';
@@ -16,7 +16,7 @@ import MediaLib from '../MediaLib';
 import { importLang } from './imports';
 import { getPreferedLanguage, getStoredToken } from '../../../utils/localStorage';
 
-const GlobalStyling = getGlobalStyling();
+import 'ckeditor5/ckeditor5.css';
 
 const Wrapper = styled('div')`
   ${({ editorStyles }) => editorStyles}
@@ -42,19 +42,20 @@ const setLanguage = async (config) => {
 
     await importLang(config, config.language.ui);
     await importLang(config, config.language.content);
-  } else if (typeof config.language === 'object') {
-    await importLang(config, config.language.ui);
-    await importLang(config, config.language.content);
-  } else if (typeof config.language === 'string') {
-    await importLang(config, config.language);
-  } else {
-    config.language = preferedLanguage;
-    await importLang(config, preferedLanguage);
   }
+
+  if (!config.language) {
+    config.language = preferedLanguage;
+  }
+
+  await importLang(
+    config,
+    typeof config.language === 'string' ? config.language : config.language.ui
+  );
 };
 
 const getCurrentConfig = (presetName) => {
-  const { configs: userConfigs, configsOverwrite: overwrite } = globalThis.CKEditorConfig || {};
+  const { configs: userConfigs, configsOverwrite: overwrite } = globalThis.CKEConfig || {};
 
   let configs;
 
@@ -65,10 +66,7 @@ const getCurrentConfig = (presetName) => {
     if (userConfigs) {
       Object.keys(userConfigs).map((cfgName) => {
         if (baseConfigs.hasOwnProperty(cfgName)) {
-          configs[cfgName].fields = {
-            ...baseConfigs[cfgName].field,
-            ...userConfigs[cfgName].field,
-          };
+          configs[cfgName].field = { ...baseConfigs[cfgName].field, ...userConfigs[cfgName].field };
           configs[cfgName].styles = userConfigs[cfgName].styles || baseConfigs[cfgName].styles;
           configs[cfgName].editorConfig = {
             ...baseConfigs[cfgName].editorConfig,
@@ -141,6 +139,8 @@ export const CKEditor = ({ name, disabled, preset, maxLength }) => {
     return { currentConfig, uploadPluginConfig };
   };
 
+  const GlobalStyling = getGlobalStyling();
+
   React.useEffect(() => {
     const setConfig = async () => {
       const { currentConfig, uploadPluginConfig } = await getConfiguration(
@@ -165,8 +165,8 @@ export const CKEditor = ({ name, disabled, preset, maxLength }) => {
           </LoaderBox>
         )}
         {ckEditorConfig && (
-          <CKEditor
-            editor={window.CKEditor5.editorClassic.ClassicEditor}
+          <CKEditor5Import
+            editor={ClassicEditor}
             config={ckEditorConfig?.editorConfig}
             disabled={disabled}
             data={value}
