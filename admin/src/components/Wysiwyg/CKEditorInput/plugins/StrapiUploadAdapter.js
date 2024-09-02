@@ -1,5 +1,4 @@
-const Plugin = window.CKEditor5.core.Plugin;
-const FileRepository = window.CKEditor5.upload.FileRepository;
+import { Plugin, FileRepository } from 'ckeditor5';
 
 /**
  * Similar to Simple upload adapter but customized for Strapi.

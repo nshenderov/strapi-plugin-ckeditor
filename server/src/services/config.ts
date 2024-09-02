@@ -1,16 +1,26 @@
-import type { Core } from '@strapi/strapi';
-import fs from 'fs';
+import type { Core } from "@strapi/strapi";
+import fs from "fs";
 
 const config = ({ strapi }: { strapi: Core.Strapi }) => ({
   getUploadConfig(name) {
-    return strapi.plugin('upload').service(name) ?? {};
+    return strapi.plugin("upload").service(name) ?? {};
   },
   getCKEditorConfig() {
     const appDir = process.cwd();
 
-    const filename = `${appDir}/config/ckeditor.txt`;
+    const fileName = "ckeditor";
 
-    return fs.existsSync(filename) ? fs.readFileSync(filename) : 'globalThis.CKEditorConfig = null';
+    for (const ext of ["js", "ts"]) {
+      const filePath = `${appDir}/config/${fileName}.${ext}`;
+      if (fs.existsSync(filePath)) {
+        return (
+          fs.readFileSync(filePath, "utf8") +
+          "\nglobalThis.CKEConfig = CKEConfig()"
+        );
+      }
+    }
+
+    return "globalThis.CKEConfig = null";
   },
 });
 

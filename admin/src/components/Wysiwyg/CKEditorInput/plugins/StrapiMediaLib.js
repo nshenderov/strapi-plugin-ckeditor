@@ -1,5 +1,5 @@
-const Plugin = window.CKEditor5.core.Plugin;
-const ButtonView = window.CKEditor5.ui.ButtonView;
+import { Plugin, ButtonView } from 'ckeditor5';
+
 const mediaLibIcon = '<svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">' +
   '<path fill-rule="evenodd" clip-rule="evenodd" d="M4.3.6a.9.9 0 100 1.8h15.311a.9.9 0 100-1.8H4.301zm17.1 3.7A1.6 1.6' +
   ' 0 0123 5.9v15.5a1.6 1.6 0 01-1.6 1.6H2.6A1.601 1.601 0 011 21.4V8 5.915C1 5.03 1.716 4.3 2.6' +

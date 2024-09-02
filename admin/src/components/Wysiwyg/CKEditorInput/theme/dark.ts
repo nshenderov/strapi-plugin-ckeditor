@@ -6,19 +6,14 @@ export const dark = css`
     --ck-color-focus-disabled-shadow: rgba(106, 114, 143, 0.4) !important;
     --ck-focus-ring: 1px solid #4945ff !important;
     --ck-color-button-default-hover-background: #262630 !important;
+  }
 
-    .ck .ck-color-picker > svg {
-      color: #ffffff !important;
-    }
-    .ck .ck-color-picker-save {
-      & > svg {
-        stroke: #ffffff !important;
-      }
-      & > svg > #primary,
-      #primary-2 {
-        stroke: #7b79ff !important;
-      }
-    }
+  .ck.ck-powered-by > a > svg > path:first-child {
+    fill: rgb(236, 236, 236);
+  }
+  
+  .ck.ck-powered-by > a > svg > path:nth-child(3) {
+    fill: rgb(172, 156, 251);
   }
 
   .ck {
@@ -139,5 +134,11 @@ export const dark = css`
     /* -- Overrides the default colors used by the ckeditor5-link package. ---------------------- */
 
     --ck-color-link-default: hsl(216, 100%, 75%);
+
+    --ck-powered-by-background: transparrent;
+    --ck-powered-by-border-color: var(--ck-color-base-background);
+
+    --ck-color-dialog-background: var(--ck-custom-background);
+    --ck-color-dialog-form-header-border: var(--ck-color-base-border);
   }
 `;
