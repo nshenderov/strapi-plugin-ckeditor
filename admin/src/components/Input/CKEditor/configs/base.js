@@ -8,7 +8,8 @@ const ExtendedCK = {
   StrapiMediaLib,
   StrapiUploadAdapter,
 };
-globalThis.BLSFJHD = ExtendedCK;
+
+globalThis.CKE = ExtendedCK;
 
 const REDUCED_MATERIAL_COLORS = [
   { label: 'Red 50', color: '#ffebee' },
