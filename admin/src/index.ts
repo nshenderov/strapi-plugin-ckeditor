@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-import baseConfigs from './components/Wysiwyg/CKEditorInput/configs';
+import baseConfigs from './components/Input/CKEditorInput/configs';
 import getEditorConfig from './utils/getEditorConfig';
 import { CKEditorIcon } from './components/CKEditorIcon';
 import pluginId from './utils/pluginId';
@@ -53,8 +53,8 @@ export default {
       },
       components: {
         Input: async () =>
-          import('./components/Wysiwyg').then((module) => ({
-            default: module.Wysiwyg,
+          import('./components/Input').then((module) => ({
+            default: module.Input,
           })),
       },
       options: {

@@ -6,16 +6,7 @@ import { CKEditorInput } from './CKEditorInput';
 import { useIntl } from 'react-intl';
 import { Field, Flex } from '@strapi/design-system';
 
-export const Wysiwyg = ({
-  name,
-  attribute,
-  value,
-  labelAction,
-  disabled,
-  error,
-  required,
-  hint,
-}) => {
+export const Input = ({ name, attribute, value, labelAction, disabled, error, required, hint }) => {
   const { formatMessage } = useIntl();
   const { preset, maxLengthCharacters, ...options } = attribute.options;
 
@@ -42,7 +33,7 @@ export const Wysiwyg = ({
   );
 };
 
-Wysiwyg.defaultProps = {
+Input.defaultProps = {
   hint: '',
   disabled: false,
   error: null,
@@ -51,7 +42,7 @@ Wysiwyg.defaultProps = {
   value: '',
 };
 
-Wysiwyg.propTypes = {
+Input.propTypes = {
   attribute: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
   hint: PropTypes.string,
