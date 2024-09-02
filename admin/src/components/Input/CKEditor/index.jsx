@@ -107,7 +107,7 @@ const setPlugins = (config, { responsiveDimensions }, toggleMediaLib, token) => 
   }
 };
 
-export const CKEditorInput = ({ name, disabled, preset, maxLength }) => {
+export const CKEditor = ({ name, disabled, preset, maxLength }) => {
   const { get } = useFetchClient();
   const { onChange, value } = useField(name);
 
@@ -214,11 +214,11 @@ export const CKEditorInput = ({ name, disabled, preset, maxLength }) => {
   );
 };
 
-CKEditorInput.defaultProps = {
+CKEditor.defaultProps = {
   disabled: false,
 };
 
-CKEditorInput.propTypes = {
+CKEditor.propTypes = {
   name: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
 };

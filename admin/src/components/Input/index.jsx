@@ -2,7 +2,7 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 
-import { CKEditorInput } from './CKEditorInput';
+import { CKEditor } from './CKEditor';
 import { useIntl } from 'react-intl';
 import { Field, Flex } from '@strapi/design-system';
 
@@ -19,7 +19,7 @@ export const Input = ({ name, attribute, value, labelAction, disabled, error, re
             defaultMessage: 'CKEditor',
           })}
         </Field.Label>
-        <CKEditorInput
+        <CKEditor
           disabled={disabled}
           name={name}
           value={value}
