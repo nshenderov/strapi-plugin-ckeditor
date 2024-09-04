@@ -1,7 +1,7 @@
 import React from "react";
 import * as yup from "yup";
 
-import baseConfigs from "./components/Input/CKEditor/configs";
+import baseConfigs from "./Input/configs";
 import getEditorConfig from "./utils/getEditorConfig";
 import CKEditorIcon from "./CKEditorIcon";
 import pluginId from "./pluginId";
@@ -50,7 +50,7 @@ export default {
          defaultMessage: "The rich text editor for every use case",
        },
        components: {
-         Input: async () => import("./components/Input"),
+         Input: async () => import("./Input"),
        },
        options: {
          base: [

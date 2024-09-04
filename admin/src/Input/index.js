@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {default as CKEditor} from "./CKEditor";
+import {default as CKEditor} from "./components/CKEditor";
 import { useIntl } from "react-intl";
 import { Field, FieldHint, FieldError, FieldLabel } from "@strapi/design-system";
 import { Stack } from "@strapi/design-system";

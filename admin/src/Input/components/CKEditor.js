@@ -6,9 +6,9 @@ import { ClassicEditor } from "ckeditor5";
 import { Box, Loader } from "@strapi/design-system";
 import "ckeditor5/ckeditor5.css";
 
-import { getConfiguration } from "./configuration";
-import { getGlobalStyling } from "./styling";
-import MediaLib from "../MediaLib";
+import { getConfiguration } from "../configuration";
+import { getGlobalStyling } from "../styling";
+import MediaLib from "./MediaLib";
 
 const Wrapper = styled("div")`
   ${({ editorStyles }) => editorStyles}
