@@ -66,16 +66,16 @@ const getCurrentConfig = (presetName) => {
 };
 
 export const setPlugins = (preset, toggleMediaLib) => {
-  const presetPluginNames = preset.ckeditorConfig?.plugins
-    ? [...preset.ckeditorConfig.plugins.map((p) => p.pluginName)]
+  const presetPluginNames = preset.editorConfig?.plugins
+    ? [...preset.editorConfig.plugins.map((p) => p.pluginName)]
     : [];
 
   if (presetPluginNames.includes("StrapiMediaLib")) {
-    preset.ckeditorConfig.strapiMediaLib = { toggle: toggleMediaLib };
+    preset.editorConfig.strapiMediaLib = { toggle: toggleMediaLib };
   }
 
   if (presetPluginNames.includes("StrapiUploadAdapter")) {
-    preset.ckeditorConfig.strapiUploadAdapter = {
+    preset.editorConfig.strapiUploadAdapter = {
       uploadUrl: `${strapi.backendURL}/upload`,
       headers: { Authorization: "Bearer " + auth.getToken() },
       backendUrl: strapi.backendURL,
@@ -84,7 +84,7 @@ export const setPlugins = (preset, toggleMediaLib) => {
   }
 
   if (presetPluginNames.includes("WordCount")) {
-    preset.ckeditorConfig.WordCountPlugin = true;
+    preset.editorConfig.WordCountPlugin = true;
   }
 };
 

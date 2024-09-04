@@ -55,11 +55,11 @@ const Editor = ({ onChange, name, value, disabled, preset, maxLength }) => {
           <>
             <CKEditor
               editor={ClassicEditor}
-              config={config?.ckeditorConfig}
+              config={config?.editorConfig}
               disabled={disabled}
               data={value}
               onReady={(editor) => {
-                if (config.ckeditorConfig.WordCountPlugin) {
+                if (config.editorConfig.WordCountPlugin) {
                   const wordCountPlugin = editor.plugins.get("WordCount");
                   wordCountPlugin.on("update", (evt, stats) =>
                     handleCounter(stats.characters)
@@ -92,7 +92,7 @@ const Editor = ({ onChange, name, value, disabled, preset, maxLength }) => {
               onToggle={handleToggleMediaLib}
               editor={editorInstance}
             />
-            {config.ckeditorConfig.WordCountPlugin && (
+            {config.editorConfig.WordCountPlugin && (
               <CounterLoaderBox
                 color={lengthMax ? "danger500" : "neutral400"}
                 ref={wordCounter}
