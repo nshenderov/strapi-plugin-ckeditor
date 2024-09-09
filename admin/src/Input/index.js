@@ -1,37 +1,56 @@
-import React from "react";
-import PropTypes from "prop-types";
-import {default as CKEditor} from "./components/CKEditor";
-import { useIntl } from "react-intl";
-import { Field, FieldHint, FieldError, FieldLabel } from "@strapi/design-system";
-import { Stack } from "@strapi/design-system";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { useIntl } from 'react-intl';
+import {
+  Field,
+  FieldHint,
+  FieldError,
+  FieldLabel,
+} from '@strapi/design-system';
+import { Stack } from '@strapi/design-system';
 
-const Wysiwyg = ({ name, attribute, onChange, value, intlLabel, labelAction, disabled, error, description, required }) => {
+import { Editor } from './components/Editor';
+
+const Wysiwyg = React.forwardRef((props, ref) => {
+  const {
+    name,
+    attribute,
+    onChange,
+    value,
+    intlLabel,
+    labelAction,
+    disabled,
+    error,
+    description,
+    required,
+  } = props;
   const { formatMessage } = useIntl();
   const { preset, maxLengthCharacters, ...options } = attribute.options;
-  
+
   return (
-    <Field name={name} id={name} error={error} required={required} hint={description && formatMessage(description)}>
+    <Field
+      name={name}
+      id={name}
+      error={error}
+      required={required}
+      hint={description && formatMessage(description)}
+    >
       <Stack spacing={1}>
-        <FieldLabel action={labelAction}>
-          {formatMessage(intlLabel)}
-        </FieldLabel>
-          <CKEditor disabled={disabled} name={name} onChange={onChange} value={value} preset={preset} maxLength={maxLengthCharacters}/>
+        <FieldLabel action={labelAction}>{formatMessage(intlLabel)}</FieldLabel>
+        <Editor
+          disabled={disabled}
+          name={name}
+          onChange={onChange}
+          value={value}
+          presetName={preset}
+          maxLength={maxLengthCharacters}
+        />
         <FieldHint />
         <FieldError />
       </Stack>
     </Field>
   );
-};
-
-
-Wysiwyg.defaultProps = {
-  description: null,
-  disabled: false,
-  error: null,
-  labelAction: null,
-  required: false,
-  value: "",
-};
+});
 
 Wysiwyg.propTypes = {
   intlLabel: PropTypes.object.isRequired,

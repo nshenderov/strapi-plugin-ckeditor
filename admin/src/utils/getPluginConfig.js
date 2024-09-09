@@ -1,13 +1,13 @@
-import pluginId from "../pluginId";
+import pluginId from '../pluginId';
 
 const insertConfigScript = () => {
   const url =
-    strapi.backendURL !== "/"
+    strapi.backendURL !== '/'
       ? `${strapi.backendURL}/${pluginId}/config/ckeditor`
       : `/${pluginId}/config/ckeditor`;
 
-  var script = document.createElement("script");
-  script.id = "ckeditor-config";
+  var script = document.createElement('script');
+  script.id = 'ckeditor-config';
   script.src = url;
   document.body.appendChild(script);
 };
@@ -15,14 +15,14 @@ const insertConfigScript = () => {
 const waitForConfigToInitialize = async () => {
   return new Promise((resolve) => {
     (function checkConfigLoaded() {
-      if (typeof globalThis.SH_CKE_CONFIG !== "undefined") {
+      if (typeof globalThis.SH_CKE_CONFIG !== 'undefined') {
         resolve(globalThis.SH_CKE_CONFIG);
       } else setTimeout(checkConfigLoaded, 5);
     })();
   });
 };
 
-const getEditorConfig = async () => {
+export const getPluginConfig = async () => {
   // raw config/ckeditor.[js|ts] file
   // Can be used with non-JSON serializable properties
   insertConfigScript();
@@ -33,5 +33,3 @@ const getEditorConfig = async () => {
 
   return null;
 };
-
-export default getEditorConfig;

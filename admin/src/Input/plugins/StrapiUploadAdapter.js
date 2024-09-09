@@ -1,34 +1,16 @@
 import { Plugin, FileRepository } from 'ckeditor5';
 
-/**
- * Similar to Simple upload adapter but customized for Strapi.
- * Inspired by https://github.com/ckeditor/ckeditor5/blob/master/packages/ckeditor5-upload/src/adapters/simpleuploadadapter.js
- */
 export default class StrapiUploadAdapter extends Plugin {
-  /**
-   * @inheritDoc
-   */
   static get requires() {
     return [FileRepository];
   }
 
-  /**
-   * @inheritDoc
-   */
   static get pluginName() {
-    return "StrapiUploadAdapter";
+    return 'StrapiUploadAdapter';
   }
 
-  /**
-   * @inheritDoc
-   */
   init() {
-    // backendUrl
-    // uploadUrl
-    // headers
-    // responsive
-
-    const options = this.editor.config.get("strapiUploadAdapter");
+    const options = this.editor.config.get('strapiUploadAdapter');
 
     if (!options) {
       return;
@@ -60,13 +42,11 @@ class Adapter {
   constructor(loader, options) {
     /**
      * FileLoader instance to use during the upload.
-     *
      */
     this.loader = loader;
 
     /**
      * The configuration of the adapter.
-     *
      */
     this.options = options;
   }
@@ -108,8 +88,8 @@ class Adapter {
   _initRequest() {
     const xhr = (this.xhr = new XMLHttpRequest());
 
-    xhr.open("POST", this.options.uploadUrl, true);
-    xhr.responseType = "json";
+    xhr.open('POST', this.options.uploadUrl, true);
+    xhr.responseType = 'json';
   }
 
   /**
@@ -125,9 +105,9 @@ class Adapter {
     const loader = this.loader;
     const genericErrorText = `Couldn't upload file: ${file.name}.`;
 
-    xhr.addEventListener("error", () => reject(genericErrorText));
-    xhr.addEventListener("abort", () => reject());
-    xhr.addEventListener("load", () => {
+    xhr.addEventListener('error', () => reject(genericErrorText));
+    xhr.addEventListener('abort', () => reject());
+    xhr.addEventListener('load', () => {
       const response = xhr.response;
 
       if (!Array.isArray(response) || response.error || response.length !== 1) {
@@ -140,14 +120,18 @@ class Adapter {
 
       const { backendUrl, responsive } = this.options || {};
       const { name, url, alternativeText, formats, provider } = response[0];
-      const defaultUrl = provider !== "local" ? url : backendUrl + url;
+      const defaultUrl = provider !== 'local' ? url : backendUrl + url;
 
       if (formats && responsive) {
         let urls = { default: defaultUrl };
         let keys = Object.keys(formats).sort(
           (a, b) => formats[a].width - formats[b].width
         );
-        keys.map((k) => (urls[formats[k].width] = provider !== 'local' ? url : backendUrl + formats[k].url));
+        keys.map(
+          (k) =>
+            (urls[formats[k].width] =
+              provider !== 'local' ? url : backendUrl + formats[k].url)
+        );
         resolve({ alt: alternativeText || name, urls: urls });
       } else {
         resolve(
@@ -162,9 +146,8 @@ class Adapter {
     });
 
     // Upload progress when it is supported.
-    /* istanbul ignore else */
     if (xhr.upload) {
-      xhr.upload.addEventListener("progress", (evt) => {
+      xhr.upload.addEventListener('progress', (evt) => {
         if (evt.lengthComputable) {
           loader.uploadTotal = evt.total;
           loader.uploaded = evt.loaded;
@@ -195,7 +178,7 @@ class Adapter {
     // Prepare the form data.
     const data = new FormData();
 
-    data.append("files", file);
+    data.append('files', file);
 
     // Send the request.
     this.xhr.send(data);

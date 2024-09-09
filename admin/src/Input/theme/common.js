@@ -1,4 +1,4 @@
-import { css } from "styled-components";
+import { css } from 'styled-components';
 
 export const common = css`
   .ck {
@@ -19,7 +19,6 @@ export const common = css`
     --ck-todo-list-checkmark-size: 16px;
   }
 
-  
   .ck.ck-sticky-panel .ck-sticky-panel__content_sticky {
     top: 64px !important;
   }
@@ -28,9 +27,9 @@ export const common = css`
   }
 
   .ck-editor__main {
-    
-    --ck-font-face: "Source Sans Pro", system-ui, Roboto, "Helvetica Neue", "Helvetica", Arial, sans-serif;
-    
+    --ck-font-face: 'Source Sans Pro', system-ui, Roboto, 'Helvetica Neue',
+      'Helvetica', Arial, sans-serif;
+
     color: var(--ck-color-editor-base-text);
     font-family: var(--ck-font-face);
 
@@ -38,7 +37,6 @@ export const common = css`
       font: revert;
       margin: revert;
     }
-
 
     h1 {
       font-size: 2.3em;
@@ -71,8 +69,8 @@ export const common = css`
     h5,
     h6 {
       line-height: 1.2em;
-      padding-top: .8em;
-      margin-bottom: .4em
+      padding-top: 0.8em;
+      margin-bottom: 0.4em;
     }
 
     blockquote,
@@ -81,8 +79,8 @@ export const common = css`
     ul {
       font-size: 1em;
       line-height: 1.6em;
-      padding-top: .2em;
-      margin-bottom: var(--ck-spacing-large)
+      padding-top: 0.2em;
+      margin-bottom: var(--ck-spacing-large);
     }
 
     figcaption {
@@ -180,7 +178,7 @@ export const common = css`
     }
   }
 
-  .ck .ck-source-editing-area textarea{
+  .ck .ck-source-editing-area textarea {
     color: var(--ck-color-text);
     background-color: var(--ck-color-base-background);
     border: 1px solid var(--ck-color-base-border) !important;
@@ -193,7 +191,7 @@ export const common = css`
     width: 20px !important;
     height: 25px !important;
     margin-left: -2px !important ;
-    
+
     & svg {
       color: var(--ck-color-text) !important;
       position: absolute;
@@ -213,19 +211,19 @@ export const common = css`
     /* color: #b3b3c4; */
   }
 
-  .ck[dir=rtl]{
+  .ck[dir='rtl'] {
     .ck-block-toolbar-button {
       margin-left: 2px !important ;
     }
-    & + div{
+    & + div {
       justify-content: flex-start;
       & > .ck-word-count {
-          & > div:first-child{
-            order: 2;
-          }
-          & > div:last-child{
-            order: 1;
-          }
+        & > div:first-child {
+          order: 2;
+        }
+        & > div:last-child {
+          order: 1;
+        }
       }
     }
   }

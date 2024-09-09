@@ -1,25 +1,31 @@
-import React, { useEffect, useRef, useState } from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import { ClassicEditor } from "ckeditor5";
-import { Box, Loader } from "@strapi/design-system";
-import "ckeditor5/ckeditor5.css";
+import React, { useEffect, useRef, useState } from 'react';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import { ClassicEditor } from 'ckeditor5';
+import { Box, Loader } from '@strapi/design-system';
+import 'ckeditor5/ckeditor5.css';
 
-import { getConfiguration } from "../configuration";
-import { getGlobalStyling } from "../styling";
-import MediaLib from "./MediaLib";
+import { MediaLib } from './MediaLib';
+import { getConfiguredPreset, GlobalStyling } from '../config';
 
-const Wrapper = styled("div")`
-  ${({ editorStyles }) => editorStyles}
+const Wrapper = styled('div')`
+  ${({ styles }) => styles}
 `;
 
-const Editor = ({ onChange, name, value, disabled, preset, maxLength }) => {
+export const Editor = ({
+  onChange,
+  name,
+  value = '',
+  disabled = false,
+  presetName,
+  maxLength,
+}) => {
   const [editorInstance, setEditorInstance] = useState(false);
 
   const [mediaLibVisible, setMediaLibVisible] = useState(false);
 
-  const [config, setConfig] = useState(null);
+  const [preset, setPreset] = useState(null);
 
   const [lengthMax, setLengthMax] = useState(false);
 
@@ -30,38 +36,36 @@ const Editor = ({ onChange, name, value, disabled, preset, maxLength }) => {
   const handleCounter = (number) =>
     number > maxLength ? setLengthMax(true) : setLengthMax(false);
 
-  const GlobalStyling = getGlobalStyling();
-
   useEffect(() => {
     (async () => {
-      const config = await getConfiguration(
-        preset,
+      const currentPreset = await getConfiguredPreset(
+        presetName,
         handleToggleMediaLib
       );
-      setConfig(config);
+      setPreset(currentPreset);
     })();
   }, []);
 
   return (
     <>
-      {config && <GlobalStyling />}
-      <Wrapper editorStyles={config?.styles}>
-        {!config && (
+      {preset && <GlobalStyling />}
+      <Wrapper styles={preset?.styles}>
+        {!preset && (
           <LoaderBox hasRadius background="neutral100">
             <Loader>Loading...</Loader>
           </LoaderBox>
         )}
-        {config && (
+        {preset && (
           <>
             <CKEditor
               editor={ClassicEditor}
-              config={config?.editorConfig}
+              config={preset.editorConfig}
               disabled={disabled}
               data={value}
               onReady={(editor) => {
-                if (config.editorConfig.WordCountPlugin) {
-                  const wordCountPlugin = editor.plugins.get("WordCount");
-                  wordCountPlugin.on("update", (evt, stats) =>
+                if (preset.editorConfig.WordCountPlugin) {
+                  const wordCountPlugin = editor.plugins.get('WordCount');
+                  wordCountPlugin.on('update', (evt, stats) =>
                     handleCounter(stats.characters)
                   );
                   const wordCountWrapper = wordCounter.current;
@@ -70,12 +74,12 @@ const Editor = ({ onChange, name, value, disabled, preset, maxLength }) => {
                   );
                 }
 
-                if (editor.plugins.has("ImageUploadEditing")) {
+                if (editor.plugins.has('ImageUploadEditing')) {
                   editor.plugins
-                    .get("ImageUploadEditing")
-                    .on("uploadComplete", (evt, { data, imageElement }) =>
+                    .get('ImageUploadEditing')
+                    .on('uploadComplete', (evt, { data, imageElement }) =>
                       editor.model.change((writer) =>
-                        writer.setAttribute("alt", data.alt, imageElement)
+                        writer.setAttribute('alt', data.alt, imageElement)
                       )
                     );
                 }
@@ -92,9 +96,9 @@ const Editor = ({ onChange, name, value, disabled, preset, maxLength }) => {
               onToggle={handleToggleMediaLib}
               editor={editorInstance}
             />
-            {config.editorConfig.WordCountPlugin && (
+            {preset.editorConfig.WordCountPlugin && (
               <CounterLoaderBox
-                color={lengthMax ? "danger500" : "neutral400"}
+                color={lengthMax ? 'danger500' : 'neutral400'}
                 ref={wordCounter}
               >
                 {!editorInstance && <Loader small>Loading...</Loader>}
@@ -107,14 +111,9 @@ const Editor = ({ onChange, name, value, disabled, preset, maxLength }) => {
   );
 };
 
-Editor.defaultProps = {
-  value: "",
-  disabled: false,
-};
-
 Editor.propTypes = {
   onChange: PropTypes.func.isRequired,
-  name: PropTypes.string.isRequired,
+  fieldName: PropTypes.string.isRequired,
   value: PropTypes.string,
   disabled: PropTypes.bool,
 };
@@ -132,5 +131,3 @@ const LoaderBox = styled(Box)`
   justify-content: center;
   align-items: center;
 `;
-
-export default Editor;
