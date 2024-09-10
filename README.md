@@ -13,6 +13,7 @@
 * [Usage](#usage)
 * [Configuration](#configuration)
 * [Contributing](#contributing)
+* [Migration](#migration)
 * [Requirements](#requirements)
 
 ## <a id="features"></a>✨ Features
@@ -22,7 +23,6 @@
 * **Strapi theme switching support**
 * **Supports custom styles for the editor**
 * **Supports i18n and different UI translations**
-* **A few predefined, modifiable editor configurations**
 * **Allows custom editor configrations**
 * **Plugins extensibility**
 
@@ -60,74 +60,58 @@ yarn build
 
 ## <a id="usage"></a>✍️ Usage
 
-1. Go to the Content-Type Builder -> Add another field -> switch to `custom` 
-
 <p align="center">
-  <img src="https://raw.githubusercontent.com/nshenderov/strapi-plugin-ckeditor/master/assets/usage-guide1.png" width="700" />
+  <img src="https://raw.githubusercontent.com/nshenderov/strapi-plugin-ckeditor/master/assets/usage-guide.gif" width="700" />
 </p>
-
-2. Click on CKEditor 5
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/nshenderov/strapi-plugin-ckeditor/master/assets/usage-guide2.png" width="700" />
-</p>
-
-3. Choose the editor version you want
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/nshenderov/strapi-plugin-ckeditor/master/assets/usage-guide3.png" width="700" />
-</p>
-
-## Default versions:
 
 <details>
-  <summary><b>Open</b></summary>
+  <summary><b>Default preset:</b></summary>
   
 <p align="center">
-  <img src="https://raw.githubusercontent.com/nshenderov/strapi-plugin-ckeditor/master/assets/toolbar-version.png" width="700" />
-</p>
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/nshenderov/strapi-plugin-ckeditor/master/assets/toolbarballon-version.png" width="700" />
-</p>
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/nshenderov/strapi-plugin-ckeditor/master/assets/blockballon-version.png" width="700" />
+  <img src="https://raw.githubusercontent.com/nshenderov/strapi-plugin-ckeditor/master/assets/default-preset.gif" width="700" />
 </p>
 
 </details>
 
 ## <a id="configuration"></a>⚙️ Configuration
 ___
-The plugin is based on the [**Strapi Custom Field API**](https://docs.strapi.io/developer-docs/latest/development/custom-fields.html#registering-a-custom-field-on-the-server) and the [**CKEditor5 DLL build**](https://ckeditor.com/docs/ckeditor5/latest/installation/advanced/alternative-setups/dll-builds.html).
 
-It is highly recommended to explore [**the official CKEditor5 documentation**](https://ckeditor.com/docs/ckeditor5/latest/features/index.html).
+It is highly recommended to explore [**the official CKEditor5 documentation**](https://ckeditor.com/docs/ckeditor5/latest/features/index.html) and [**the Strapi Custom Field API**](https://docs.strapi.io/developer-docs/latest/development/custom-fields.html#registering-a-custom-field-on-the-server) 
 
-The plugin configuration should be defined in `your-app/config/ckeditor.txt`.
+The plugin configuration should be defined in `your-app/config/ckeditor.js|ts`
 
-The plugin provides three editor configurations by default. Each configuration includes a set of plugins, settings, and styles.
+By default, the plugin provides one preset, which can be modified in the config file.
 
-You can select the configuration you need in the Content-Type Builder. Each configuration can be modified in the config file, and you can also create new ones.
+You can also add new presets in the config file.
 
-Config structure looks like this:
+The plugin exposes all CKEditor packages to the global variable SH_CKE.
+
+The config file must define a function called CKEConfig that returns the configuration object.
+
+The structure of the configuration object is as follows:
 
 ```js
-globalThis.CKEditorConfig = {
-    configsOverwrite:bool,
-    themeOverwrite:bool,
-    configs:{
-        toolbar:{...},
-        toolbarBalloon:{...},
-        blockBalloon:{...},
-        customEditorVersion1:{...},
-        customEditorVersion2:{...}
+{
+    dontMergePresets:bool,
+    dontMergeTheme:bool,
+    presets:{
+        default:{
+            field:{...},
+            styles:string,
+            editorConfig:{...},
+        },
         ...
     }
-    theme:{...}
+    theme:{
+        common:string,
+        light:string,
+        dark:string,
+        additional:string,
+    }
 }
 ```
 
-Every configuration in the `configs` object contains three properties:
+Every preset in the `presets` object contains three properties:
 
 1. `field (object)` Registers this configuration version in the Admin panel.
 2. `styles (string)` Styles applied to the editor in this version.
@@ -145,8 +129,8 @@ By default, everything defined in the user’s configuration is merged with the
 default configuration object. These two properties allow you to prevent
 this behavior:
 
-1. `configsOverwrite (bool)`
-2. `themeOverwrite (bool)`
+1. `dontMergePresets (bool)`
+2. `dontMergeTheme (bool)`
 
 Since Strapi uses i18n for translation, the `ignorei18n` property is added to the
 `editorConfig.language` object. This property allows you to manually set the
@@ -170,45 +154,45 @@ The language determination follows this logic:
 **Example of adding a new editor configuration:**
 
 <details>
-   <summary><b>ckeditor.txt</b></summary>
+   <summary><b>ckeditor.js</b></summary>
 
 ```js
-globalThis.CKEditorConfig = {
-    configs:{
-        myCustomVariant:{
+const CKEConfig = () => {
+    presets:{
+        myCustomPreset:{
             field: {
-                key: "myCustomVariant",
-                value: "myCustomVariant",
+                key: "myCustomPreset",
+                value: "myCustomPreset",
                 metadatas: {
                     intlLabel: {
-                        id: "ckeditor5.preset.myCustomVariant.label",
-                        defaultMessage: "My custom variant",
+                        id: "ckeditor5.preset.myCustomPreset.label",
+                        defaultMessage: "My custom preset",
                     },
                 },
             },
             editorConfig:{
                 plugins: [
-                    CKEditor5.autoformat.Autoformat,
-                    CKEditor5.basicStyles.Bold,
-                    CKEditor5.basicStyles.Italic,
-                    CKEditor5.essentials.Essentials,
-                    CKEditor5.heading.Heading,
-                    CKEditor5.image.Image,
-                    CKEditor5.image.ImageCaption,
-                    CKEditor5.image.ImageStyle,
-                    CKEditor5.image.ImageToolbar,
-                    CKEditor5.image.ImageUpload,
-                    CKEditor5.indent.Indent,
-                    CKEditor5.link.Link,
-                    CKEditor5.list.List,
-                    CKEditor5.paragraph.Paragraph,
-                    CKEditor5.pasteFromOffice.PasteFromOffice,
-                    CKEditor5.table.Table,
-                    CKEditor5.table.TableToolbar,
-                    CKEditor5.table.TableColumnResize,
-                    CKEditor5.table.TableCaption,
-                    CKEditor5.strapiPlugins.StrapiMediaLib,
-                    CKEditor5.strapiPlugins.StrapiUploadAdapter,
+                    SH_CKE.Autoformat,
+                    SH_CKE.Bold,
+                    SH_CKE.Italic,
+                    SH_CKE.Essentials,
+                    SH_CKE.Heading,
+                    SH_CKE.Image,
+                    SH_CKE.ImageCaption,
+                    SH_CKE.ImageStyle,
+                    SH_CKE.ImageToolbar,
+                    SH_CKE.ImageUpload,
+                    SH_CKE.Indent,
+                    SH_CKE.Link,
+                    SH_CKE.List,
+                    SH_CKE.Paragraph,
+                    SH_CKE.PasteFromOffice,
+                    SH_CKE.Table,
+                    SH_CKE.TableToolbar,
+                    SH_CKE.TableColumnResize,
+                    SH_CKE.TableCaption,
+                    SH_CKE.StrapiMediaLib,
+                    SH_CKE.StrapiUploadAdapter,
                 ],
                 toolbar: [
                     'heading',
@@ -255,15 +239,15 @@ globalThis.CKEditorConfig = {
 
 </details>
 
-**Example of changing buttons, modifying the plugin list, and adding styles in the default toolbar configuration:**
+**Example of changing buttons, modifying the plugin list, and adding styles in the default preset:**
 
 <details>
-   <summary><b>ckeditor.txt</b></summary>
+   <summary><b>ckeditor.js</b></summary>
 
 ```js
-globalThis.CKEditorConfig = {
-    configs:{
-        toolbar:{
+const CKEConfig = () => {
+    presets:{
+        default:{
             styles:`
                 --ck-focus-ring:3px dashed #5CB176;
 
@@ -283,19 +267,19 @@ globalThis.CKEditorConfig = {
             `,
             editorConfig:{
                 plugins: [
-                    CKEditor5.basicStyles.Bold,
-                    CKEditor5.basicStyles.Italic,
-                    CKEditor5.essentials.Essentials,
-                    CKEditor5.heading.Heading,
-                    CKEditor5.image.Image,
-                    CKEditor5.image.ImageCaption,
-                    CKEditor5.image.ImageStyle,
-                    CKEditor5.image.ImageToolbar,
-                    CKEditor5.link.Link,
-                    CKEditor5.list.List,
-                    CKEditor5.paragraph.Paragraph,
-                    CKEditor5.strapiPlugins.StrapiMediaLib,
-                    CKEditor5.strapiPlugins.StrapiUploadAdapter,
+                    SH_CKE.Bold,
+                    SH_CKE.Italic,
+                    SH_CKE.Essentials,
+                    SH_CKE.Heading,
+                    SH_CKE.Image,
+                    SH_CKE.ImageCaption,
+                    SH_CKE.ImageStyle,
+                    SH_CKE.ImageToolbar,
+                    SH_CKE.Link,
+                    SH_CKE.List,
+                    SH_CKE.Paragraph,
+                    SH_CKE.StrapiMediaLib,
+                    SH_CKE.StrapiUploadAdapter,
                 ],
                 toolbar: [
                     'heading',
@@ -314,34 +298,65 @@ globalThis.CKEditorConfig = {
 
 </details>
 
-> 📂 Configurations availibale by default: [**admin/src/components/Input/CKEditor/configs**](https://github.com/nshenderov/strapi-plugin-ckeditor/blob/master/admin/src/components/Input/CKEditor/configs)
+> 📂 Default preset: [**admin/src/Input/presets/default.js**](https://github.com/nshenderov/strapi-plugin-ckeditor/blob/master/admin/src/Input/presets/default.js)
 
-> 📂 Built-in plugins: [**admin/src/components/Input/CKEditor/configs/base.js**](https://github.com/nshenderov/strapi-plugin-ckeditor/blob/master/admin/src/components/Input/CKEditor/configs/base.js)
-
-> 📂 Default editor styles: [**admin/src/components/Input/CKEditor/theme**](https://github.com/nshenderov/strapi-plugin-ckeditor/blob/master/admin/src/components/Input/CKEditor/theme)
+> 📂 Default editor styles: [**admin/src/Input/theme**](https://github.com/nshenderov/strapi-plugin-ckeditor/blob/master/admin/src/Input/theme)
 
 > 💡 To display content from an external source in your admin panel, you should configure your `middlewares.js`. [**Explore the documentation for more information**](https://docs.strapi.io/developer-docs/latest/setup-deployment-guides/configurations/required/middlewares.html)
 
 ## Adding plugins
 
 ___
-Exmple of adding the Markdown plugin
 
-Add the plugin to you Strapi application:
+Your plugin must be available in the `global`.
+
+**Example of adding the Timestamp plugin:**
+
+1. Create the plugin:
 
 ```js
-yarn add @ckeditor/ckeditor5-markdown-gfm
+// your-app/src/admin/timestamp.js
+
+class Timestamp extends SH_CKE.Plugin {
+    init() {
+        const editor = this.editor;
+        // The button must be registered among the UI components of the editor
+        // to be displayed in the toolbar.
+        editor.ui.componentFactory.add( 'timestamp', () => {
+            // The button will be an instance of ButtonView.
+            const button = new SH_CKE.ButtonView();
+
+            button.set( {
+                label: 'Timestamp',
+                withText: true
+            } );
+
+            // Execute a callback function when the button is clicked.
+            button.on( 'execute', () => {
+                const now = new Date();
+
+                // Change the model using the model writer.
+                editor.model.change( writer => {
+
+                    // Insert the text at the user's current position.
+                    editor.model.insertContent( writer.createText( now.toString() ) );
+                } );
+            } );
+
+            return button;
+        } );
+    }
+}
+
+globalThis.Timestamp = Timestamp;
 ```
-or
-```js
-npm install @ckeditor/ckeditor5-markdown-gfm
-```
 
-Import the plugin in `your-app/src/admin/app.js`:
+2. Import the plugin:
 
 ```js
-import ckeditor5Dll from "ckeditor5/build/ckeditor5-dll.js";
-import ckeditor5MrkdownDll from "@ckeditor/ckeditor5-markdown-gfm/build/markdown-gfm.js";
+// your-app/src/admin/app.js
+
+import './timestamp.js'
 
 const config = {};
 
@@ -354,110 +369,74 @@ export default {
 
 ```
 
-Add a new configuration option to your config file at `your-app/config/ckeditor.txt`:
-
-**Example of a config file with the new configuration:**
+3. Add the new plugin to your preset:
 
 <details>
-  <summary><b>ckeditor.txt</b></summary>
+  <summary><b>ckeditor.js</b></summary>
 
 ```js
-globalThis.CKEditorConfig = {
-    configs:{
-        markdown:{
+// your-app/config/ckeditor.js
+
+const CKEConfig = () => {
+    presets: {
+        myCustomPreset:{
             field: {
-                key: "markdown",
-                value: "markdown",
+                key: "myCustomPreset",
+                value: "myCustomPreset",
                 metadatas: {
-                  intlLabel: {
-                    id: "ckeditor.preset.markdown.label",
-                    defaultMessage: "Markdown version",
-                  },
+                    intlLabel: {
+                    id: "ckeditor5.preset.myCustomPreset.label",
+                    defaultMessage: "My custom preset",
+                    },
                 },
             },
             editorConfig:{
-                placeholder: 'Markdown editor',
                 plugins: [
-                    CKEditor5.essentials.Essentials,
-                    CKEditor5.autoformat.Autoformat,
-                    CKEditor5.blockQuote.BlockQuote,
-                    CKEditor5.basicStyles.Bold,
-                    CKEditor5.heading.Heading,
-                    CKEditor5.image.Image,
-                    CKEditor5.image.ImageCaption,
-                    CKEditor5.image.ImageStyle,
-                    CKEditor5.image.ImageToolbar,
-                    CKEditor5.image.ImageUpload, 
-                    CKEditor5.indent.Indent,
-                    CKEditor5.basicStyles.Italic,
-                    CKEditor5.link.Link,
-                    CKEditor5.list.List,
-                    CKEditor5.mediaEmbed.MediaEmbed,
-                    CKEditor5.paragraph.Paragraph,
-                    CKEditor5.table.Table,
-                    CKEditor5.table.TableToolbar,
-                    CKEditor5.sourceEditing.SourceEditing, 
-                    CKEditor5.strapiPlugins.StrapiMediaLib,
-                    CKEditor5.strapiPlugins.StrapiUploadAdapter,
-                    CKEditor5.markdownGfm.Markdown,
-                    CKEditor5.basicStyles.Code, 
-                    CKEditor5.codeBlock.CodeBlock,
-                    CKEditor5.list.TodoList,
-                    CKEditor5.basicStyles.Strikethrough,
-                    CKEditor5.horizontalLine.HorizontalLine
+                    Timestamp,
+                    SH_CKE.Autoformat,
+                    SH_CKE.Bold,
+                    SH_CKE.Italic,
+                    SH_CKE.Essentials,
+                    SH_CKE.Heading,
+                    SH_CKE.Image,
+                    SH_CKE.ImageCaption,
+                    SH_CKE.ImageStyle,
+                    SH_CKE.ImageToolbar,
+                    SH_CKE.ImageUpload,
+                    SH_CKE.Indent,
+                    SH_CKE.Link,
+                    SH_CKE.List,
+                    SH_CKE.Paragraph,
+                    SH_CKE.PasteFromOffice,
+                    SH_CKE.Table,
+                    SH_CKE.TableToolbar,
+                    SH_CKE.TableColumnResize,
+                    SH_CKE.TableCaption,
+                    SH_CKE.StrapiMediaLib,
+                    SH_CKE.StrapiUploadAdapter,
                 ],
-                toolbar: {
-                    items: [
-                        'heading',
-                        '|',
-                        'bold',
-                        'italic',
-                        'strikethrough',
-                        'link',
-                        '|',
-                        'bulletedList',
-                        'numberedList',
-                        'todoList',
-                        '|',
-                        'code',
-                        'codeBlock',
-                        '|',
-                        'uploadImage',
-                        'strapiMediaLib',
-                        'blockQuote',
-                        'horizontalLine',
-                        '-',
-                        'sourceEditing',
-                        '|',
-                        'outdent',
-                        'indent',
-                        '|',
-                        'undo',
-                        'redo'
-                    ],
-                    shouldNotGroupWhenFull: true
-                },
-                image: {
-                    toolbar: [ 'imageStyle:inline', 'imageStyle:block', 'imageStyle:side', '|', 'toggleImageCaption', 'imageTextAlternative' ]
-                },
-                codeBlock: {
-                    languages: [
-                        { language: 'css', label: 'CSS' },
-                        { language: 'html', label: 'HTML' },
-                        { language: 'javascript', label: 'JavaScript' },
-                        { language: 'php', label: 'PHP' }
-                    ]
-                },
+                toolbar: [
+                    'timestamp',
+                    'heading',
+                    '|',
+                    'bold', 'italic', 'link', 'bulletedList', 'numberedList',
+                    '|',
+                    'strapiMediaLib', 'insertTable',
+                    '|',
+                    'undo', 'redo'
+                ],
+                
+                ...
             }
-        }
-    }
+        },
+  }
 }
 ```
 
 </details>  
 
 
-Then rebuild the application:
+4. Then rebuild the application:
 ```bash
 npm run build
 ```
@@ -466,6 +445,103 @@ or
 ```bash
 yarn build
 ```
+
+
+**Alternatively, you can define your plugin like this:**
+
+<details>
+  <summary><b>ckeditor.js</b></summary>
+
+```js
+const CKEConfig = () => {
+  class Timestamp extends SH_CKE.Plugin {
+    init() {
+      const editor = this.editor;
+      // The button must be registered among the UI components of the editor
+      // to be displayed in the toolbar.
+      editor.ui.componentFactory.add("timestamp", () => {
+        // The button will be an instance of ButtonView.
+        const button = new SH_CKE.ButtonView();
+
+        button.set({
+          label: "Timestamp",
+          withText: true,
+        });
+
+        // Execute a callback function when the button is clicked.
+        button.on("execute", () => {
+          const now = new Date();
+
+          // Change the model using the model writer.
+          editor.model.change((writer) => {
+            // Insert the text at the user's current position.
+            editor.model.insertContent(writer.createText(now.toString()));
+          });
+        });
+
+        return button;
+      });
+    }
+  }
+
+  return {
+    presets: {
+        myCustomPreset:{
+          field: {
+            key: "myCustomPreset",
+            value: "myCustomPreset",
+            metadatas: {
+              intlLabel: {
+                id: "ckeditor5.preset.myCustomPreset.label",
+                defaultMessage: "My custom preset",
+              },
+            },
+          },
+            editorConfig:{
+                plugins: [
+                    Timestamp,
+                    SH_CKE.Autoformat,
+                    SH_CKE.Bold,
+                    SH_CKE.Italic,
+                    SH_CKE.Essentials,
+                    SH_CKE.Heading,
+                    SH_CKE.Image,
+                    SH_CKE.ImageCaption,
+                    SH_CKE.ImageStyle,
+                    SH_CKE.ImageToolbar,
+                    SH_CKE.ImageUpload,
+                    SH_CKE.Indent,
+                    SH_CKE.Link,
+                    SH_CKE.List,
+                    SH_CKE.Paragraph,
+                    SH_CKE.PasteFromOffice,
+                    SH_CKE.Table,
+                    SH_CKE.TableToolbar,
+                    SH_CKE.TableColumnResize,
+                    SH_CKE.TableCaption,
+                    SH_CKE.StrapiMediaLib,
+                    SH_CKE.StrapiUploadAdapter,
+                ],
+                toolbar: [
+                    'timestamp',
+                    'heading',
+                    '|',
+                    'bold', 'italic', 'link', 'bulletedList', 'numberedList',
+                    '|',
+                    'strapiMediaLib', 'insertTable',
+                    '|',
+                    'undo', 'redo'
+                ],
+                
+                ...
+            }
+        },
+  }
+}
+```
+
+</details>  
+
 
 ## <a id="contributing"></a>🛠 Contributing
 ___
@@ -520,6 +596,109 @@ Rebuild the project and start the server:
 yarn build
 yarn develop
 ```
+
+## <a id="migration"></a>✈️ Migration
+
+### From v2 to v3
+
+- The default editor configurations (toolbar, toolbarBalloon, blockBalloon) have been removed and now there is only one preset by default. You will need to update your fields in the Content-Type Builder
+
+- Config file extension has changed from `.txt` to `.js` or `.ts`
+- Configuration object properties have been renamed:
+    - `configsOverwrite` -> `dontMergePresets`
+    - `themeOverwrite` -> `dontMergeTheme`
+    - `configs` -> `presets`
+- From v3 instead of globalThis.CKEditorConfig = {..}, the config file must define a function called CKEConfig that returns the configuration object.
+
+Example of the new configuration file:
+
+<details>
+   <summary><b>ckeditor.js</b></summary>
+
+```js
+const CKEConfig = () => {
+    presets:{
+        myCustomPreset:{
+            field: {
+                key: "myCustomPreset",
+                value: "myCustomPreset",
+                metadatas: {
+                    intlLabel: {
+                        id: "ckeditor5.preset.myCustomPreset.label",
+                        defaultMessage: "My custom preset",
+                    },
+                },
+            },
+            editorConfig:{
+                plugins: [
+                    SH_CKE.Autoformat,
+                    SH_CKE.Bold,
+                    SH_CKE.Italic,
+                    SH_CKE.Essentials,
+                    SH_CKE.Heading,
+                    SH_CKE.Image,
+                    SH_CKE.ImageCaption,
+                    SH_CKE.ImageStyle,
+                    SH_CKE.ImageToolbar,
+                    SH_CKE.ImageUpload,
+                    SH_CKE.Indent,
+                    SH_CKE.Link,
+                    SH_CKE.List,
+                    SH_CKE.Paragraph,
+                    SH_CKE.PasteFromOffice,
+                    SH_CKE.Table,
+                    SH_CKE.TableToolbar,
+                    SH_CKE.TableColumnResize,
+                    SH_CKE.TableCaption,
+                    SH_CKE.StrapiMediaLib,
+                    SH_CKE.StrapiUploadAdapter,
+                ],
+                toolbar: [
+                    'heading',
+                    '|',
+                    'bold', 'italic', 'link', 'bulletedList', 'numberedList',
+                    '|',
+                    'strapiMediaLib', 'insertTable',
+                    '|',
+                    'undo', 'redo'
+                ],
+                heading: {
+                    options: [
+                        { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                        { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                        { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                        { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+                        { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
+                    ]
+                },
+                image: {
+                    toolbar: [
+                        'imageStyle:inline',
+                        'imageStyle:block',
+                        'imageStyle:side',
+                        '|',
+                        'toggleImageCaption',
+                        'imageTextAlternative'
+                    ]
+                },
+                table: {
+                    contentToolbar: [
+                        'tableColumn',
+                        'tableRow',
+                        'mergeTableCells',
+                        '|',
+                        'toggleTableCaption'
+                    ]
+                }
+            }
+        }
+    }
+}
+```
+
+</details>
+
+
 
 ## <a id="requirements"></a>⚠️ Requirements
 ___
