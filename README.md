@@ -157,7 +157,7 @@ The language determination follows this logic:
    <summary><b>ckeditor.js</b></summary>
 
 ```js
-const CKEConfig = () => {
+const CKEConfig = () => ({
     presets:{
         myCustomPreset:{
             field: {
@@ -234,7 +234,7 @@ const CKEConfig = () => {
             }
         }
     }
-}
+})
 ```
 
 </details>
@@ -245,7 +245,7 @@ const CKEConfig = () => {
    <summary><b>ckeditor.js</b></summary>
 
 ```js
-const CKEConfig = () => {
+const CKEConfig = () => ({
     presets:{
         default:{
             styles:`
@@ -293,7 +293,7 @@ const CKEConfig = () => {
             }
         }
     }
-}
+})
 ```
 
 </details>
@@ -377,7 +377,7 @@ export default {
 ```js
 // your-app/config/ckeditor.js
 
-const CKEConfig = () => {
+const CKEConfig = () => ({
     presets: {
         myCustomPreset:{
             field: {
@@ -426,11 +426,11 @@ const CKEConfig = () => {
                     'undo', 'redo'
                 ],
                 
-                ...
+                // ...
             }
         },
   }
-}
+})
 ```
 
 </details>  
