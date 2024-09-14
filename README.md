@@ -616,7 +616,7 @@ Example of the new configuration file:
    <summary><b>ckeditor.js</b></summary>
 
 ```js
-const CKEConfig = () => {
+const CKEConfig = () => ({
     presets:{
         myCustomPreset:{
             field: {
@@ -693,7 +693,7 @@ const CKEConfig = () => {
             }
         }
     }
-}
+})
 ```
 
 </details>
