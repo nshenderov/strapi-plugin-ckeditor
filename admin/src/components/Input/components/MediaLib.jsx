@@ -1,9 +1,12 @@
 import React from 'react';
-import { prefixFileUrlWithBackendUrl, useLibrary } from '@strapi/helper-plugin';
 import PropTypes from 'prop-types';
+import { useStrapiApp } from '@strapi/strapi/admin';
+
+import { prefixFileUrlWithBackendUrl } from '../../../utils/prefixFileUrlWithBackendUrl'
 
 export const MediaLib = ({ isOpen = false, onToggle = () => {}, editor }) => {
-  const { components } = useLibrary();
+  const components = useStrapiApp('MediaLib', ({ components }) => components);
+  
   const MediaLibraryDialog = components['media-library'];
 
   const handleChangeAssets = (assets) => {

@@ -4,23 +4,20 @@ import styled from 'styled-components';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { ClassicEditor } from 'ckeditor5';
 import { Box, Loader } from '@strapi/design-system';
+import { useField } from '@strapi/strapi/admin';
 import 'ckeditor5/ckeditor5.css';
 
 import { MediaLib } from './MediaLib';
-import { getConfiguredPreset, GlobalStyling } from '../config';
+import { getConfiguredPreset } from '../config';
+import { GlobalStyling } from './GlobalStyling';
 
 const Wrapper = styled('div')`
   ${({ styles }) => styles}
 `;
 
-export const Editor = ({
-  onChange,
-  name,
-  value = '',
-  disabled = false,
-  presetName,
-  maxLength,
-}) => {
+export const Editor = ({ name, disabled, presetName, maxLength }) => {
+  const { onChange, value } = useField(name);
+
   const [editorInstance, setEditorInstance] = useState(false);
 
   const [mediaLibVisible, setMediaLibVisible] = useState(false);
@@ -112,10 +109,10 @@ export const Editor = ({
 };
 
 Editor.propTypes = {
-  onChange: PropTypes.func.isRequired,
-  fieldName: PropTypes.string.isRequired,
-  value: PropTypes.string,
+  name: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
+  maxLength: PropTypes.number,
+  presetName: PropTypes.string.isRequired,
 };
 
 const CounterLoaderBox = styled(Box)`

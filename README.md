@@ -546,56 +546,44 @@ const CKEConfig = () => {
 ## <a id="contributing"></a>🛠 Contributing
 ___
 
-This section covers how to configure your environment if you want to contribute to this package.
+This section explains how to set up your environment if you want to contribute to this package.
 
-To start making changes to the plugin, you first need to install the Strapi infrastructure on top of the plugin repository:
+Clone the repository:
 
+```bash
+git clone https://github.com/nshenderov/strapi-plugin-ckeditor.git ./strapi-plugin-ckeditor
 ```
-npx create-strapi-app --quickstart strapi
-cd strapi
-```
+Navigate to the downloaded folder:
 
-By default, Strapi does not create a `plugins` folder, so we need to create it:
-
-```
-mkdir -p src/plugins
-```
-
-Now we should clone this repository so we can work on it.
-
-```
-git clone git@github.com:nshenderov/strapi-plugin-ckeditor.git src/plugins/strapi-plugin-ckeditor
-```
-
-Add an entry inside the `./package.json` file so we won't need to use yarn inside the plugin itself:
-
-```
-"workspaces": ["./src/plugins/strapi-plugin-ckeditor"]
+```bash
+cd ./strapi-plugin-ckeditor
 ```
 
 Install dependencies:
 
-```
+```bash
 yarn install
 ```
 
-Now we need to register the plugin so Strapi can use it. To do that, we need to create the `./config/plugins.js` file (if it doesn't already exist) and add an entry to it:
+Link the plugin to your project:
 
+In the plugin directory, run:
+```bash
+yarn watch:link
 ```
-module.exports = ({ env }) => ({
-  ckeditor5: {
-    enabled: true,
-    resolve: "./src/plugins/strapi-plugin-ckeditor"
-  },
-});
+
+In your project directory, run:
+```bash
+yarn dlx yalc add --link @_sh/strapi-plugin-ckeditor && yarn install
 ```
 
 Rebuild the project and start the server:
 
-```
+```bash
 yarn build
 yarn develop
 ```
+
 
 ## <a id="migration"></a>✈️ Migration
 
@@ -702,6 +690,6 @@ const CKEConfig = () => ({
 
 ## <a id="requirements"></a>⚠️ Requirements
 ___
-Strapi **v4.13.0+**
+Strapi **v5.0.0+**
 
 Node **>=18.0.0 <=20.x.x**

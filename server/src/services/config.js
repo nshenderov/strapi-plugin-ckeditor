@@ -1,19 +1,19 @@
-"use strict";
+'use strict';
 
-const fs = require("fs");
+const fs = require('fs');
 
 module.exports = ({ strapi }) => {
   return {
     getConfig() {
       const appDir = process.cwd();
 
-      const fileName = "ckeditor";
+      const fileName = 'ckeditor';
 
-      for (const ext of ["js", "ts"]) {
+      for (const ext of ['js', 'ts']) {
         const filePath = `${appDir}/config/${fileName}.${ext}`;
         if (fs.existsSync(filePath)) {
           return (
-            fs.readFileSync(filePath, "utf8") +
+            fs.readFileSync(filePath, 'utf8') +
             `\nglobalThis.SH_CKE_CONFIG = CKEConfig()`
           );
         }

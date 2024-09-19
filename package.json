@@ -12,28 +12,6 @@
     "rich text",
     "editor"
   ],
-  "strapi": {
-    "name": "ckeditor5",
-    "displayName": "CKEditor 5",
-    "description": "Integrates CKEditor 5 into your Strapi project as a fully customizable custom field. (Unofficial integration)",
-    "kind": "plugin"
-  },
-  "files": [
-    "admin",
-    "server",
-    "strapi-admin.js",
-    "strapi-server.js"
-  ],
-  "dependencies": {
-    "ckeditor5": "^43.1.0",
-    "@ckeditor/ckeditor5-react": "^9.1.0",
-    "@strapi/design-system": "^1.19.0",
-    "prop-types": "^15.8.1",
-    "sanitize-html": "^2.13.0"
-  },
-  "peerDependencies": {
-    "@strapi/strapi": "^4.13.0"
-  },
   "author": {
     "name": "nshenderov"
   },
@@ -42,17 +20,68 @@
     "type": "git",
     "url": "https://github.com/nshenderov/strapi-plugin-ckeditor.git"
   },
+  "strapi": {
+    "name": "ckeditor5",
+    "displayName": "CKEditor 5",
+    "description": "Integrates CKEditor 5 into your Strapi project as a fully customizable custom field. (Unofficial integration)",
+    "kind": "plugin"
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    "./strapi-admin": {
+      "source": "./admin/src/index.js",
+      "import": "./dist/admin/index.mjs",
+      "require": "./dist/admin/index.js",
+      "default": "./dist/admin/index.js"
+    },
+    "./strapi-server": {
+      "source": "./server/src/index.js",
+      "import": "./dist/server/index.mjs",
+      "require": "./dist/server/index.js",
+      "default": "./dist/server/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "./strapi-server.js"
+  ],
   "scripts": {
+    "build": "strapi-plugin build",
+    "watch": "strapi-plugin watch",
+    "watch:link": "strapi-plugin watch:link",
+    "verify": "strapi-plugin verify",
     "release": "release-it",
     "release:info": "release-it --changelog"
+  },
+  "dependencies": {
+    "ckeditor5": "^43.1.0",
+    "@ckeditor/ckeditor5-react": "^9.1.0",
+    "@strapi/design-system": "^2.0.0-rc.11",
+    "prop-types": "^15.8.1",
+    "sanitize-html": "^2.13.0"
+  },
+  "devDependencies": {
+    "@strapi/strapi": "^5.0.0",
+    "@strapi/sdk-plugin": "^5.2.6",
+    "prettier": "^3.3.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.2",
+    "styled-components": "^6.1.13",
+    "release-it": "^17.6.0",
+    "@release-it/conventional-changelog": "^8.0.1"
+  },
+  "peerDependencies": {
+    "@strapi/strapi": "^5.0.0",
+    "@strapi/sdk-plugin": "^5.2.6",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.2",
+    "styled-components": "^6.1.13"
   },
   "engines": {
     "node": ">=18.0.0 <=20.x.x",
     "npm": ">=6.0.0"
   },
-  "license": "MIT",
-  "devDependencies": {
-    "release-it": "^17.6.0",
-    "@release-it/conventional-changelog": "^8.0.1"
-  }
+  "license": "MIT"
 }

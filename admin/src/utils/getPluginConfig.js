@@ -1,10 +1,10 @@
-import pluginId from '../pluginId';
+import { PLUGIN_ID } from './pluginId';
 
 const insertConfigScript = () => {
   const url =
     strapi.backendURL !== '/'
-      ? `${strapi.backendURL}/${pluginId}/config/ckeditor`
-      : `/${pluginId}/config/ckeditor`;
+      ? `${strapi.backendURL}/${PLUGIN_ID}/config/ckeditor`
+      : `/${PLUGIN_ID}/config/ckeditor`;
 
   var script = document.createElement('script');
   script.id = 'ckeditor-config';

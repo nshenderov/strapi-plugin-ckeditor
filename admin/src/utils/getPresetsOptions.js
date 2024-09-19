@@ -1,4 +1,4 @@
-import basePresets from '../Input/presets';
+import basePresets from '../components/Input/presets';
 import { getPluginConfig } from './getPluginConfig';
 
 const mergePresetsTo = (userPresets, basePresets) => {

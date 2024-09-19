@@ -17,6 +17,7 @@ export const common = css`
     --ck-image-style-spacing: 1.5em;
     --ck-inline-image-style-spacing: calc(var(--ck-image-style-spacing) / 2);
     --ck-todo-list-checkmark-size: 16px;
+    font-size: 14px;
   }
 
   .ck.ck-sticky-panel .ck-sticky-panel__content_sticky {
@@ -155,7 +156,7 @@ export const common = css`
     .ck-blurred {
       overflow-y: auto;
       overflow-x: hidden;
-      transition: max-height 0.5s ease-in-out;
+      transition: max-height 0.5s ease-in-out, min-height 0.5s ease-in-out !important;
       ::-webkit-scrollbar {
         width: 7px;
       }
@@ -205,7 +206,7 @@ export const common = css`
     display: flex;
     justify-content: end;
     gap: 0.3rem;
-    font-size: 0.7rem;
+    font-size: 1rem;
     font-weight: 500;
     text-transform: lowercase;
     /* color: #b3b3c4; */

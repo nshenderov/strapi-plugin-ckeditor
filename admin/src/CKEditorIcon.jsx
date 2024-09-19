@@ -1,7 +1,6 @@
-import * as React from "react";
-import styled from "styled-components";
-import { Icon } from "@strapi/design-system";
-import { Flex } from "@strapi/design-system";
+import * as React from 'react';
+import { styled } from 'styled-components';
+import { Flex } from '@strapi/design-system';
 
 const IconBox = styled(Flex)`
   background-color: #f0f0ff; /* primary100 */
@@ -9,14 +8,14 @@ const IconBox = styled(Flex)`
   svg > path {
     fill: #4945ff; /* primary600 */
   }
-  `;
+`;
 
 const SvgIcon = () => (
   <svg
-  width="68"
-  height="64"
-  viewBox="-20 -14 98 94"
-  xmlns="http://www.w3.org/2000/svg"
+    width="68"
+    height="64"
+    viewBox="-20 -14 98 94"
+    xmlns="http://www.w3.org/2000/svg"
   >
     <g fill="none" fill-rule="evenodd">
       <path
@@ -37,10 +36,15 @@ const SvgIcon = () => (
   </svg>
 );
 
-const CKEditorIcon = () => (
-  <IconBox justifyContent="center" alignItems="center" width={7} height={6} hasRadius aria-hidden>
-    <Icon as={SvgIcon} />
+export const CKEditorIcon = () => (
+  <IconBox
+    justifyContent="center"
+    alignItems="center"
+    width={7}
+    height={6}
+    hasRadius
+    aria-hidden
+  >
+    <SvgIcon />
   </IconBox>
-)
-
-export default CKEditorIcon;
+);

@@ -3,36 +3,36 @@ import * as yup from 'yup';
 
 import './utils/exportToGlobal';
 import { getPresetsOptions } from './utils/getPresetsOptions';
-import pluginId from './pluginId';
-import CKEditorIcon from './CKEditorIcon';
+import { PLUGIN_ID } from './utils/pluginId';
+import { CKEditorIcon } from './CKEditorIcon';
 
 export default {
   async register(app) {
     app.customFields.register({
       name: 'CKEditor',
       type: 'richtext',
-      pluginId: pluginId,
+      pluginId: PLUGIN_ID,
       icon: CKEditorIcon,
       intlLabel: {
-        id: pluginId + '.label',
+        id: PLUGIN_ID + '.label',
         defaultMessage: 'CKEditor 5',
       },
       intlDescription: {
-        id: pluginId + '.description',
+        id: PLUGIN_ID + '.description',
         defaultMessage: 'The rich text editor for every use case',
       },
       components: {
-        Input: async () => import('./Input'),
+        Input: async () => import('./components/Input'),
       },
       options: {
         base: [
           {
             intlLabel: {
-              id: pluginId + '.preset.label',
+              id: PLUGIN_ID + '.preset.label',
               defaultMessage: 'Preset',
             },
             description: {
-              id: pluginId + '.preset.description',
+              id: PLUGIN_ID + '.preset.description',
               defaultMessage: ' ',
             },
             name: 'options.preset',
@@ -48,11 +48,11 @@ export default {
                 name: 'required',
                 type: 'checkbox',
                 intlLabel: {
-                  id: pluginId + '.required.label',
+                  id: PLUGIN_ID + '.required.label',
                   defaultMessage: 'Required field',
                 },
                 description: {
-                  id: pluginId + 'required.description',
+                  id: PLUGIN_ID + 'required.description',
                   defaultMessage:
                     "You won't be able to create an entry if this field is empty",
                 },
@@ -61,7 +61,7 @@ export default {
                 name: 'options.maxLengthCharacters',
                 type: 'checkbox-with-number-field',
                 intlLabel: {
-                  id: pluginId + '.maxLength.label',
+                  id: PLUGIN_ID + '.maxLength.label',
                   defaultMessage: 'Maximum length (characters)',
                 },
               },
@@ -70,7 +70,7 @@ export default {
         ],
         validator: (args) => ({
           preset: yup.string().required({
-            id: pluginId + '.preset.error.required',
+            id: PLUGIN_ID + '.preset.error.required',
             defaultMessage: 'Editor preset is required',
           }),
         }),

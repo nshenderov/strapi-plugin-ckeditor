@@ -2,6 +2,7 @@ import React from 'react';
 import { createGlobalStyle } from 'styled-components';
 
 import baseTheme from '../theme';
+import { getProfileTheme } from '../../../utils/localStorage';
 
 const GlobalStyle = createGlobalStyle`
   ${({ theme }) => theme.common}
@@ -17,7 +18,7 @@ const getSystemColorScheme = () =>
 export const GlobalStyling = () => {
   const { theme: userTheme, dontMergeTheme } = globalThis.SH_CKE_CONFIG || {};
 
-  const profileTheme = localStorage.getItem('STRAPI_THEME');
+  const profileTheme = getProfileTheme();
 
   const variant =
     profileTheme && profileTheme !== 'system'

@@ -41,7 +41,7 @@ module.exports = {
         types: [
           { type: "feat", section: "🚀 Features" },
           { type: "fix", section: "👾 Bug Fixes" },
-          { type: "docs", section: "📜 Docs" },
+          { type: "docs", section: "📚 Docs" },
           { type: "chore", section: "⚙️ Chore" },
           { type: "style", section: "💅 Style" }
         ]
