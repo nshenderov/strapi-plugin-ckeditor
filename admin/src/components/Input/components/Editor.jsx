@@ -58,7 +58,7 @@ export const Editor = ({ name, disabled, presetName, maxLength }) => {
               editor={ClassicEditor}
               config={preset.editorConfig}
               disabled={disabled}
-              data={value}
+              data={value ?? ''}
               onReady={(editor) => {
                 if (preset.editorConfig.WordCountPlugin) {
                   const wordCountPlugin = editor.plugins.get('WordCount');
