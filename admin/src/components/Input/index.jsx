@@ -14,6 +14,7 @@ const Input = ({
   error = null,
   required = false,
   hint = '',
+  intlLabel
 }) => {
   const { formatMessage } = useIntl();
   const { preset, maxLengthCharacters, ...options } = attribute.options;
@@ -22,10 +23,7 @@ const Input = ({
     <Field.Root name={name} id={name} error={error} hint={hint}>
       <Flex direction="column" alignItems="stretch" gap={1}>
         <Field.Label action={labelAction} required={required}>
-          {formatMessage({
-            id: 'plugin.ckeditor.label',
-            defaultMessage: 'CKEditor',
-          })}
+          {intlLabel ? formatMessage(intlLabel) : name}
         </Field.Label>
         <Editor
           disabled={disabled}
