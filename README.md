@@ -38,6 +38,9 @@ ___
 
 Add the package to your Strapi application:
 
+> ❗ For Strapi v4 use `@_sh/strapi-plugin-ckeditor@strapi-v4-latest`
+
+
 ```bash
 npm install @_sh/strapi-plugin-ckeditor
 ```
@@ -298,9 +301,9 @@ const CKEConfig = () => ({
 
 </details>
 
-> 📂 Default preset: [**admin/src/Input/presets/default.js**](https://github.com/nshenderov/strapi-plugin-ckeditor/blob/master/admin/src/Input/presets/default.js)
+> 📂 Default preset: [**admin/src/components/Input/presets/default.js**](https://github.com/nshenderov/strapi-plugin-ckeditor/blob/master/admin/src/components/Input/presets/default.js)
 
-> 📂 Default editor styles: [**admin/src/Input/theme**](https://github.com/nshenderov/strapi-plugin-ckeditor/blob/master/admin/src/Input/theme)
+> 📂 Default editor theme: [**admin/src/components/Input/theme**](https://github.com/nshenderov/strapi-plugin-ckeditor/blob/master/admin/src/components/Input/theme)
 
 > 💡 To display content from an external source in your admin panel, you should configure your `middlewares.js`. [**Explore the documentation for more information**](https://docs.strapi.io/developer-docs/latest/setup-deployment-guides/configurations/required/middlewares.html)
 
@@ -690,6 +693,17 @@ const CKEConfig = () => ({
 
 ## <a id="requirements"></a>⚠️ Requirements
 ___
+
+**v4.x.x**
+
 Strapi **v5.0.0+**
+
+Node **>=18.0.0 <=20.x.x**
+
+___
+
+**v3.x.x**
+
+Strapi **v4.13.0+**
 
 Node **>=18.0.0 <=20.x.x**
