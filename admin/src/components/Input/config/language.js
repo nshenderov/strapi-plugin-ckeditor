@@ -117,6 +117,6 @@ export const setLanguage = async (config) => {
 
   await importLang(
     config,
-    typeof config.language === 'string' ? config.language : config.language.ui
+    typeof config.language === 'string' ? config.language : ui
   );
 };
