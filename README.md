@@ -542,6 +542,8 @@ const CKEConfig = () => {
 
 This section explains how to set up your environment if you want to contribute to this package.
 
+[Strapi Plugin SDK docs](https://docs.strapi.io/dev-docs/plugins/development/create-a-plugin#linking-the-plugin-to-your-project)
+
 Clone the repository:
 
 ```bash
@@ -566,7 +568,7 @@ In the plugin directory, run:
 yarn watch:link
 ```
 
-In your project directory, run:
+Open new terminal window and in your project directory, run:
 ```bash
 yarn dlx yalc add --link @_sh/strapi-plugin-ckeditor && yarn install
 ```
