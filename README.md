@@ -76,7 +76,9 @@ yarn build
 ## <a id="configuration"></a>⚙️ Configuration
 ___
 
-It is highly recommended to explore [**the official CKEditor5 documentation**](https://ckeditor.com/docs/ckeditor5/latest/features/index.html) and [**the Strapi Custom Field API**](https://docs.strapi.io/developer-docs/latest/development/custom-fields.html#registering-a-custom-field-on-the-server) 
+> It is highly recommended to explore [**the official CKEditor5 documentation**](https://ckeditor.com/docs/ckeditor5/latest/features/index.html) and [**the Strapi Custom Field API**](https://docs.strapi.io/developer-docs/latest/development/custom-fields.html#registering-a-custom-field-on-the-server) 
+>
+> To display content from external sources, such as images or videos, in your admin panel, you need to configure your `middlewares.js` file. [**Check the official documentation for details.**](https://docs.strapi.io/dev-docs/configurations/middlewares#security)
 
 The plugin configuration should be defined in `your-app/config/ckeditor.js|ts`
 
@@ -298,11 +300,11 @@ const CKEConfig = () => ({
 
 </details>
 
-> 📂 Default preset: [**admin/src/Input/presets/default.js**](https://github.com/nshenderov/strapi-plugin-ckeditor/blob/master/admin/src/Input/presets/default.js)
 
-> 📂 Default editor styles: [**admin/src/Input/theme**](https://github.com/nshenderov/strapi-plugin-ckeditor/blob/master/admin/src/Input/theme)
+> 📂 Default preset: [**admin/src/Input/presets/default.js**](https://github.com/nshenderov/strapi-plugin-ckeditor/blob/3.x.x/admin/src/Input/presets/default.js)
+>
+> 📂 Default theme: [**admin/src/Input/theme**](https://github.com/nshenderov/strapi-plugin-ckeditor/blob/3.x.x/admin/src/Input/theme)
 
-> 💡 To display content from an external source in your admin panel, you should configure your `middlewares.js`. [**Explore the documentation for more information**](https://docs.strapi.io/developer-docs/latest/setup-deployment-guides/configurations/required/middlewares.html)
 
 ## Adding plugins
 
@@ -601,7 +603,7 @@ yarn develop
 
 ### From v2 to v3
 
-- The default editor configurations (toolbar, toolbarBalloon, blockBalloon) have been removed and now there is only one preset by default. You will need to update your fields in the Content-Type Builder
+- The default editor configurations (toolbar, toolbarBalloon, blockBalloon) have been removed and now there is only one preset by default. You will need to update your fields in the Content-Type Builder.
 
 - Config file extension has changed from `.txt` to `.js` or `.ts`
 - Configuration object properties have been renamed:
@@ -698,10 +700,18 @@ const CKEConfig = () => ({
 
 </details>
 
+### From v1 to v2
+
+- You will need to update Strapi to version v4.4.x for plugin v2.0.x, or to v4.13.0+ for v2.1.x.
+
+- Starting with v2, the plugin uses the Custom Field API, so you'll need to manually update your schema.
+
+- The plugin configuration should be defined in /config/ckeditor.txt from v2 onward. [Please refer to the v2 configuration guide for details.](https://github.com/nshenderov/strapi-plugin-ckeditor/blob/e782475f54b8a50a04f55275c89ef5bf61a15745/README.md?plain=1#L54)
+
 
 
 ## <a id="requirements"></a>⚠️ Requirements
 ___
-Strapi **v4.13.0+**
+Strapi **>= 4.13.0 < 5.0.0**
 
 Node **>=18.0.0 <=20.x.x**
