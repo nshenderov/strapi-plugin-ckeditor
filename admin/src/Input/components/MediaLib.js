@@ -15,17 +15,17 @@ export const MediaLib = ({ isOpen = false, onToggle = () => {}, editor }) => {
           let set = '';
           let keys = Object.keys(formats).sort((a, b) => formats[a].width - formats[b].width);
           keys.map((k) => (set += prefixFileUrlWithBackendUrl(formats[k].url) +` ${formats[k].width}w,`));
-          newValue = `<img src="${prefixFileUrlWithBackendUrl(url)}" alt="${alt}" width="${width}" height="${height}" srcset="${set}" />`;
+          newValue = `<img src="${url}" alt="${alt}" width="${width}" height="${height}" srcset="${set}" />`;
         } else {
-          newValue = `<img src="${prefixFileUrlWithBackendUrl(url)}" alt="${alt}" width="${width}" height="${height}" />`;
+          newValue = `<img src="${url}" alt="${alt}" width="${width}" height="${height}" />`;
         }
       } else if (mime.includes('video')) {
         newValue = `
             <video class="video" controls width="500px">
-                <source src="${prefixFileUrlWithBackendUrl(url)}" type="${mime}" />
+                <source src="${url}" type="${mime}" />
             </video>`;
       } else {
-        newValue = `<a href="${prefixFileUrlWithBackendUrl(url)}">${name || 'Open document'}</a>`;
+        newValue = `<a href="${url}">${name || 'Open document'}</a>`;
       }
     });
 
@@ -64,6 +64,5 @@ export const MediaLib = ({ isOpen = false, onToggle = () => {}, editor }) => {
 
 MediaLib.propTypes = {
   isOpen: PropTypes.bool,
-  onChange: PropTypes.func,
   onToggle: PropTypes.func,
 };
