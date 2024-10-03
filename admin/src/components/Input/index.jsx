@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useIntl } from 'react-intl';
 import { Field, Flex } from '@strapi/design-system';
 
 import { Editor } from './components/Editor';
@@ -10,27 +9,32 @@ const Input = ({
   attribute,
   value = '',
   labelAction = null,
+  label,
   disabled = false,
   error = null,
   required = false,
   hint = '',
-  intlLabel
+  placeholder,
 }) => {
-  const { formatMessage } = useIntl();
   const { preset, maxLengthCharacters, ...options } = attribute.options;
 
   return (
-    <Field.Root name={name} id={name} error={error} hint={hint}>
+    <Field.Root
+      name={name}
+      id={name}
+      error={error}
+      hint={hint}
+      required={required}
+    >
       <Flex direction="column" alignItems="stretch" gap={1}>
-        <Field.Label action={labelAction} required={required}>
-          {intlLabel ? formatMessage(intlLabel) : name}
-        </Field.Label>
+        <Field.Label action={labelAction}>{label}</Field.Label>
         <Editor
           disabled={disabled}
           name={name}
           value={value}
           presetName={preset}
           maxLength={maxLengthCharacters}
+          placeholder={placeholder}
         />
         <Field.Hint />
         <Field.Error />
@@ -40,14 +44,16 @@ const Input = ({
 };
 
 Input.propTypes = {
-  attribute: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
-  hint: PropTypes.string,
+  attribute: PropTypes.object.isRequired,
+  value: PropTypes.string,
+  labelAction: PropTypes.object,
+  label: PropTypes.string,
   disabled: PropTypes.bool,
   error: PropTypes.string,
-  labelAction: PropTypes.object,
   required: PropTypes.bool,
-  value: PropTypes.string,
+  hint: PropTypes.string,
+  placeholder: PropTypes.string,
 };
 
 export default Input;

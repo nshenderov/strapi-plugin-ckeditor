@@ -15,7 +15,13 @@ const Wrapper = styled('div')`
   ${({ styles }) => styles}
 `;
 
-export const Editor = ({ name, disabled, presetName, maxLength }) => {
+export const Editor = ({
+  name,
+  disabled,
+  presetName,
+  maxLength,
+  placeholder,
+}) => {
   const { onChange, value } = useField(name);
 
   const [editorInstance, setEditorInstance] = useState(false);
@@ -39,7 +45,20 @@ export const Editor = ({ name, disabled, presetName, maxLength }) => {
         presetName,
         handleToggleMediaLib
       );
-      setPreset(currentPreset);
+
+      if (placeholder) {
+        const clonedPreset = {
+          ...currentPreset,
+          editorConfig: {
+            ...currentPreset.editorConfig,
+            placeholder: placeholder,
+          },
+        };
+        
+        setPreset(clonedPreset);
+      } else {
+        setPreset(currentPreset);
+      }
     })();
   }, []);
 
@@ -111,8 +130,9 @@ export const Editor = ({ name, disabled, presetName, maxLength }) => {
 Editor.propTypes = {
   name: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
-  maxLength: PropTypes.number,
   presetName: PropTypes.string.isRequired,
+  maxLength: PropTypes.number,
+  placeholder: PropTypes.string,
 };
 
 const CounterLoaderBox = styled(Box)`
