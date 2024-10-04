@@ -1,7 +1,7 @@
 const STORAGE_KEYS = {
   TOKEN: 'jwtToken',
   PREFERED_LANGUAGE: 'strapi-admin-language',
-  PROFILE_THEME: 'STRAPI_THEME'
+  PROFILE_THEME: 'STRAPI_THEME',
 };
 
 export const getStoredToken = () => {
@@ -17,11 +17,14 @@ export const getStoredToken = () => {
 };
 
 export const getPreferedLanguage = () => {
-  const language = localStorage.getItem(STORAGE_KEYS.PREFERED_LANGUAGE) || 'en';
+  const language =
+    localStorage
+      .getItem(STORAGE_KEYS.PREFERED_LANGUAGE)
+      .replace(/^"|"$/g, '') || 'en';
   return language;
 };
 
 export const getProfileTheme = () => {
-  const theme  = localStorage.getItem(STORAGE_KEYS.PROFILE_THEME) || 'en';
+  const theme = localStorage.getItem(STORAGE_KEYS.PROFILE_THEME) || 'en';
   return theme;
 };
