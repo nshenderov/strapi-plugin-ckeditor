@@ -11,19 +11,19 @@ import { Stack } from '@strapi/design-system';
 
 import { Editor } from './components/Editor';
 
-const Wysiwyg = React.forwardRef((props, ref) => {
-  const {
-    name,
-    attribute,
-    onChange,
-    value,
-    intlLabel,
-    labelAction,
-    disabled,
-    error,
-    description,
-    required,
-  } = props;
+const Wysiwyg = ({
+  name,
+  attribute,
+  onChange,
+  value,
+  intlLabel,
+  labelAction,
+  disabled,
+  error,
+  description,
+  required,
+  placeholder,
+}) => {
   const { formatMessage } = useIntl();
   const { preset, maxLengthCharacters, ...options } = attribute.options;
 
@@ -44,13 +44,14 @@ const Wysiwyg = React.forwardRef((props, ref) => {
           value={value}
           presetName={preset}
           maxLength={maxLengthCharacters}
+          placeholder={placeholder}
         />
         <FieldHint />
         <FieldError />
       </Stack>
     </Field>
   );
-});
+};
 
 Wysiwyg.propTypes = {
   intlLabel: PropTypes.object.isRequired,
@@ -63,5 +64,7 @@ Wysiwyg.propTypes = {
   labelAction: PropTypes.object,
   required: PropTypes.bool,
   value: PropTypes.string,
+  placeholder: PropTypes.object,
 };
+
 export default Wysiwyg;

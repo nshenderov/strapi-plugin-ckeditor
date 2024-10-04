@@ -20,6 +20,7 @@ export const Editor = ({
   disabled = false,
   presetName,
   maxLength,
+  placeholder
 }) => {
   const [editorInstance, setEditorInstance] = useState(false);
 
@@ -42,7 +43,20 @@ export const Editor = ({
         presetName,
         handleToggleMediaLib
       );
-      setPreset(currentPreset);
+
+      if (placeholder) {
+        const clonedPreset = {
+          ...currentPreset,
+          editorConfig: {
+            ...currentPreset.editorConfig,
+            placeholder: placeholder.defaultMessage,
+          },
+        };
+        
+        setPreset(clonedPreset);
+      } else {
+        setPreset(currentPreset);
+      }
     })();
   }, []);
 

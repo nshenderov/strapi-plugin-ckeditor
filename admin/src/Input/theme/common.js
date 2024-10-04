@@ -227,4 +227,9 @@ export const common = css`
       }
     }
   }
+
+  .ck.ck-editor__editable > .ck-placeholder::before {
+    color: var(--ck-color-editor-base-text);
+    opacity: 0.65;
+  }
 `;
