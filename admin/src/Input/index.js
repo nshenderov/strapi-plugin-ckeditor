@@ -67,4 +67,6 @@ Wysiwyg.propTypes = {
   placeholder: PropTypes.object,
 };
 
-export default Wysiwyg;
+const MemoizedWysiwyg = React.memo(Wysiwyg);
+
+export default MemoizedWysiwyg;
