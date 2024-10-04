@@ -17,29 +17,26 @@ const detecti18n = () => {
 
 export const setLanguage = async (config) => {
   const i18nLang = detecti18n();
+
   const preferedLanguage = auth.getUserInfo().preferedLanguage || 'en';
 
   const {
-    ui = preferedLanguage,
-    content,
+    ui = config.language && typeof config.language === 'string' ?
+      config.language
+    : preferedLanguage,
     textPartLanguage,
     ignorei18n,
   } = config.language || {};
 
-  if (i18nLang) {
+  if (i18nLang && !ignorei18n) {
     config.language = {
-      ui: typeof config.language === 'string' ? config.language : ui,
-      content: ignorei18n ? content : i18nLang,
+      ui: ui,
+      content: i18nLang,
       textPartLanguage: textPartLanguage,
     };
   }
 
-  if (!config.language) {
-    config.language = preferedLanguage;
+  if (ui !== 'en') {
+    await importLang(config, ui);
   }
-
-  await importLang(
-    config,
-    typeof config.language === 'string' ? config.language : ui
-  );
 };
