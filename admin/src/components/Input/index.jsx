@@ -56,4 +56,6 @@ Input.propTypes = {
   placeholder: PropTypes.string,
 };
 
-export default Input;
+const MemoizedInput = React.memo(Input);
+
+export default MemoizedInput;

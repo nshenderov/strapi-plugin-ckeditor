@@ -15,7 +15,7 @@ const getSystemColorScheme = () =>
     ? 'dark'
     : 'light';
 
-export const GlobalStyling = () => {
+const GlobalStyling = () => {
   const { theme: userTheme, dontMergeTheme } = globalThis.SH_CKE_CONFIG || {};
 
   const profileTheme = getProfileTheme();
@@ -29,3 +29,7 @@ export const GlobalStyling = () => {
 
   return <GlobalStyle theme={theme} variant={variant} />;
 };
+
+const MemoizedGlobalStyling = React.memo(GlobalStyling);
+
+export { MemoizedGlobalStyling as GlobalStyling };
