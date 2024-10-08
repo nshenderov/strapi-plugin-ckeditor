@@ -25,6 +25,6 @@ export const getPreferedLanguage = () => {
 };
 
 export const getProfileTheme = () => {
-  const theme = localStorage.getItem(STORAGE_KEYS.PROFILE_THEME) || 'en';
+  const theme = localStorage.getItem(STORAGE_KEYS.PROFILE_THEME);
   return theme;
 };
