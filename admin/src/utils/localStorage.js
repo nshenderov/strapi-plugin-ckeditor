@@ -20,7 +20,7 @@ export const getPreferedLanguage = () => {
   const language =
     localStorage
       .getItem(STORAGE_KEYS.PREFERED_LANGUAGE)
-      .replace(/^"|"$/g, '') || 'en';
+      ?.replace(/^"|"$/g, '') || 'en';
   return language;
 };
 
