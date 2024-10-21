@@ -6,20 +6,26 @@ module.exports = ({ strapi }) => {
   return {
     getConfig() {
       const appDir = process.cwd();
+      const isTsProject = fs.existsSync(`${appDir}/dist`);
 
-      const fileName = 'ckeditor';
+      const cfgDir = isTsProject ? `${appDir}/dist/config` : `${appDir}/config`;
+      const cfgFileName = 'ckeditor.js';
+      const envName = process.env.NODE_ENV;
 
-      for (const ext of ['js', 'ts']) {
-        const filePath = `${appDir}/config/${fileName}.${ext}`;
-        if (fs.existsSync(filePath)) {
-          return (
-            fs.readFileSync(filePath, 'utf8') +
-            `\nglobalThis.SH_CKE_CONFIG = CKEConfig()`
-          );
-        }
+      const envFilePath = `${cfgDir}/env/${envName}/${cfgFileName}`;
+      const baseFilePath = `${cfgDir}/${cfgFileName}`;
+      let fileToRead;
+
+      if (fs.existsSync(envFilePath)) {
+        fileToRead = envFilePath;
+      } else if (fs.existsSync(baseFilePath)) {
+        fileToRead = baseFilePath;
       }
 
-      return `globalThis.SH_CKE_CONFIG = null`;
+      return fileToRead ?
+          fs.readFileSync(fileToRead, 'utf8') +
+            `\nglobalThis.SH_CKE_CONFIG = CKEConfig()`
+        : `globalThis.SH_CKE_CONFIG = null`;
     },
   };
 };
