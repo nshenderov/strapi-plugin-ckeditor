@@ -1,9 +1,9 @@
 ---
 name: "\U0001FAB2 Bug report"
-about: Create a report to help us improve
+about: Create a report to help improve this plugin.
 title: ''
-labels: ''
-assignees: ''
+labels: 'issue: bug'
+assignees: nshenderov
 
 ---
 
@@ -25,6 +25,7 @@ If applicable, add screenshots to help explain your problem.
 
 **please complete the following information:**
  - plugins.js (if exist)
+ - ckeditor.js (if exist)
  - package.json
  - node version
 
