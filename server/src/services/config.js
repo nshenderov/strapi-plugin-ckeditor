@@ -3,29 +3,41 @@
 const fs = require('fs');
 
 module.exports = ({ strapi }) => {
+  const readConfigFile = () => {
+    const appDir = process.cwd();
+    const isTSProject = fs.existsSync(`${appDir}/dist`);
+    const envName = process.env.NODE_ENV;
+
+    const cfgDir = isTSProject ? `${appDir}/dist/config` : `${appDir}/config`;
+    const cfgFileName = 'ckeditor.js';
+
+    const envFilePath = `${cfgDir}/env/${envName}/${cfgFileName}`;
+    const baseFilePath = `${cfgDir}/${cfgFileName}`;
+
+    if (fs.existsSync(envFilePath)) {
+      return fs.readFileSync(envFilePath, 'utf8');
+    } else if (fs.existsSync(baseFilePath)) {
+      return fs.readFileSync(baseFilePath, 'utf8');
+    } else {
+      return null;
+    }
+  };
+
+  const trimConfig = (str) => {
+    for (const func of ['const CKEConfig', 'function CKEConfig']) {
+      const idx = str.indexOf(func);
+      if (idx >= 0) {
+        return str.substring(idx) + `\nglobalThis.SH_CKE_CONFIG = CKEConfig()`;
+      }
+    }
+  };
+
   return {
     getConfig() {
-      const appDir = process.cwd();
-      const isTsProject = fs.existsSync(`${appDir}/dist`);
+      const configFileContent = readConfigFile();
+      const config = configFileContent && trimConfig(configFileContent);
 
-      const cfgDir = isTsProject ? `${appDir}/dist/config` : `${appDir}/config`;
-      const cfgFileName = 'ckeditor.js';
-      const envName = process.env.NODE_ENV;
-
-      const envFilePath = `${cfgDir}/env/${envName}/${cfgFileName}`;
-      const baseFilePath = `${cfgDir}/${cfgFileName}`;
-      let fileToRead;
-
-      if (fs.existsSync(envFilePath)) {
-        fileToRead = envFilePath;
-      } else if (fs.existsSync(baseFilePath)) {
-        fileToRead = baseFilePath;
-      }
-
-      return fileToRead ?
-          fs.readFileSync(fileToRead, 'utf8') +
-            `\nglobalThis.SH_CKE_CONFIG = CKEConfig()`
-        : `globalThis.SH_CKE_CONFIG = null`;
+      return config || `globalThis.SH_CKE_CONFIG = null`;
     },
   };
 };
