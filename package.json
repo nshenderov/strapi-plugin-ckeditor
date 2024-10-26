@@ -54,8 +54,8 @@
     "release:info": "release-it --changelog"
   },
   "dependencies": {
-    "ckeditor5": "^43.1.0",
-    "@ckeditor/ckeditor5-react": "^9.1.0",
+    "ckeditor5": "^43.2.0",
+    "@ckeditor/ckeditor5-react": "^9.3.1",
     "@strapi/design-system": "^2.0.0-rc.11",
     "prop-types": "^15.8.1",
     "sanitize-html": "^2.13.0"
