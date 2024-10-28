@@ -75,15 +75,13 @@ yarn build
 >
 > To display content from external sources, such as images or videos, in your admin panel, you need to configure your `middlewares.js` file. [**Check the official documentation for details.**](https://docs.strapi.io/dev-docs/configurations/middlewares#security)
 
-The plugin configuration should be defined in `your-app/config/ckeditor.js|ts`
+The plugin configuration should be defined in `your-app/config/ckeditor.js` or in `ckeditor.ts` if you are using TypeScript in your project.
 
-By default, the plugin provides one preset, which can be modified in the config file.
+By default, the plugin provides one default preset that can be modified in the config file, and you can expand the preset set as needed.
 
-You can also add new presets in the config file.
+The plugin exposes all default CKEditor packages to the global variable `SH_CKE`.
 
-The plugin exposes all CKEditor packages to the global variable SH_CKE.
-
-The config file must define a function called CKEConfig that returns the configuration object.
+The config file must define a function called `CKEConfig` that returns the configuration object.
 
 The structure of the configuration object is as follows:
 
@@ -98,7 +96,7 @@ The structure of the configuration object is as follows:
             editorConfig:{...},
         },
         ...
-    }
+    },
     theme:{
         common:string,
         light:string,
@@ -143,95 +141,107 @@ language:{
 The language determination follows this logic:
 
 - Plugin UI language:
-`language.ui -> preferred language -> 'en'`
+`language.ui || strapi admin preferred language || 'en'`
 
 - Content language:
-`ignorei18n ? language.content : i18n -> language.ui`
+`(ignorei18n ? language.content : i18n) || language.ui`
 
----
+### Configuration examples
 
-**Example of adding a new editor configuration:**
+Adding a new preset:
 
 <details>
    <summary><b>ckeditor.js</b></summary>
 
 ```js
 const CKEConfig = () => ({
-    presets:{
-        myCustomPreset:{
-            field: {
-                key: "myCustomPreset",
-                value: "myCustomPreset",
-                metadatas: {
-                    intlLabel: {
-                        id: "ckeditor5.preset.myCustomPreset.label",
-                        defaultMessage: "My custom preset",
-                    },
+    presets: {
+        markdown:{
+          field: {
+              key: "markdown",
+              value: "markdown",
+              metadatas: {
+                intlLabel: {
+                  id: "ckeditor.preset.markdown.label",
+                  defaultMessage: "Markdown output",
                 },
-            },
-            editorConfig:{
-                plugins: [
-                    SH_CKE.Autoformat,
-                    SH_CKE.Bold,
-                    SH_CKE.Italic,
-                    SH_CKE.Essentials,
-                    SH_CKE.Heading,
-                    SH_CKE.Image,
-                    SH_CKE.ImageCaption,
-                    SH_CKE.ImageStyle,
-                    SH_CKE.ImageToolbar,
-                    SH_CKE.ImageUpload,
-                    SH_CKE.Indent,
-                    SH_CKE.Link,
-                    SH_CKE.List,
-                    SH_CKE.Paragraph,
-                    SH_CKE.PasteFromOffice,
-                    SH_CKE.Table,
-                    SH_CKE.TableToolbar,
-                    SH_CKE.TableColumnResize,
-                    SH_CKE.TableCaption,
-                    SH_CKE.StrapiMediaLib,
-                    SH_CKE.StrapiUploadAdapter,
-                ],
-                toolbar: [
-                    'heading',
-                    '|',
-                    'bold', 'italic', 'link', 'bulletedList', 'numberedList',
-                    '|',
-                    'strapiMediaLib', 'insertTable',
-                    '|',
-                    'undo', 'redo'
-                ],
-                heading: {
-                    options: [
-                        { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
-                        { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
-                        { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
-                        { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
-                        { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
-                    ]
-                },
-                image: {
-                    toolbar: [
-                        'imageStyle:inline',
-                        'imageStyle:block',
-                        'imageStyle:side',
-                        '|',
-                        'toggleImageCaption',
-                        'imageTextAlternative'
-                    ]
-                },
-                table: {
-                    contentToolbar: [
-                        'tableColumn',
-                        'tableRow',
-                        'mergeTableCells',
-                        '|',
-                        'toggleTableCaption'
-                    ]
-                }
-            }
-        }
+              },
+          },
+          editorConfig:{
+              placeholder: 'Markdown editor',
+              plugins: [
+                  globalThis.SH_CKE.Essentials,
+                  globalThis.SH_CKE.Autoformat,
+                  globalThis.SH_CKE.BlockQuote,
+                  globalThis.SH_CKE.Bold,
+                  globalThis.SH_CKE.Heading,
+                  globalThis.SH_CKE.Image,
+                  globalThis.SH_CKE.ImageCaption,
+                  globalThis.SH_CKE.ImageStyle,
+                  globalThis.SH_CKE.ImageToolbar,
+                  globalThis.SH_CKE.ImageUpload, 
+                  globalThis.SH_CKE.Indent,
+                  globalThis.SH_CKE.Italic,
+                  globalThis.SH_CKE.Link,
+                  globalThis.SH_CKE.List,
+                  globalThis.SH_CKE.MediaEmbed,
+                  globalThis.SH_CKE.Paragraph,
+                  globalThis.SH_CKE.Table,
+                  globalThis.SH_CKE.TableToolbar,
+                  globalThis.SH_CKE.SourceEditing, 
+                  globalThis.SH_CKE.StrapiMediaLib,
+                  globalThis.SH_CKE.StrapiUploadAdapter,
+                  globalThis.SH_CKE.Markdown,
+                  globalThis.SH_CKE.Code, 
+                  globalThis.SH_CKE.CodeBlock,
+                  globalThis.SH_CKE.TodoList,
+                  globalThis.SH_CKE.Strikethrough,
+                  globalThis.SH_CKE.HorizontalLine
+              ],
+              toolbar: {
+                  items: [
+                      'heading',
+                      '|',
+                      'bold',
+                      'italic',
+                      'strikethrough',
+                      'link',
+                      '|',
+                      'bulletedList',
+                      'numberedList',
+                      'todoList',
+                      '|',
+                      'code',
+                      'codeBlock',
+                      '|',
+                      'uploadImage',
+                      'strapiMediaLib',
+                      'blockQuote',
+                      'horizontalLine',
+                      '-',
+                      'sourceEditing',
+                      '|',
+                      'outdent',
+                      'indent',
+                      '|',
+                      'undo',
+                      'redo'
+                  ],
+                  shouldNotGroupWhenFull: true
+              },
+              image: {
+                  toolbar: [ 'imageStyle:inline', 'imageStyle:block', 'imageStyle:side', '|', 'toggleImageCaption', 'imageTextAlternative' ]
+              },
+              codeBlock: {
+                  languages: [
+                      { language: 'css', label: 'CSS' },
+                      { language: 'html', label: 'HTML' },
+                      { language: 'javascript', label: 'JavaScript' },
+                      { language: 'php', label: 'PHP' }
+                  ]
+              },
+          }
+        },
     }
 })
 ```
@@ -240,7 +250,7 @@ const CKEConfig = () => ({
 
 ---
 
-**Example of changing buttons, modifying the plugin list, and adding styles in the default preset:**
+Changing toolbar buttons, modifying the plugin list, adding styles to the default preset:
 
 <details>
    <summary><b>ckeditor.js</b></summary>
@@ -268,19 +278,19 @@ const CKEConfig = () => ({
             `,
             editorConfig:{
                 plugins: [
-                    SH_CKE.Bold,
-                    SH_CKE.Italic,
-                    SH_CKE.Essentials,
-                    SH_CKE.Heading,
-                    SH_CKE.Image,
-                    SH_CKE.ImageCaption,
-                    SH_CKE.ImageStyle,
-                    SH_CKE.ImageToolbar,
-                    SH_CKE.Link,
-                    SH_CKE.List,
-                    SH_CKE.Paragraph,
-                    SH_CKE.StrapiMediaLib,
-                    SH_CKE.StrapiUploadAdapter,
+                    globalThis.SH_CKE.Bold,
+                    globalThis.SH_CKE.Italic,
+                    globalThis.SH_CKE.Essentials,
+                    globalThis.SH_CKE.Heading,
+                    globalThis.SH_CKE.Image,
+                    globalThis.SH_CKE.ImageCaption,
+                    globalThis.SH_CKE.ImageStyle,
+                    globalThis.SH_CKE.ImageToolbar,
+                    globalThis.SH_CKE.Link,
+                    globalThis.SH_CKE.List,
+                    globalThis.SH_CKE.Paragraph,
+                    globalThis.SH_CKE.StrapiMediaLib,
+                    globalThis.SH_CKE.StrapiUploadAdapter,
                 ],
                 toolbar: [
                     'heading',
@@ -307,7 +317,7 @@ const CKEConfig = () => ({
 
 ### Adding plugins
 
-Your plugin must be available in the `global`.
+Your plugin must be available in the `global` object.
 
 **Example of adding the Timestamp plugin:**
 
@@ -316,14 +326,14 @@ Your plugin must be available in the `global`.
 ```js
 // your-app/src/admin/timestamp.js
 
-class Timestamp extends SH_CKE.Plugin {
+class Timestamp extends globalThis.SH_CKE.Plugin {
     init() {
         const editor = this.editor;
         // The button must be registered among the UI components of the editor
         // to be displayed in the toolbar.
         editor.ui.componentFactory.add( 'timestamp', () => {
             // The button will be an instance of ButtonView.
-            const button = new SH_CKE.ButtonView();
+            const button = new globalThis.SH_CKE.ButtonView();
 
             button.set( {
                 label: 'Timestamp',
@@ -391,28 +401,28 @@ const CKEConfig = () => ({
             },
             editorConfig:{
                 plugins: [
-                    Timestamp,
-                    SH_CKE.Autoformat,
-                    SH_CKE.Bold,
-                    SH_CKE.Italic,
-                    SH_CKE.Essentials,
-                    SH_CKE.Heading,
-                    SH_CKE.Image,
-                    SH_CKE.ImageCaption,
-                    SH_CKE.ImageStyle,
-                    SH_CKE.ImageToolbar,
-                    SH_CKE.ImageUpload,
-                    SH_CKE.Indent,
-                    SH_CKE.Link,
-                    SH_CKE.List,
-                    SH_CKE.Paragraph,
-                    SH_CKE.PasteFromOffice,
-                    SH_CKE.Table,
-                    SH_CKE.TableToolbar,
-                    SH_CKE.TableColumnResize,
-                    SH_CKE.TableCaption,
-                    SH_CKE.StrapiMediaLib,
-                    SH_CKE.StrapiUploadAdapter,
+                    globalThis.Timestamp,
+                    globalThis.SH_CKE.Autoformat,
+                    globalThis.SH_CKE.Bold,
+                    globalThis.SH_CKE.Italic,
+                    globalThis.SH_CKE.Essentials,
+                    globalThis.SH_CKE.Heading,
+                    globalThis.SH_CKE.Image,
+                    globalThis.SH_CKE.ImageCaption,
+                    globalThis.SH_CKE.ImageStyle,
+                    globalThis.SH_CKE.ImageToolbar,
+                    globalThis.SH_CKE.ImageUpload,
+                    globalThis.SH_CKE.Indent,
+                    globalThis.SH_CKE.Link,
+                    globalThis.SH_CKE.List,
+                    globalThis.SH_CKE.Paragraph,
+                    globalThis.SH_CKE.PasteFromOffice,
+                    globalThis.SH_CKE.Table,
+                    globalThis.SH_CKE.TableToolbar,
+                    globalThis.SH_CKE.TableColumnResize,
+                    globalThis.SH_CKE.TableCaption,
+                    globalThis.SH_CKE.StrapiMediaLib,
+                    globalThis.SH_CKE.StrapiUploadAdapter,
                 ],
                 toolbar: [
                     'timestamp',
@@ -447,14 +457,14 @@ yarn build
 
 ```js
 const CKEConfig = () => {
-  class Timestamp extends SH_CKE.Plugin {
+  class Timestamp extends globalThis.SH_CKE.Plugin {
     init() {
       const editor = this.editor;
       // The button must be registered among the UI components of the editor
       // to be displayed in the toolbar.
       editor.ui.componentFactory.add("timestamp", () => {
         // The button will be an instance of ButtonView.
-        const button = new SH_CKE.ButtonView();
+        const button = new globalThis.SH_CKE.ButtonView();
 
         button.set({
           label: "Timestamp",
@@ -493,27 +503,27 @@ const CKEConfig = () => {
             editorConfig:{
                 plugins: [
                     Timestamp,
-                    SH_CKE.Autoformat,
-                    SH_CKE.Bold,
-                    SH_CKE.Italic,
-                    SH_CKE.Essentials,
-                    SH_CKE.Heading,
-                    SH_CKE.Image,
-                    SH_CKE.ImageCaption,
-                    SH_CKE.ImageStyle,
-                    SH_CKE.ImageToolbar,
-                    SH_CKE.ImageUpload,
-                    SH_CKE.Indent,
-                    SH_CKE.Link,
-                    SH_CKE.List,
-                    SH_CKE.Paragraph,
-                    SH_CKE.PasteFromOffice,
-                    SH_CKE.Table,
-                    SH_CKE.TableToolbar,
-                    SH_CKE.TableColumnResize,
-                    SH_CKE.TableCaption,
-                    SH_CKE.StrapiMediaLib,
-                    SH_CKE.StrapiUploadAdapter,
+                    globalThis.SH_CKE.Autoformat,
+                    globalThis.SH_CKE.Bold,
+                    globalThis.SH_CKE.Italic,
+                    globalThis.SH_CKE.Essentials,
+                    globalThis.SH_CKE.Heading,
+                    globalThis.SH_CKE.Image,
+                    globalThis.SH_CKE.ImageCaption,
+                    globalThis.SH_CKE.ImageStyle,
+                    globalThis.SH_CKE.ImageToolbar,
+                    globalThis.SH_CKE.ImageUpload,
+                    globalThis.SH_CKE.Indent,
+                    globalThis.SH_CKE.Link,
+                    globalThis.SH_CKE.List,
+                    globalThis.SH_CKE.Paragraph,
+                    globalThis.SH_CKE.PasteFromOffice,
+                    globalThis.SH_CKE.Table,
+                    globalThis.SH_CKE.TableToolbar,
+                    globalThis.SH_CKE.TableColumnResize,
+                    globalThis.SH_CKE.TableCaption,
+                    globalThis.SH_CKE.StrapiMediaLib,
+                    globalThis.SH_CKE.StrapiUploadAdapter,
                 ],
                 toolbar: [
                     'timestamp',
@@ -621,27 +631,27 @@ const CKEConfig = () => ({
             },
             editorConfig:{
                 plugins: [
-                    SH_CKE.Autoformat,
-                    SH_CKE.Bold,
-                    SH_CKE.Italic,
-                    SH_CKE.Essentials,
-                    SH_CKE.Heading,
-                    SH_CKE.Image,
-                    SH_CKE.ImageCaption,
-                    SH_CKE.ImageStyle,
-                    SH_CKE.ImageToolbar,
-                    SH_CKE.ImageUpload,
-                    SH_CKE.Indent,
-                    SH_CKE.Link,
-                    SH_CKE.List,
-                    SH_CKE.Paragraph,
-                    SH_CKE.PasteFromOffice,
-                    SH_CKE.Table,
-                    SH_CKE.TableToolbar,
-                    SH_CKE.TableColumnResize,
-                    SH_CKE.TableCaption,
-                    SH_CKE.StrapiMediaLib,
-                    SH_CKE.StrapiUploadAdapter,
+                    globalThis.SH_CKE.Autoformat,
+                    globalThis.SH_CKE.Bold,
+                    globalThis.SH_CKE.Italic,
+                    globalThis.SH_CKE.Essentials,
+                    globalThis.SH_CKE.Heading,
+                    globalThis.SH_CKE.Image,
+                    globalThis.SH_CKE.ImageCaption,
+                    globalThis.SH_CKE.ImageStyle,
+                    globalThis.SH_CKE.ImageToolbar,
+                    globalThis.SH_CKE.ImageUpload,
+                    globalThis.SH_CKE.Indent,
+                    globalThis.SH_CKE.Link,
+                    globalThis.SH_CKE.List,
+                    globalThis.SH_CKE.Paragraph,
+                    globalThis.SH_CKE.PasteFromOffice,
+                    globalThis.SH_CKE.Table,
+                    globalThis.SH_CKE.TableToolbar,
+                    globalThis.SH_CKE.TableColumnResize,
+                    globalThis.SH_CKE.TableCaption,
+                    globalThis.SH_CKE.StrapiMediaLib,
+                    globalThis.SH_CKE.StrapiUploadAdapter,
                 ],
                 toolbar: [
                     'heading',
