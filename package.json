@@ -25,7 +25,7 @@
     "strapi-server.js"
   ],
   "dependencies": {
-    "ckeditor5": "^43.2.0",
+    "ckeditor5": "^43.3.0",
     "@ckeditor/ckeditor5-react": "^9.3.1",
     "@strapi/design-system": "^1.19.0",
     "prop-types": "^15.8.1",
