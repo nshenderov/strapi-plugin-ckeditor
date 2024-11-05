@@ -41,24 +41,12 @@ export const Editor = ({
 
   useEffect(() => {
     (async () => {
-      const currentPreset = await getConfiguredPreset(
-        presetName,
-        handleToggleMediaLib
-      );
+      const currentPreset = await getConfiguredPreset(presetName, {
+        toggleMediaLib: handleToggleMediaLib,
+        strapiFieldPlaceholder: placeholder,
+      });
 
-      if (placeholder) {
-        const clonedPreset = {
-          ...currentPreset,
-          editorConfig: {
-            ...currentPreset.editorConfig,
-            placeholder: placeholder,
-          },
-        };
-        
-        setPreset(clonedPreset);
-      } else {
-        setPreset(currentPreset);
-      }
+      setPreset(currentPreset);
     })();
   }, []);
 

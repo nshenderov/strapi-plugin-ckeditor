@@ -2,17 +2,27 @@ import basePresets from '../presets';
 import { setPlugins } from './plugins';
 import { setLanguage } from './language';
 
-export const getConfiguredPreset = async (presetName, toggleMediaLib) => {
+export const getConfiguredPreset = async (
+  presetName,
+  { toggleMediaLib, strapiFieldPlaceholder }
+) => {
   const { presets: userPresets, dontMergePresets } =
     globalThis.SH_CKE_CONFIG || {};
 
-  const preset = dontMergePresets
-    ? userPresets[presetName]
-    : basePresets[presetName];
+  const preset =
+    dontMergePresets ? userPresets[presetName] : basePresets[presetName];
 
-  setPlugins(preset.editorConfig, toggleMediaLib);
+  const clonedPreset = {
+    ...preset,
+    editorConfig: {
+      ...preset.editorConfig,
+      placeholder: strapiFieldPlaceholder || preset.editorConfig.placeholder,
+    },
+  };
 
-  await setLanguage(preset.editorConfig);
+  setPlugins(clonedPreset.editorConfig, toggleMediaLib);
 
-  return preset;
+  await setLanguage(clonedPreset.editorConfig);
+
+  return clonedPreset;
 };
