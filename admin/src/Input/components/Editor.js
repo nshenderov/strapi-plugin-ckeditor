@@ -20,7 +20,7 @@ export const Editor = ({
   disabled = false,
   presetName,
   maxLength,
-  placeholder
+  placeholder,
 }) => {
   const [editorInstance, setEditorInstance] = useState(false);
 
@@ -39,24 +39,12 @@ export const Editor = ({
 
   useEffect(() => {
     (async () => {
-      const currentPreset = await getConfiguredPreset(
-        presetName,
-        handleToggleMediaLib
-      );
+      const currentPreset = await getConfiguredPreset(presetName, {
+        toggleMediaLib: handleToggleMediaLib,
+        strapiFieldPlaceholder: placeholder?.defaultMessage,
+      });
 
-      if (placeholder) {
-        const clonedPreset = {
-          ...currentPreset,
-          editorConfig: {
-            ...currentPreset.editorConfig,
-            placeholder: placeholder.defaultMessage,
-          },
-        };
-        
-        setPreset(clonedPreset);
-      } else {
-        setPreset(currentPreset);
-      }
+      setPreset(currentPreset);
     })();
   }, []);
 
