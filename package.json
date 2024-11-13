@@ -25,11 +25,11 @@
     "strapi-server.js"
   ],
   "dependencies": {
-    "ckeditor5": "^43.3.0",
+    "ckeditor5": "^43.3.1",
     "@ckeditor/ckeditor5-react": "^9.3.1",
     "@strapi/design-system": "^1.19.0",
     "prop-types": "^15.8.1",
-    "sanitize-html": "^2.13.0"
+    "sanitize-html": "^2.13.1"
   },
   "peerDependencies": {
     "@strapi/strapi": "^4.13.0"
