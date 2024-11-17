@@ -2,14 +2,14 @@ import { css } from 'styled-components';
 
 export const additional = css`
   /* --- expanding --- */
-
+/* 
   .ck.ck-editor__main .ck-blurred {
     max-height: 200px !important;
   }
   .ck.ck-editor__main .ck-focused {
     min-height: 200px !important;
     max-height: 700px !important;
-  }
+  } */
 
   /* --- color-grid --- */
 

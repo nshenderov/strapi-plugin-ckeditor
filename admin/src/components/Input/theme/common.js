@@ -17,14 +17,19 @@ export const common = css`
     --ck-image-style-spacing: 1.5em;
     --ck-inline-image-style-spacing: calc(var(--ck-image-style-spacing) / 2);
     --ck-todo-list-checkmark-size: 16px;
-    font-size: 14px;
+    font-size: 1.4rem;
+    /* width: 100% !important; */
+
+    --ck-editor-max-width: 1200px;
   }
 
+  
+
   .ck.ck-sticky-panel .ck-sticky-panel__content_sticky {
-    top: 64px !important;
+    /* top: 64px !important; */
   }
   .ck.ck-reset.ck-dropdown__panel.ck-dropdown__panel_sw.ck-dropdown__panel-visible {
-    border-radius: 4px;
+    border-radius: var(--ck-border-radius);
   }
 
   .ck-editor__main {
@@ -137,18 +142,18 @@ export const common = css`
     .ck.ck-content.ck-editor__editable {
       line-height: initial;
       min-height: 12.5rem;
-      border-bottom-left-radius: 0.25rem;
-      border-bottom-right-radius: 0.25rem;
-      transition-property: border-color, box-shadow, max-height;
+      border-bottom-left-radius: var(--ck-border-radius);
+      border-bottom-right-radius: var(--ck-border-radius);
+      /* transition-property: border-color, box-shadow, max-height;
       transition-timing-function: ease-in-out;
-      transition-duration: 0.5s;
+      transition-duration: 0.5s; */
       &.ck-focused:not(.ck-editor__nested-editable) {
         border: 1px solid var(--ck-color-base-border);
         /* border: var(--ck-focus-ring); */
         box-shadow: none;
-        transition-property: border-color, box-shadow, max-height;
+        /* transition-property: border-color, box-shadow, max-height;
         transition-timing-function: ease-in-out;
-        transition-duration: 0.5s;
+        transition-duration: 0.5s; */
       }
     }
 
@@ -232,5 +237,10 @@ export const common = css`
   .ck.ck-editor__editable > .ck-placeholder::before {
     color: var(--ck-color-editor-base-text);
     opacity: 0.65;
+  }
+
+  .ck.ck-balloon-panel.ck-powered-by-balloon {
+    border: none !important;
+    margin-top: 1.1rem;
   }
 `;

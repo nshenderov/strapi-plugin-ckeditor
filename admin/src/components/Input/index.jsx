@@ -1,28 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Field, Flex } from '@strapi/design-system';
+import { useField } from '@strapi/admin/strapi-admin';
 
 import { Editor } from './components/Editor';
 
 const Input = ({
   name,
   attribute,
-  value = '',
   labelAction = null,
   label,
   disabled = false,
-  error = null,
   required = false,
   hint = '',
   placeholder,
 }) => {
   const { preset, maxLengthCharacters, ...options } = attribute.options;
+  const field = useField(name);
 
   return (
     <Field.Root
       name={name}
       id={name}
-      error={error}
+      error={field.error}
       hint={hint}
       required={required}
     >
@@ -31,7 +31,6 @@ const Input = ({
         <Editor
           disabled={disabled}
           name={name}
-          value={value}
           presetName={preset}
           maxLength={maxLengthCharacters}
           placeholder={placeholder}
