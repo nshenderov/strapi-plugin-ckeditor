@@ -346,8 +346,10 @@ const defaultEditorConfig = {
   ui: {
     poweredBy: {
       position: 'inside',
-      side: 'right',
+      side: 'left',
       label: '',
+      verticalOffset: 0,
+      horizontalOffset: 0,
     },
   },
 };
