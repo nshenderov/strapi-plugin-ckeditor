@@ -12,7 +12,7 @@ const Input = ({
   label,
   disabled = false,
   required = false,
-  hint = '',
+  hint,
   placeholder,
 }) => {
   const { preset, maxLengthCharacters, ...options } = attribute.options;

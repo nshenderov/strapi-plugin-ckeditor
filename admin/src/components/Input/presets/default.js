@@ -345,7 +345,7 @@ const defaultEditorConfig = {
   },
   ui: {
     poweredBy: {
-      position: 'outside',
+      position: 'border',
       side: 'left',
       label: '',
     },

@@ -1,18 +1,15 @@
 import { css } from 'styled-components';
 
-export const additional = css`
-  /* --- expanding --- */
-/* 
-  .ck.ck-editor__main .ck-blurred {
-    max-height: 200px !important;
+const editorSizes = css`
+  :root {
+    --ck-editor-full-screen-box-max-width: 1700px;
+    --ck-editor-max-width: 1366px;
+    --ck-editor-min-height: 200px;
+    --ck-editor-max-height: 500px;
   }
-  .ck.ck-editor__main .ck-focused {
-    min-height: 200px !important;
-    max-height: 700px !important;
-  } */
+`
 
-  /* --- color-grid --- */
-
+const colorGrid = css`
   .ck.ck-color-ui-dropdown {
     --ck-color-grid-tile-size: 22px !important;
   }
@@ -35,9 +32,9 @@ export const additional = css`
     transform: scale(1.1);
     border-radius: 2px;
   }
+`
 
-  /* ---- Styles feature ------------------------------------------------------ */
-
+const styleFeature = css`
   :root {
     --ck-georgia-serif-font-stack: Georgia, Times, Times New Roman, serif;
   }
@@ -187,4 +184,10 @@ export const additional = css`
   .ck-content pre.stylish-code-bright code {
     color: #222;
   }
-`;
+`
+
+export const additional = `
+${editorSizes}
+${colorGrid}
+${styleFeature}
+`
