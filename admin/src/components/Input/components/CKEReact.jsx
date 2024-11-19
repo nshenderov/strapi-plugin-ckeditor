@@ -11,15 +11,15 @@ export const CKEReact = ({
   disabled,
   maxLength,
   preset,
+  isMaxLength,
+  setIsMaxLength,
   setEditorInstance,
 }) => {
   const { onChange: fieldOnChange, value, error } = useField(name);
 
-  const [lengthMax, setLengthMax] = useState(false);
-
   const wordCounter = useRef(null);
 
-  const handleCounter = (number) => setLengthMax(number > maxLength);
+  const handleCounter = (number) => setIsMaxLength(number > maxLength);
 
   const hasWordCountPlugin = Boolean(preset.editorConfig.WordCountPlugin);
 
@@ -63,7 +63,7 @@ export const CKEReact = ({
       />
       {hasWordCountPlugin && (
         <WordCounterBox
-          color={lengthMax ? 'danger500' : 'neutral400'}
+          color={isMaxLength ? 'danger500' : 'neutral400'}
           ref={wordCounter}
         ></WordCounterBox>
       )}
