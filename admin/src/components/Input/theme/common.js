@@ -146,12 +146,16 @@ const plugin = css`
     }
   }
 
+  .ck.ck-editor__top .ck-sticky-panel .ck-sticky-panel__content{
+    border: none !important;
+  }
+
   .ck.ck-editor__main {
     min-height: var(--ck-editor-min-height) !important;
     max-height: var(--ck-editor-max-height) !important;
     overflow-y: auto;
     overflow-x: hidden;
-    border: 1px solid var(--ck-color-base-border);
+    border-top: 1px solid var(--ck-color-base-border);
     border-bottom-left-radius: var(--ck-border-radius);
     border-bottom-right-radius: var(--ck-border-radius);
   }
@@ -276,9 +280,6 @@ const expanded = css`
       min-height: none !important;
       max-height: none !important;
       overflow-y: scroll !important;
-      border: 1px solid var(--ck-color-base-border);
-      border-bottom-left-radius: var(--ck-border-radius);
-      border-bottom-right-radius: var(--ck-border-radius);
       padding: calc(2 * var(--ck-spacing-large));
     }
 

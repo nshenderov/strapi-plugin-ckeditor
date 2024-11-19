@@ -16,9 +16,10 @@ export const Editor = ({
   maxLength,
   placeholder,
 }) => {
-  const [mediaLibVisible, setMediaLibVisible] = useState(false);
-  const [editorInstance, setEditorInstance] = useState(false);
+  const [editorInstance, setEditorInstance] = useState(null);
   const [preset, setPreset] = useState(null);
+  const [isMaxLength, setIsMaxLength] = useState(false);
+  const [mediaLibVisible, setMediaLibVisible] = useState(false);
 
   const toggleMediaLib = () => setMediaLibVisible((prev) => !prev);
 
@@ -52,12 +53,18 @@ export const Editor = ({
   return (
     <>
       <GlobalStyling />
-      <EditorLayout presetStyles={preset.styles}>
+      <EditorLayout
+        presetStyles={preset.styles}
+        name={name}
+        isMaxLength={isMaxLength}
+      >
         <CKEReact
           name={name}
           preset={preset}
           disabled={disabled}
           maxLength={maxLength}
+          isMaxLength={isMaxLength}
+          setIsMaxLength={setIsMaxLength}
           setEditorInstance={setEditorInstance}
         />
         <MediaLib
