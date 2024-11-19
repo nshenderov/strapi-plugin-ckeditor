@@ -52,7 +52,7 @@ export const Editor = ({
   return (
     <>
       <GlobalStyling />
-      <EditorLayout presetStyles={preset.styles}>
+      <EditorLayout presetStyles={preset.styles} name={name}>
         <CKEReact
           name={name}
           preset={preset}

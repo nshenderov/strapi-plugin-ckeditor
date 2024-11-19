@@ -1,9 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Flex, IconButton, FocusTrap, Portal } from '@strapi/design-system';
+import { useField } from '@strapi/strapi/admin';
+import {
+  Box,
+  Flex,
+  IconButton,
+  FocusTrap,
+  Portal,
+} from '@strapi/design-system';
 import { Expand, Collapse } from '@strapi/icons';
-import styled from 'styled-components';
+import { css, styled } from 'styled-components';
 
-export const EditorLayout = ({ children, presetStyles }) => {
+export const EditorLayout = ({ children, presetStyles, name }) => {
+  const { error } = useField(name);
   const [isExpandedMode, setIsExpandedMode] = useState(false);
 
   const handleToggleExpand = () => setIsExpandedMode(true);
@@ -46,13 +54,12 @@ export const EditorLayout = ({ children, presetStyles }) => {
               <Flex height="100%" alignItems="flex-start" direction="column">
                 <EditorWrapper
                   $presetStyles={presetStyles}
+                  $isExpanded={isExpandedMode}
+                  $hasError={Boolean(error)}
                   className={isExpandedMode ? 'ck-editor__expanded' : ''}
                 >
                   {children}
-                  <CollapseButton
-                    label="Collapse"
-                    onClick={handleOnCollapse}
-                  >
+                  <CollapseButton label="Collapse" onClick={handleOnCollapse}>
                     <Collapse />
                   </CollapseButton>
                 </EditorWrapper>
@@ -65,7 +72,11 @@ export const EditorLayout = ({ children, presetStyles }) => {
   }
 
   return (
-    <EditorWrapper $presetStyles={presetStyles}>
+    <EditorWrapper
+      $presetStyles={presetStyles}
+      $isExpanded={isExpandedMode}
+      $hasError={Boolean(error)}
+    >
       {children}
       <ExpandButton label="Expand" onClick={handleToggleExpand}>
         <Expand />
@@ -77,7 +88,22 @@ export const EditorLayout = ({ children, presetStyles }) => {
 const EditorWrapper = styled('div')`
   position: relative;
   width: 100%;
-  height: 100%;
+  height: ${({ $isExpanded }) => ($isExpanded ? '100%' : 'auto')};
+  border-radius: ${({ theme }) => theme.borderRadius};
+
+  ${({ theme, $hasError = false }) => css`
+    outline: none;
+    box-shadow: 0;
+    transition-property: border-color, box-shadow, fill;
+    transition-duration: 0.2s;
+
+    &:focus-within {
+      box-shadow: ${$hasError ?
+          theme.colors.danger600
+        : theme.colors.primary600}
+        0px 0px 0px 2.7px;
+    }
+  `}
 
   ${({ $presetStyles }) => $presetStyles}
 `;
@@ -102,5 +128,5 @@ const CollapseButton = styled(IconButton)`
 `;
 
 const FullScreenBox = styled(Box)`
-    max-width: var(--ck-editor-full-screen-box-max-width);
-`
+  max-width: var(--ck-editor-full-screen-box-max-width);
+`;
