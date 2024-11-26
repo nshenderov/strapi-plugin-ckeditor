@@ -1,0 +1,11 @@
+{
+  "extends": ["airbnb", "airbnb-typescript", "airbnb/hooks", "plugin:prettier/recommended"],
+  "plugins": ["prettier"],
+  "parserOptions": {
+    "project": ["./admin/tsconfig.json", "./server/tsconfig.json"]
+  },
+  "ignorePatterns": ["dist", "node_modules"],
+  "rules": {
+    "react/require-default-props": "warn"
+  }
+}
