@@ -1,17 +1,18 @@
 import type { Core } from '@strapi/strapi';
-import pluginId from '../utils/pluginId';
+import PLUGIN_ID from '../utils/pluginId';
 
 export default function configController({ strapi }: { strapi: Core.Strapi }): Core.Controller {
   return {
-    getConfig(ctx) {
+    async getConfig(ctx) {
       const { responsiveDimensions = false } = strapi
         .plugin('upload')
         .service('upload')
         .getSettings();
 
-      const isResponsive = `\nglobalThis.SH_CKE_UPLOAD_ADAPTER_IS_RESPONSIVE = ${responsiveDimensions}`;
+      const isResponsive = `window.SH_CKE_UPLOAD_ADAPTER_IS_RESPONSIVE = ${responsiveDimensions}\n`;
 
-      const config = strapi.plugin(pluginId).service('configService').readConfig() + isResponsive;
+      const config =
+        (await strapi.plugin(PLUGIN_ID).service('configService').readConfig()) + isResponsive;
 
       ctx.type = 'application/javascript';
       ctx.send(config);

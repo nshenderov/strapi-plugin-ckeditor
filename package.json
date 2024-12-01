@@ -1,7 +1,7 @@
 {
   "name": "@_sh/strapi-plugin-ckeditor",
   "version": "4.0.11",
-  "description": "Integrates CKEditor 5 into your Strapi project as a fully customizable custom field. (Unofficial integration)",
+  "description": "Integrates CKEditor 5 into your Strapi project as a fully customizable custom field.",
   "keywords": [
     "strapi",
     "ckeditor",
@@ -19,15 +19,22 @@
     "type": "git",
     "url": "https://github.com/nshenderov/strapi-plugin-ckeditor.git"
   },
-  "type": "commonjs",
   "strapi": {
     "name": "ckeditor5",
     "displayName": "CKEditor 5",
-    "description": "Integrates CKEditor 5 into your Strapi project as a fully customizable custom field. (Unofficial integration)",
+    "description": "Integrates CKEditor 5 into your Strapi project as a fully customizable custom field.",
     "kind": "plugin"
   },
+  "type": "commonjs",
   "exports": {
     "./package.json": "./package.json",
+    ".": {
+      "types": "./dist/admin/src/exports.d.ts",
+      "source": "./admin/src/exports.ts",
+      "import": "./dist/admin/index.mjs",
+      "require": "./dist/admin/index.js",
+      "default": "./dist/admin/index.js"
+    },
     "./strapi-admin": {
       "types": "./dist/admin/src/index.d.ts",
       "source": "./admin/src/index.ts",
@@ -44,8 +51,7 @@
     }
   },
   "files": [
-    "dist",
-    "./strapi-server.js"
+    "dist"
   ],
   "scripts": {
     "build": "strapi-plugin build",
@@ -58,12 +64,13 @@
     "release:info": "release-it --changelog"
   },
   "dependencies": {
-    "@ckeditor/ckeditor5-react": "^9.3.1",
+    "@ckeditor/ckeditor5-react": "^9.4.0",
     "@strapi/design-system": "^2.0.0-rc.13",
-    "@strapi/icons": "^1.19.0",
+    "@strapi/icons": "^2.0.0-rc.13",
     "ckeditor5": "^43.3.1",
     "prop-types": "^15.8.1",
-    "sanitize-html": "^2.13.1"
+    "sanitize-html": "^2.13.1",
+    "yup": "0.32.9"
   },
   "devDependencies": {
     "@release-it/conventional-changelog": "^8.0.1",
@@ -73,6 +80,7 @@
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@types/sanitize-html": "^2.13.0",
+    "@types/styled-components": "^5.1.34",
     "@typescript-eslint/eslint-plugin": "^7.0.0",
     "@typescript-eslint/parser": "^7.0.0",
     "eslint": "^8.2.0",
@@ -93,15 +101,14 @@
     "typescript": "^5.6.3"
   },
   "peerDependencies": {
-    "@strapi/sdk-plugin": "^5.2.7",
     "@strapi/strapi": "^5.0.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-router-dom": "^6.26.2",
-    "styled-components": "^6.1.13"
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-router-dom": "^6.0.0",
+    "styled-components": "^6.0.0"
   },
   "engines": {
-    "node": ">=18.0.0 <=20.x.x",
+    "node": ">=18.0.0 <=22.x.x",
     "npm": ">=6.0.0"
   },
   "license": "MIT"

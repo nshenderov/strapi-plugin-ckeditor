@@ -1,17 +1,16 @@
-import React from 'react';
 import * as yup from 'yup';
-import * as types from './types';
 
-import './utils/exportToGlobal';
-import getPresetsOptions from './utils/getPresetsOptions';
-import PLUGIN_ID from './utils/pluginId';
-import { CKEditorIcon } from './CKEditorIcon';
+import { PLUGIN_ID } from './utils';
+import { getPresetsFields, getPluginConfig, exportToGlobal } from './config';
+import { CKEditorIcon } from './components/CKEditorIcon';
 
-// export {defaultEditor} from './components/Input/presets/default'
-// export const defaultEditorFunc =
-
+// eslint-disable-next-line import/no-default-export
 export default {
   async register(app: any) {
+    exportToGlobal();
+    const pluginConfig = await getPluginConfig();
+    const optionsPreset = getPresetsFields(pluginConfig);
+
     app.customFields.register({
       name: 'CKEditor',
       type: 'richtext',
@@ -26,7 +25,10 @@ export default {
         defaultMessage: 'The rich text editor for every use case',
       },
       components: {
-        Input: async () => import('./components/Input'),
+        Input: async () =>
+          import('./components/Field').then(module => ({
+            default: module.Field,
+          })),
       },
       options: {
         base: [
@@ -41,7 +43,7 @@ export default {
             },
             name: 'options.preset',
             type: 'select',
-            options: await getPresetsOptions(),
+            options: optionsPreset,
           },
         ],
         advanced: [
@@ -56,7 +58,7 @@ export default {
                   defaultMessage: 'Required field',
                 },
                 description: {
-                  id: `${PLUGIN_ID}required.description`,
+                  id: `${PLUGIN_ID}.required.description`,
                   defaultMessage: "You won't be able to create an entry if this field is empty",
                 },
               },
@@ -79,7 +81,7 @@ export default {
             ],
           },
         ],
-        validator: (args: any) => ({
+        validator: () => ({
           preset: yup.string().required({
             id: `${PLUGIN_ID}.preset.error.required`,
             defaultMessage: 'Editor preset is required',

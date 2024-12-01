@@ -1,2 +1,9 @@
-declare module '@strapi/design-system/*';
-declare module '@strapi/design-system';
+export {};
+
+declare global {
+  interface Window {
+    strapi: {
+      backendURL: string;
+    };
+  }
+}

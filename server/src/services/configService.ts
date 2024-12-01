@@ -6,7 +6,8 @@ export default function configService(): Core.Service {
     readConfig(): string {
       const configFileContent = readConfigFile();
       let config = configFileContent && trimConfig(configFileContent);
-      config ??= `globalThis.SH_CKE_CONFIG = null`;
+      config &&= `${config}\nwindow.SH_CKE_CONFIG = CKEConfig()\n`;
+      config ??= `window.SH_CKE_CONFIG = null\n`;
 
       return config;
     },
@@ -14,15 +15,15 @@ export default function configService(): Core.Service {
 }
 
 function readConfigFile(): string | null {
-  const appDir: string = process.cwd();
-  const isTSProject: boolean = fs.existsSync(`${appDir}/dist`);
-  const envName: string = process.env.NODE_ENV;
+  const appDir = process.cwd();
+  const isTSProject = fs.existsSync(`${appDir}/dist`);
+  const envName = process.env.NODE_ENV;
 
-  const cfgDir: string = isTSProject ? `${appDir}/dist/config` : `${appDir}/config`;
-  const cfgFileName: string = 'ckeditor.js';
+  const cfgDir = isTSProject ? `${appDir}/dist/config` : `${appDir}/config`;
+  const cfgFileName = 'ckeditor.js';
 
-  const envFilePath: string = `${cfgDir}/env/${envName}/${cfgFileName}`;
-  const baseFilePath: string = `${cfgDir}/${cfgFileName}`;
+  const envFilePath = `${cfgDir}/env/${envName}/${cfgFileName}`;
+  const baseFilePath = `${cfgDir}/${cfgFileName}`;
 
   if (fs.existsSync(envFilePath)) {
     return fs.readFileSync(envFilePath, 'utf8');
@@ -41,7 +42,7 @@ function trimConfig(rawBuf: string): string | null {
   ['const CKEConfig', 'function CKEConfig'].some(func => {
     const idx = rawBuf.indexOf(func);
     if (idx >= 0) {
-      config = `${rawBuf.substring(idx)}\nglobalThis.SH_CKE_CONFIG = CKEConfig()`;
+      config = `${rawBuf.substring(idx)}`;
       return true;
     }
     return false;

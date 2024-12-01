@@ -4,7 +4,7 @@ const STORAGE_KEYS = {
   PROFILE_THEME: 'STRAPI_THEME',
 };
 
-export const getStoredToken = () => {
+export function getStoredToken(): string | null {
   const token =
     localStorage.getItem(STORAGE_KEYS.TOKEN) ?? sessionStorage.getItem(STORAGE_KEYS.TOKEN);
 
@@ -13,15 +13,19 @@ export const getStoredToken = () => {
   }
 
   return null;
-};
+}
 
-export const getPreferedLanguage = () => {
+export function getPreferedLanguage(): string | 'en' {
   const language =
     localStorage.getItem(STORAGE_KEYS.PREFERED_LANGUAGE)?.replace(/^"|"$/g, '') || 'en';
   return language;
-};
+}
 
-export const getProfileTheme = () => {
-  const theme = localStorage.getItem(STORAGE_KEYS.PROFILE_THEME);
+export function getProfileTheme(): 'light' | 'dark' | 'system' | null {
+  const theme = localStorage.getItem(STORAGE_KEYS.PROFILE_THEME) as
+    | 'light'
+    | 'dark'
+    | 'system'
+    | null;
   return theme;
-};
+}

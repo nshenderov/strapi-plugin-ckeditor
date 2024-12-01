@@ -1,11 +1,27 @@
 {
-  "extends": ["airbnb", "airbnb-typescript", "airbnb/hooks", "plugin:prettier/recommended"],
+  "extends": ["airbnb", "airbnb-typescript", "airbnb/hooks", "prettier"],
   "plugins": ["prettier"],
   "parserOptions": {
     "project": ["./admin/tsconfig.json", "./server/tsconfig.json"]
   },
-  "ignorePatterns": ["dist", "node_modules"],
   "rules": {
-    "react/require-default-props": "warn"
-  }
+    "@typescript-eslint/no-use-before-define": "off",
+    "class-methods-use-this": "off",
+    "max-classes-per-file": "off",
+    "import/prefer-default-export": "off",
+    "import/no-default-export": "warn",
+    "import/extensions": "warn",
+    "react/require-default-props": "warn",
+    "no-param-reassign": "warn",
+    "react/jsx-no-bind": "warn",
+    "no-console": ["warn", { "allow": ["warn", "error"] }]
+  },
+  "overrides": [
+    {
+      "files": ["server/**/*"],
+      "rules": {
+        "import/no-default-export": "off"
+      }
+    }
+  ]
 }

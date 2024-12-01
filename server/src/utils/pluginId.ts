@@ -1,5 +1,5 @@
 import pluginPkg from '../../../package.json';
 
-const pluginId = pluginPkg.strapi.name || pluginPkg.name.replace(/^(@_sh\/strapi-)plugin-/i, '');
+const PLUGIN_ID = pluginPkg.strapi.name;
 
-export default pluginId;
+export default PLUGIN_ID;
