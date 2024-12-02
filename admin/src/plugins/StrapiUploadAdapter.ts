@@ -8,21 +8,21 @@ import {
   type UploadResponse,
 } from 'ckeditor5';
 
-export interface IStrapiUploadAdapterConfig extends SimpleUploadConfig {
+export interface StrapiUploadAdapterConfig extends SimpleUploadConfig {
   backendUrl?: string;
   responsive?: boolean;
 }
 
-export interface IStrapiUploadAdapter extends Plugin {
-  initAdapter: (config: IStrapiUploadAdapterConfig) => void;
+export interface StrapiUploadAdapterPlugin extends Plugin {
+  initAdapter: (config: StrapiUploadAdapterConfig) => void;
 }
 
-interface IStrapiAdapter extends UploadAdapter {
+interface StrapiAdapter extends UploadAdapter {
   loader: FileLoader;
-  config: IStrapiUploadAdapterConfig;
+  config: StrapiUploadAdapterConfig;
 }
 
-export class StrapiUploadAdapter extends Plugin implements IStrapiUploadAdapter {
+export class StrapiUploadAdapter extends Plugin implements StrapiUploadAdapterPlugin {
   public static get requires() {
     return [FileRepository] as const;
   }
@@ -33,15 +33,14 @@ export class StrapiUploadAdapter extends Plugin implements IStrapiUploadAdapter 
 
   public init(): void {}
 
-  public initAdapter(config: IStrapiUploadAdapterConfig): void {
+  public initAdapter(config: StrapiUploadAdapterConfig): void {
     if (!config.uploadUrl) {
       logWarning('strapi-upload-adapter-missing-uploadurl');
       return;
     }
 
-    this.editor.plugins.get(FileRepository).createUploadAdapter = loader => {
-      return new Adapter(loader, config) as UploadAdapter;
-    };
+    this.editor.plugins.get(FileRepository).createUploadAdapter = loader =>
+      new Adapter(loader, config) as UploadAdapter;
   }
 }
 
@@ -49,7 +48,7 @@ export class StrapiUploadAdapter extends Plugin implements IStrapiUploadAdapter 
  * Upload adapter.
  *
  */
-class Adapter implements IStrapiAdapter {
+class Adapter implements StrapiAdapter {
   /**
    * FileLoader instance to use during the upload.
    */
@@ -58,14 +57,14 @@ class Adapter implements IStrapiAdapter {
   /**
    * The configuration of the adapter.
    */
-  public config: IStrapiUploadAdapterConfig;
+  public config: StrapiUploadAdapterConfig;
 
   private xhr?: XMLHttpRequest;
 
   /**
    * Creates a new adapter instance.
    */
-  constructor(loader: FileLoader, config: IStrapiUploadAdapterConfig) {
+  constructor(loader: FileLoader, config: StrapiUploadAdapterConfig) {
     this.loader = loader;
     this.config = config;
   }

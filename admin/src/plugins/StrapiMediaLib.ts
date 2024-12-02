@@ -8,11 +8,11 @@ const mediaLibIcon =
   '1.282-.985 2.289-2.24 2.289-1.254 0-2.24-1.007-2.24-2.29 0-1.281.986-2.288 2.24-2.288 1.255 0 2.24 1.007 2.24 2.289z">' +
   '</path></svg>';
 
-export interface IStrapiMediaLib extends Plugin {
+export interface StrapiMediaLibPlugin extends Plugin {
   connect: (strapiToggle: () => void) => void;
 }
 
-export class StrapiMediaLib extends Plugin implements IStrapiMediaLib {
+export class StrapiMediaLib extends Plugin implements StrapiMediaLibPlugin {
   /**
    * Strapi function used to show media library modal.
    * Should be provided via connect method before using toggle method.

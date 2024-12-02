@@ -51,16 +51,7 @@ function Field({
 }
 
 function compare(oldProps: CKEditorFieldProps, newProps: CKEditorFieldProps): boolean {
-  return (
-    oldProps.name === newProps.name &&
-    oldProps.hint === newProps.hint &&
-    oldProps.error === newProps.error &&
-    oldProps.placeholder === newProps.placeholder &&
-    oldProps.disabled === newProps.disabled &&
-    oldProps.required === newProps.required &&
-    oldProps.label === newProps.label &&
-    oldProps.labelAction === newProps.labelAction
-  );
+  return oldProps.error === newProps.error && oldProps.labelAction === newProps.labelAction;
 }
 
 const MemoizedField = React.memo(Field, compare);

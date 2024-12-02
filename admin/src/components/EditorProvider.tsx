@@ -67,7 +67,7 @@ export function EditorProvider({
   }, [fieldError]);
 
   const validateInputLength = useCallback(
-    (stats: WordCountPluginStats) => {
+    (stats: WordCountPluginStats): void => {
       const maxWordsErrMsg = 'Max words limit is exceeded';
       const maxCharsErrMsg = 'Max characters limit is exceeded';
 

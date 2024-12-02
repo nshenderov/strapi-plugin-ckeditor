@@ -8,7 +8,11 @@ import 'ckeditor5/ckeditor5.css';
 import { useEditorContext } from './EditorProvider';
 import { getStoredToken } from '../utils';
 import { MediaLib } from './MediaLib';
-import type { IStrapiMediaLib, IStrapiUploadAdapterConfig, IStrapiUploadAdapter } from '../plugins';
+import type {
+  StrapiMediaLibPlugin,
+  StrapiUploadAdapterConfig,
+  StrapiUploadAdapterPlugin,
+} from '../plugins';
 
 export type WordCountPluginStats = {
   words: number;
@@ -28,7 +32,7 @@ export function CKEReact() {
   const toggleMediaLib = useCallback(() => setMediaLibVisible(prev => !prev), [setMediaLibVisible]);
 
   const handleChangeAssets = useCallback(
-    (newElems: string) => {
+    (newElems: string): void => {
       if (!editorInstance) {
         throw new Error('CKEditor: Editor instance is not initialized');
       }
@@ -42,12 +46,12 @@ export function CKEReact() {
     [toggleMediaLib, editorInstance]
   );
 
-  const onEditorReady = (editor: ClassicEditor) => {
+  const onEditorReady = (editor: ClassicEditor): void => {
     setUpPlugins(editor);
     setEditorInstance(editor);
   };
 
-  const onEditorChange = (_e: any, editor: ClassicEditor) => {
+  const onEditorChange = (_e: any, editor: ClassicEditor): void => {
     const data = editor.getData();
     fieldOnChange(name, data);
   };
@@ -75,15 +79,15 @@ export function CKEReact() {
     </>
   );
 
-  function setUpPlugins(editor: ClassicEditor) {
-    const pluginToSetup = {
+  function setUpPlugins(editor: ClassicEditor): void {
+    const pluginsToSetup: Record<string, (editor: ClassicEditor) => void> = {
       WordCount: setUpWordCount,
       ImageUploadEditing: setUpImageUploadEditing,
       StrapiMediaLib: setUpStrapiMediaLib,
       StrapiUploadAdapter: setUpStrapiUploadAdapter,
     };
 
-    Object.entries(pluginToSetup).forEach(([pluginName, setUpFn]) => {
+    Object.entries(pluginsToSetup).forEach(([pluginName, setUpFn]) => {
       if (editor.plugins.has(pluginName)) {
         try {
           setUpFn(editor);
@@ -94,7 +98,7 @@ export function CKEReact() {
     });
   }
 
-  function setUpWordCount(editor: ClassicEditor) {
+  function setUpWordCount(editor: ClassicEditor): void {
     const wordCountPlugin = editor.plugins.get('WordCount');
 
     if (wordsLimit || charsLimit) {
@@ -104,7 +108,7 @@ export function CKEReact() {
     wordCounterRef.current?.appendChild(wordCountPlugin.wordCountContainer);
   }
 
-  function setUpImageUploadEditing(editor: ClassicEditor) {
+  function setUpImageUploadEditing(editor: ClassicEditor): void {
     const imageUploadEditingPlugin = editor.plugins.get('ImageUploadEditing');
 
     const setAltAttribute = (_e: any, { data, imageElement }: any) => {
@@ -116,18 +120,18 @@ export function CKEReact() {
     imageUploadEditingPlugin.on('uploadComplete', setAltAttribute);
   }
 
-  function setUpStrapiMediaLib(editor: ClassicEditor) {
-    const strapiMediaLibPlugin = editor.plugins.get('StrapiMediaLib') as IStrapiMediaLib;
+  function setUpStrapiMediaLib(editor: ClassicEditor): void {
+    const strapiMediaLibPlugin = editor.plugins.get('StrapiMediaLib') as StrapiMediaLibPlugin;
     strapiMediaLibPlugin.connect(toggleMediaLib);
   }
 
-  function setUpStrapiUploadAdapter(editor: ClassicEditor) {
+  function setUpStrapiUploadAdapter(editor: ClassicEditor): void {
     const StrapiUploadAdapterPlugin = editor.plugins.get(
       'StrapiUploadAdapter'
-    ) as IStrapiUploadAdapter;
+    ) as StrapiUploadAdapterPlugin;
     const token = getStoredToken();
     const { backendURL } = window.strapi;
-    const config: IStrapiUploadAdapterConfig = {
+    const config: StrapiUploadAdapterConfig = {
       uploadUrl: `${backendURL}/upload`,
       backendUrl: backendURL,
       headers: { Authorization: `Bearer ${token}` },

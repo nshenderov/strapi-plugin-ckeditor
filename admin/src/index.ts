@@ -6,7 +6,7 @@ import { CKEditorIcon } from './components/CKEditorIcon';
 
 // eslint-disable-next-line import/no-default-export
 export default {
-  async register(app: any) {
+  async register(app: any): Promise<void> {
     exportToGlobal();
     const pluginConfig = await getPluginConfig();
     const optionsPreset = getPresetsFields(pluginConfig);

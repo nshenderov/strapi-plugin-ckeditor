@@ -9,7 +9,7 @@ export type ExportToGlobal = typeof CKE & {
   MaterialColors: typeof materialColors;
 };
 
-export function exportToGlobal() {
+export function exportToGlobal(): void {
   window.SH_CKE = {
     ...CKE,
     StrapiMediaLib,
