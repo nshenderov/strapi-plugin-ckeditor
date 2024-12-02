@@ -11,8 +11,6 @@ export default {
     const pluginConfig = await getPluginConfig();
     const optionsPreset = getPresetsFields(pluginConfig);
 
-    console.log('REGISTER');
-
     app.customFields.register({
       name: 'CKEditor',
       type: 'richtext',
@@ -24,7 +22,7 @@ export default {
       },
       intlDescription: {
         id: `${PLUGIN_ID}.description`,
-        defaultMessage: 'The rich text editor for every use case',
+        defaultMessage: 'The advanced rich text editor. (Community Edition)',
       },
       components: {
         Input: async () =>
