@@ -1,10 +1,11 @@
-import fs from 'fs';
+import { existsSync } from 'fs';
+import { readFile } from 'fs/promises';
 import type { Core } from '@strapi/strapi';
 
 export default function configService(): Core.Service {
   return {
-    readConfig(): string {
-      const configFileContent = readConfigFile();
+    async readConfig(): Promise<string> {
+      const configFileContent = await readConfigFile();
       let config = configFileContent && trimConfig(configFileContent);
       config &&= `${config}\nwindow.SH_CKE_CONFIG = CKEConfig()\n`;
       config ??= `window.SH_CKE_CONFIG = null\n`;
@@ -14,9 +15,9 @@ export default function configService(): Core.Service {
   };
 }
 
-function readConfigFile(): string | null {
+function readConfigFile(): Promise<string | null> {
   const appDir = process.cwd();
-  const isTSProject = fs.existsSync(`${appDir}/dist`);
+  const isTSProject = existsSync(`${appDir}/dist`);
   const envName = process.env.NODE_ENV;
 
   const cfgDir = isTSProject ? `${appDir}/dist/config` : `${appDir}/config`;
@@ -25,12 +26,12 @@ function readConfigFile(): string | null {
   const envFilePath = `${cfgDir}/env/${envName}/${cfgFileName}`;
   const baseFilePath = `${cfgDir}/${cfgFileName}`;
 
-  if (fs.existsSync(envFilePath)) {
-    return fs.readFileSync(envFilePath, 'utf8');
+  if (existsSync(envFilePath)) {
+    return readFile(envFilePath, 'utf8');
   }
 
-  if (fs.existsSync(baseFilePath)) {
-    return fs.readFileSync(baseFilePath, 'utf8');
+  if (existsSync(baseFilePath)) {
+    return readFile(baseFilePath, 'utf8');
   }
 
   return null;
