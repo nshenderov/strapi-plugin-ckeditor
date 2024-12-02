@@ -3,20 +3,25 @@ on:
   schedule:
     - cron: "30 1 * * *"
 
+env:
+  DAYS_BEFORE_ISSUE_STALE: 7
+  DAYS_BEFORE_ISSUE_CLOSE: 3
+
 jobs:
   close-issues:
     runs-on: ubuntu-latest
     permissions:
       issues: write
-      pull-requests: write
     steps:
-      - uses: actions/stale@v5
+      - uses: actions/stale@v9
         with:
-          days-before-issue-stale: 5
-          days-before-issue-close: 2
-          stale-issue-label: "stale"
-          stale-issue-message: "This issue is stale because it has been open for 5 days with no activity."
-          close-issue-message: "This issue was closed because it has been inactive for 2 days since being marked as stale."
+          days-before-issue-stale: ${{ env.DAYS_BEFORE_ISSUE_STALE }}
+          days-before-issue-close: ${{ env.DAYS_BEFORE_ISSUE_CLOSE }}
+          stale-issue-label: "no issue activity"
+          only-issue-labels: "issue: question"
+          stale-issue-message: "There has been no activity on this issue for ${{ env.DAYS_BEFORE_ISSUE_STALE }} days. If this is still relevant, please reply to keep it open."
+          close-issue-message: "This issue was closed due to inactivity. If you feel this was done in error, please re-open or create a new issue."
+          close-issue-reason: "completed"
           days-before-pr-stale: -1
           days-before-pr-close: -1
           repo-token: ${{ secrets.GITHUB_TOKEN }}
