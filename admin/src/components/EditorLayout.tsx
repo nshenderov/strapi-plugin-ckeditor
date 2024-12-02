@@ -3,10 +3,11 @@ import { Box, Flex, IconButton, FocusTrap, Portal } from '@strapi/design-system'
 import { Expand, Collapse } from '@strapi/icons';
 import { css, styled } from 'styled-components';
 
+import type { Styles } from 'src/config';
 import { useEditorContext } from './EditorProvider';
 
 export function EditorLayout({ children }: { children: ReactNode }) {
-  const { error } = useEditorContext();
+  const { error, preset } = useEditorContext();
 
   const [isExpandedMode, setIsExpandedMode] = useState(false);
 
@@ -49,6 +50,7 @@ export function EditorLayout({ children }: { children: ReactNode }) {
             >
               <Flex height="100%" alignItems="flex-start" direction="column">
                 <EditorWrapper
+                  $presetStyles={preset?.styles}
                   $isExpanded={isExpandedMode}
                   $hasError={Boolean(error)}
                   className="ck-editor__expanded"
@@ -67,7 +69,11 @@ export function EditorLayout({ children }: { children: ReactNode }) {
   }
 
   return (
-    <EditorWrapper $isExpanded={isExpandedMode} $hasError={Boolean(error)}>
+    <EditorWrapper
+      $presetStyles={preset?.styles}
+      $isExpanded={isExpandedMode}
+      $hasError={Boolean(error)}
+    >
       {children}
       <ExpandButton label="Expand" onClick={handleToggleExpand}>
         <Expand />
@@ -79,11 +85,12 @@ export function EditorLayout({ children }: { children: ReactNode }) {
 const EditorWrapper = styled('div')<{
   $isExpanded: boolean;
   $hasError: boolean;
+  $presetStyles?: Styles;
 }>`
   position: relative;
   width: 100%;
 
-  ${({ theme, $hasError = false, $isExpanded }) => css`
+  ${({ $presetStyles, theme, $hasError = false, $isExpanded }) => css`
     height: ${$isExpanded ? '100%' : 'auto'};
     border-radius: ${theme.borderRadius};
     outline: none;
@@ -98,6 +105,8 @@ const EditorWrapper = styled('div')<{
       border-color: ${$hasError && theme.colors.danger600};
       box-shadow: ${$hasError ? theme.colors.danger600 : theme.colors.primary600} 0px 0px 0px 2px;
     }
+
+    ${$presetStyles}
   `}
 `;
 

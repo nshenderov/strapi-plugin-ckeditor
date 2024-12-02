@@ -11,6 +11,8 @@ export default {
     const pluginConfig = await getPluginConfig();
     const optionsPreset = getPresetsFields(pluginConfig);
 
+    console.log('REGISTER');
+
     app.customFields.register({
       name: 'CKEditor',
       type: 'richtext',

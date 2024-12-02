@@ -16,7 +16,7 @@ export function Editor() {
         <Field.Label action={labelAction}>{label}</Field.Label>
         {preset ? (
           <>
-            <GlobalStyling presetStyles={preset.styles} />
+            <GlobalStyling />
             <EditorLayout>
               <CKEReact />
             </EditorLayout>

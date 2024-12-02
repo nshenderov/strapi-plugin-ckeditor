@@ -28,7 +28,7 @@ export async function getConfiguredPreset(presetName: string): Promise<Preset> {
   return clonedPreset;
 }
 
-export async function getPresetsFields(config: PluginConfig | null): Promise<Field[]> {
+export function getPresetsFields(config: PluginConfig | null): Field[] {
   const { presets: userPresets = {}, dontMergePresets = false } = config ?? {};
 
   if (!dontMergePresets && userPresets) {

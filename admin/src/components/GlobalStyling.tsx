@@ -17,25 +17,19 @@ const GlobalStyle = createGlobalStyle<{
       ${$editortTheme[$variant]}
       ${$editortTheme.additional}
     `}
-
-    ${({ $presetStyles }) =>
-      $presetStyles &&
-      css`
-        ${$presetStyles}
-      `}
 `;
 
 const getSystemColorScheme = (): 'light' | 'dark' =>
   window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 
-function GlobalStyling({ presetStyles }: { presetStyles?: Styles }) {
+function GlobalStyling() {
   const { theme: userTheme, dontMergeTheme } = window.SH_CKE_CONFIG || {};
 
   const profileTheme = getProfileTheme();
   const variant = profileTheme && profileTheme !== 'system' ? profileTheme : getSystemColorScheme();
   const theme = dontMergeTheme ? userTheme : { ...defaultTheme, ...userTheme };
 
-  return <GlobalStyle $editortTheme={theme} $variant={variant} $presetStyles={presetStyles} />;
+  return <GlobalStyle $editortTheme={theme} $variant={variant} />;
 }
 
 const MemoizedGlobalStyling = React.memo(GlobalStyling);
