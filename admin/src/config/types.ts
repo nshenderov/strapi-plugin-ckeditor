@@ -1,7 +1,4 @@
-import type {
-  EditorConfig as CKE5EditorConfig,
-  LanguageConfig as CKE5LanguageConfig,
-} from 'ckeditor5';
+import type { EditorConfig as CKE5EditorConfig } from 'ckeditor5';
 import type { Interpolation } from 'styled-components';
 import type { ExportToGlobal } from './expToGlobal';
 
@@ -46,13 +43,7 @@ export type PartialIsNotAllowedForNewPresets = {
   editorConfig?: Partial<EditorConfig>;
 };
 
-export type EditorConfig = Omit<CKE5EditorConfig, 'language'> & {
-  language?: string | Language;
-};
-
-export type Language = CKE5LanguageConfig & {
-  ignorei18n?: boolean;
-};
+export type EditorConfig = CKE5EditorConfig;
 
 export type Field = {
   metadatas: Metadata;

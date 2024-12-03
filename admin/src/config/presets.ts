@@ -1,12 +1,11 @@
 import { defaultPreset } from './defaultPreset';
-import { setUpLanguage } from './language';
 import type { Field, PluginConfig, Preset } from './types';
 
 export const pluginPresets: Record<string, Preset> = {
   default: defaultPreset,
 };
 
-export async function getConfiguredPreset(presetName: string): Promise<Preset> {
+export function getClonedPreset(presetName: string): Preset {
   const { presets: userPresets, dontMergePresets } = window.SH_CKE_CONFIG || {};
 
   if (dontMergePresets && !userPresets) {
@@ -22,8 +21,6 @@ export async function getConfiguredPreset(presetName: string): Promise<Preset> {
       ...preset.editorConfig,
     },
   };
-
-  await setUpLanguage(clonedPreset.editorConfig);
 
   return clonedPreset;
 }
