@@ -14,6 +14,11 @@ type CKEditorFieldProps = Readonly<
           maxLengthWords: number;
           maxLengthCharacters: number;
         };
+        pluginOptions?: {
+          i18n?: {
+            localized?: boolean;
+          };
+        };
       };
     }
 >;
@@ -30,6 +35,7 @@ function Field({
   required = false,
 }: CKEditorFieldProps) {
   const { preset, maxLengthWords, maxLengthCharacters } = attribute.options;
+  const isFieldLocalized = attribute?.pluginOptions?.i18n?.localized ?? false;
 
   return (
     <EditorProvider
@@ -44,6 +50,7 @@ function Field({
       presetName={preset}
       wordsLimit={maxLengthWords}
       charsLimit={maxLengthCharacters}
+      isFieldLocalized={isFieldLocalized}
     >
       <Editor />
     </EditorProvider>

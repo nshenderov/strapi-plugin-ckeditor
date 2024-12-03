@@ -1,7 +1,7 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import type { InputProps } from '@strapi/strapi/admin';
 
-import { type Preset, getConfiguredPreset } from '../config';
+import { type Preset, getClonedPreset, setUpLanguage } from '../config';
 import type { WordCountPluginStats } from './CKEReact';
 
 type EditorProviderBaseProps = Pick<
@@ -12,6 +12,7 @@ type EditorProviderBaseProps = Pick<
   presetName: string;
   wordsLimit?: number;
   charsLimit?: number;
+  isFieldLocalized: boolean;
 };
 
 type EditorContextValue = EditorProviderBaseProps & {
@@ -46,13 +47,16 @@ export function EditorProvider({
   wordsLimit,
   charsLimit,
   children,
+  isFieldLocalized,
 }: EditorProviderProps) {
   const [preset, setPreset] = useState<Preset | null>(null);
   const [error, setError] = useState<string | null>(fieldError ?? null);
 
   useEffect(() => {
     (async () => {
-      const currentPreset = await getConfiguredPreset(presetName);
+      const currentPreset = getClonedPreset(presetName);
+
+      await setUpLanguage(currentPreset.editorConfig, isFieldLocalized);
 
       if (placeholder) {
         currentPreset.editorConfig.placeholder = placeholder;
@@ -60,7 +64,7 @@ export function EditorProvider({
 
       setPreset(currentPreset);
     })();
-  }, [presetName, placeholder]);
+  }, [presetName, placeholder, isFieldLocalized]);
 
   useEffect(() => {
     setError(fieldError ?? null);
@@ -106,6 +110,7 @@ export function EditorProvider({
       wordsLimit,
       charsLimit,
       validateInputLength,
+      isFieldLocalized,
     }),
     [
       name,
@@ -121,6 +126,7 @@ export function EditorProvider({
       preset,
       error,
       validateInputLength,
+      isFieldLocalized,
     ]
   );
 
