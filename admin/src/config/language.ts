@@ -1,24 +1,23 @@
 import type { EditorConfig } from './types';
 import { getPreferedLanguage } from '../utils/localStorage';
 
-export async function setUpLanguage(config: EditorConfig): Promise<void> {
-  const i18nLang = detecti18n();
-  const preferedLanguage = getPreferedLanguage();
-
-  if (typeof config.language === 'object') {
-    if (Boolean(i18nLang) && !config.language.ignorei18n) {
-      config.language.content = i18nLang;
-    }
-  } else {
+export async function setUpLanguage(
+  config: EditorConfig,
+  isFieldLocalized: boolean
+): Promise<void> {
+  if (typeof config.language !== 'object') {
     config.language = {
       ui: config.language,
-      content: i18nLang,
-      ignorei18n: false,
+      content: config.language,
       textPartLanguage: undefined,
     };
   }
 
-  config.language.ui ||= preferedLanguage;
+  config.language.ui ||= getPreferedLanguage();
+
+  if (isFieldLocalized) {
+    config.language.content = detecti18n();
+  }
 
   if (config.language.ui !== 'en') {
     await importLang(config, config.language.ui);
