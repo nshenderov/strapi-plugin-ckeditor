@@ -1,2 +1,3 @@
 export type * from './config/types';
-export { defaultPreset } from './config';
+export { setPluginConfig, defaultPreset, materialColors } from './config';
+export { StrapiMediaLib, StrapiUploadAdapter } from './plugins';

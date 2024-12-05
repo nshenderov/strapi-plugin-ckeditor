@@ -1,27 +1,32 @@
+import { defaultTheme } from '../theme';
+import { defaultPreset } from './defaultPreset';
 import type { PluginConfig } from './types';
-import { PLUGIN_ID } from '../utils';
 
-export async function getPluginConfig(): Promise<PluginConfig | null> {
-  const config = await loadConfig().catch(error => console.error('CKEditor: ', error));
+const PLUGIN_CONFIG: PluginConfig = {
+  presets: {
+    default: defaultPreset,
+  },
+  theme: defaultTheme,
+};
 
-  return config || null;
+export function setPluginConfig(userConfig: Partial<PluginConfig>): void {
+  const { presets = PLUGIN_CONFIG.presets, theme = PLUGIN_CONFIG.theme } = userConfig;
+  PLUGIN_CONFIG.presets = presets;
+  PLUGIN_CONFIG.theme = theme;
+  deepFreeze(PLUGIN_CONFIG);
 }
 
-async function loadConfig(): Promise<PluginConfig | null> {
-  return new Promise((resolve, reject) => {
-    const { backendURL } = window.strapi;
-    const url =
-      backendURL !== '/'
-        ? `${backendURL}/${PLUGIN_ID}/config/ckeditor`
-        : `/${PLUGIN_ID}/config/ckeditor`;
+export function getPluginConfig(): PluginConfig {
+  if (!Object.isFrozen(PLUGIN_CONFIG)) deepFreeze(PLUGIN_CONFIG);
+  return PLUGIN_CONFIG;
+}
 
-    const script = document.createElement('script');
-    script.id = 'ckeditor-config';
-    script.src = url;
-
-    script.onload = () => resolve(window.SH_CKE_CONFIG);
-    script.onerror = () => reject(new Error('Failed loading config script'));
-
-    document.body.appendChild(script);
+function deepFreeze(obj: Object): Readonly<Object> {
+  (Object.keys(obj) as (keyof typeof obj)[]).forEach(p => {
+    if (typeof obj[p] === 'object' && obj[p] !== null && !Object.isFrozen(obj[p])) {
+      deepFreeze(obj[p]);
+    }
   });
+
+  return Object.freeze(obj);
 }

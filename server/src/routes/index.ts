@@ -4,8 +4,8 @@ export default {
     routes: [
       {
         method: 'GET',
-        path: '/config/ckeditor',
-        handler: 'configController.getConfig',
+        path: '/config/is-responsive-dimensions',
+        handler: 'configController.isResponsiveDimensions',
         config: {
           auth: false,
         },
