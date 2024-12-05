@@ -34,7 +34,7 @@ function MediaLib({ isOpen = false, toggle, handleChangeAssets }: MediaLibProps)
 
     assets.forEach(({ name, url, alt, formats, mime, width, height }: any) => {
       if (mime.includes('image')) {
-        if (formats && window.SH_CKE_UPLOAD_ADAPTER_IS_RESPONSIVE) {
+        if (formats && window.SH_CKE.IS_UPLOAD_RESPONSIVE) {
           const set = formSet(formats);
           newElems += `<img src="${url}" alt="${alt}" width="${width}" height="${height}" srcset="${set}" />`;
         } else {

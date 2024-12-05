@@ -1,15 +1,36 @@
 import * as yup from 'yup';
 
 import { PLUGIN_ID } from './utils';
-import { getPresetsFields, getPluginConfig, exportToGlobal } from './config';
+import { getPluginConfig, type Field } from './config';
 import { CKEditorIcon } from './components/CKEditorIcon';
+
+export * from './exports';
+
+const AVAILABLE_OPTIONS: Field[] = [];
+
+function fillUpOptions(): void {
+  const { presets } = getPluginConfig();
+  Object.values(presets).forEach(({ field }) => AVAILABLE_OPTIONS.push(field));
+}
+
+async function setUpGlobal() {
+  const { backendURL } = window.strapi;
+  const route = 'config/is-responsive-dimensions';
+  const url = backendURL !== '/' ? `${backendURL}/${PLUGIN_ID}/${route}` : `/${PLUGIN_ID}/${route}`;
+  const { isResponsiveDimensions } = await fetch(url).then(res => res.json());
+
+  window.SH_CKE = {
+    IS_UPLOAD_RESPONSIVE: isResponsiveDimensions,
+  };
+}
 
 // eslint-disable-next-line import/no-default-export
 export default {
+  bootstrap() {
+    fillUpOptions();
+  },
   async register(app: any): Promise<void> {
-    exportToGlobal();
-    const pluginConfig = await getPluginConfig();
-    const optionsPreset = getPresetsFields(pluginConfig);
+    await setUpGlobal();
 
     app.customFields.register({
       name: 'CKEditor',
@@ -43,7 +64,7 @@ export default {
             },
             name: 'options.preset',
             type: 'select',
-            options: optionsPreset,
+            options: AVAILABLE_OPTIONS,
           },
         ],
         advanced: [

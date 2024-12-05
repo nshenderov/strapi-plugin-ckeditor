@@ -135,7 +135,7 @@ export function CKEReact() {
       uploadUrl: `${backendURL}/upload`,
       backendUrl: backendURL,
       headers: { Authorization: `Bearer ${token}` },
-      responsive: window.SH_CKE_UPLOAD_ADAPTER_IS_RESPONSIVE,
+      responsive: window.SH_CKE.IS_UPLOAD_RESPONSIVE,
     };
 
     StrapiUploadAdapterPlugin.initAdapter(config);
