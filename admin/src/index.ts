@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 
 import { PLUGIN_ID } from './utils';
-import { getPluginConfig, Field } from './config';
+import { getPluginConfig, type Field } from './config';
 import { CKEditorIcon } from './components/CKEditorIcon';
 
 export * from './exports';
