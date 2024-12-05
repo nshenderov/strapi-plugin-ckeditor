@@ -1,8 +1,7 @@
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import type { InputProps } from '@strapi/strapi/admin';
 
 import { type Preset, setUpLanguage, getPluginConfig } from '../config';
-import type { WordCountPluginStats } from './CKEReact';
 
 type EditorProviderBaseProps = Pick<
   InputProps,
@@ -13,16 +12,14 @@ type EditorProviderBaseProps = Pick<
   wordsLimit?: number;
   charsLimit?: number;
   isFieldLocalized: boolean;
+  error?: string;
 };
 
 type EditorContextValue = EditorProviderBaseProps & {
   preset: Preset | null;
-  error: string | null;
-  validateInputLength: (stats: WordCountPluginStats) => void;
 };
 
 type EditorProviderProps = EditorProviderBaseProps & {
-  fieldError: string | undefined;
   children: React.ReactElement;
 };
 
@@ -37,7 +34,7 @@ export function useEditorContext(): EditorContextValue {
 export function EditorProvider({
   name,
   disabled,
-  fieldError,
+  error,
   placeholder,
   hint,
   label,
@@ -50,7 +47,6 @@ export function EditorProvider({
   isFieldLocalized,
 }: EditorProviderProps) {
   const [preset, setPreset] = useState<Preset | null>(null);
-  const [error, setError] = useState<string | null>(fieldError ?? null);
 
   useEffect(() => {
     (async () => {
@@ -66,35 +62,6 @@ export function EditorProvider({
     })();
   }, [presetName, placeholder, isFieldLocalized]);
 
-  useEffect(() => {
-    setError(fieldError ?? null);
-  }, [fieldError]);
-
-  const validateInputLength = useCallback(
-    (stats: WordCountPluginStats): void => {
-      const maxWordsErrMsg = 'Max words limit is exceeded';
-      const maxCharsErrMsg = 'Max characters limit is exceeded';
-
-      setError(prevErr => {
-        const isWordLimitExceeded = wordsLimit && stats.words > wordsLimit;
-        const isCharLimitExceeded = charsLimit && stats.characters > charsLimit;
-        const isErrSet = prevErr && (prevErr === maxWordsErrMsg || prevErr === maxCharsErrMsg);
-
-        if (isWordLimitExceeded) {
-          return maxWordsErrMsg;
-        }
-        if (isCharLimitExceeded) {
-          return maxCharsErrMsg;
-        }
-        if (isErrSet) {
-          return null;
-        }
-        return prevErr;
-      });
-    },
-    [wordsLimit, charsLimit]
-  );
-
   const EditorContextValue = useMemo(
     () => ({
       name,
@@ -109,7 +76,6 @@ export function EditorProvider({
       error,
       wordsLimit,
       charsLimit,
-      validateInputLength,
       isFieldLocalized,
     }),
     [
@@ -125,7 +91,6 @@ export function EditorProvider({
       charsLimit,
       preset,
       error,
-      validateInputLength,
       isFieldLocalized,
     ]
   );
