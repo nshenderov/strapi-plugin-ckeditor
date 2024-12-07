@@ -6,6 +6,8 @@ export type PluginConfig = {
   theme: Theme;
 };
 
+export type UserPluginConfig = Partial<PluginConfig>;
+
 export type Theme = {
   common?: Styles;
   light?: Styles;
