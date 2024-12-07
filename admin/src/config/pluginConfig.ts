@@ -1,10 +1,12 @@
 import { defaultTheme } from '../theme';
-import { defaultPreset } from './defaultPreset';
+import { defaultHtmlPreset } from './htmlPreset';
+import { defaultMarkdownPreset } from './markdownPreset';
 import type { PluginConfig } from './types';
 
 const PLUGIN_CONFIG: PluginConfig = {
   presets: {
-    default: defaultPreset,
+    defaultHtml: defaultHtmlPreset,
+    defaultMarkdown: defaultMarkdownPreset,
   },
   theme: defaultTheme,
 };
