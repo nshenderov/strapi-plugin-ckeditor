@@ -13,9 +13,18 @@ const PLUGIN_CONFIG: PluginConfig = {
 
 /**
  * Sets a configuration for the plugin.
- * The function must be invoked before the admin panel's bootstrap lifecycle function.
- * Provided objects will overwrite the default values.
- * Each key in the presets must match the corresponding field's value property in the preset.
+ *
+ * @remarks
+ *
+ * - The function must be invoked before the admin panel's bootstrap lifecycle function.
+ *
+ * - Provided objects will overwrite the default configuration values.
+ *
+ * - The provided configuration will be frozen after the first invocation, preventing further modifications.
+ *
+ * @param userConfig - The configuration object provided by the user.
+ *
+ * @public
  */
 export function setPluginConfig(userConfig: UserPluginConfig): void {
   const { presets = PLUGIN_CONFIG.presets, theme = PLUGIN_CONFIG.theme } = userConfig;
