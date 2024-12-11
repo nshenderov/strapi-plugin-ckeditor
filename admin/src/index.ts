@@ -70,26 +70,29 @@ export default {
         ],
         advanced: [
           {
-            sectionTitle: null,
+            name: 'required',
+            type: 'checkbox',
+            intlLabel: {
+              id: `${PLUGIN_ID}.required.label`,
+              defaultMessage: 'Required field',
+            },
+            description: {
+              id: `${PLUGIN_ID}.required.description`,
+              defaultMessage: "You won't be able to create an entry if this field is empty",
+            },
+          },
+          {
+            sectionTitle: {
+              id: `${PLUGIN_ID}.options.advanced.limiters`,
+              defaultMessage: 'Input limiters',
+            },
             items: [
-              {
-                name: 'required',
-                type: 'checkbox',
-                intlLabel: {
-                  id: `${PLUGIN_ID}.required.label`,
-                  defaultMessage: 'Required field',
-                },
-                description: {
-                  id: `${PLUGIN_ID}.required.description`,
-                  defaultMessage: "You won't be able to create an entry if this field is empty",
-                },
-              },
               {
                 name: 'options.maxLengthWords',
                 type: 'checkbox-with-number-field',
                 intlLabel: {
                   id: `${PLUGIN_ID}.maxLengthWords.label`,
-                  defaultMessage: 'Maximum words',
+                  defaultMessage: 'Words limit',
                 },
               },
               {
@@ -97,7 +100,7 @@ export default {
                 type: 'checkbox-with-number-field',
                 intlLabel: {
                   id: `${PLUGIN_ID}.maxLengthCharacters.label`,
-                  defaultMessage: 'Maximum characters',
+                  defaultMessage: 'Characters limit',
                 },
               },
             ],
