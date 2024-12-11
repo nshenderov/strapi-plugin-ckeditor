@@ -110,7 +110,7 @@ export const colors = css`
 
       --ck-color-widget-blurred-border: ${theme.colors.neutral400};
       --ck-color-widget-hover-border: ${theme.colors.neutral300};
-      --ck-color-widget-editable-focus-background: var(--ck-custom-white);
+      --ck-color-widget-editable-focus-background: ${theme.colors.neutral150};
       --ck-color-widget-type-around-button-active: var(--ck-color-focus-border);
       --ck-color-widget-type-around-button-hover: ${theme.colors.neutral300};
 
