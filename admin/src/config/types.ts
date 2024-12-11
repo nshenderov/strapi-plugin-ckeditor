@@ -1,74 +1,125 @@
 import type { EditorConfig as CKE5EditorConfig } from 'ckeditor5';
 import type { Interpolation } from 'styled-components';
-import type { ExportToGlobal } from './expToGlobal';
 
-export type PluginConfig =
-  | {
-      dontMergePresets: true;
-      presets: Record<string, Preset>;
-      dontMergeTheme?: boolean;
-      theme?: Theme;
-    }
-  | {
-      dontMergePresets?: false;
-      presets?: {
-        default: Partial<Preset>;
-        /**
-         * New presets must use Preset type.
-         * Partial is included only for compatibility
-         * with previous versions and should not be used.
-         */
-        [k: string]: Preset | PartialIsNotAllowedForNewPresets;
-      };
-      dontMergeTheme?: boolean;
-      theme?: Theme;
-    };
-
-export type Theme = {
-  common?: Styles;
-  light?: Styles;
-  dark?: Styles;
-  additional?: Styles;
+/**
+ * @internal
+ */
+export type PluginConfig = {
+  presets: Record<string, Preset>;
+  theme: Theme;
 };
 
-export type Preset = {
-  field: Field;
-  styles?: Styles;
-  editorConfig: Partial<EditorConfig>;
-};
-
-export type PartialIsNotAllowedForNewPresets = {
-  field?: Field;
-  styles?: Styles;
-  editorConfig?: Partial<EditorConfig>;
-};
-
-export type EditorConfig = CKE5EditorConfig;
-
-export type Field = {
-  metadatas: Metadata;
+/**
+ * Used to register a preset option in the admin panel.
+ *
+ * @see {@link https://docs.strapi.io/dev-docs/custom-fields#options | Strapi documentation}
+ *
+ * @internal
+ */
+export type Option = {
+  metadatas: Metadatas;
   key: string | number;
+  /**
+   * @remarks
+   *
+   * The value must match the corresponding key in the presets.
+   */
   value: string | number;
 };
 
-export type Metadata = {
+/**
+ * Used to register a preset option in the admin panel.
+ *
+ * @see {@link https://docs.strapi.io/dev-docs/custom-fields#options | Strapi documentation}
+ *
+ * @internal
+ */
+export type Metadatas = {
   intlLabel: IntlLabel;
-  disabled?: boolean;
-  hidden?: boolean;
 };
 
+/**
+ * Used to register a preset option in the admin panel.
+ *
+ * @see {@link https://docs.strapi.io/dev-docs/custom-fields#options | Strapi documentation}
+ *
+ * @internal
+ */
 export type IntlLabel = {
   id: string;
   defaultMessage: string;
   values?: object;
 };
 
-export type Styles = string | Interpolation<object>[];
+/**
+ * @public
+ */
+export type UserPluginConfig = {
+  presets?: Preset[];
+  /**
+   * Styles applied globally to every editor instance.
+   */
+  theme?: Theme;
+};
 
-declare global {
-  interface Window {
-    SH_CKE: ExportToGlobal;
-    SH_CKE_CONFIG: PluginConfig | null;
-    SH_CKE_UPLOAD_ADAPTER_IS_RESPONSIVE: boolean;
-  }
-}
+/**
+ * @public
+ */
+export type Theme = {
+  /**
+   * Core styles.
+   */
+  common?: CSS;
+  /**
+   * Styles apllied in light mode.
+   */
+  light?: CSS;
+  /**
+   * Styles apllied in dark mode.
+   */
+  dark?: CSS;
+  /**
+   * Additional styles that complement the theme.
+   */
+  additional?: CSS;
+};
+
+/**
+ * CSS, can either be a string or an array of interpolated objects.
+ *
+ * @public
+ */
+export type CSS = string | Interpolation<object>[];
+
+/**
+ * @public
+ */
+export type Preset = {
+  /**
+   * Preset name, will be shown in the schema.
+   */
+  name: string;
+  /**
+   * Preset description, will be shown in the content-type builder.
+   */
+  description: string;
+  /**
+   * Styles applied to the editor instance in addition to the theme.
+   */
+  styles?: CSS;
+  /**
+   * CKEditor configuration.
+   *
+   * @see {@link https://ckeditor.com/docs/ckeditor5/latest/getting-started/setup/configuration.html | CKEditor documentation}
+   */
+  editorConfig: EditorConfig;
+};
+
+/**
+ * CKEditor configuration.
+ *
+ * @see {@link https://ckeditor.com/docs/ckeditor5/latest/getting-started/setup/configuration.html | CKEditor documentation}
+ *
+ * @public
+ */
+export type EditorConfig = CKE5EditorConfig;

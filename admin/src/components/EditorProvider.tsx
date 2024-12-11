@@ -1,7 +1,7 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import type { InputProps } from '@strapi/strapi/admin';
 
-import { type Preset, getClonedPreset, setUpLanguage } from '../config';
+import { type Preset, setUpLanguage, getPluginConfig } from '../config';
 import type { WordCountPluginStats } from './CKEReact';
 
 type EditorProviderBaseProps = Pick<
@@ -54,8 +54,8 @@ export function EditorProvider({
 
   useEffect(() => {
     (async () => {
-      const currentPreset = getClonedPreset(presetName);
-
+      const { presets } = getPluginConfig();
+      const currentPreset = clonePreset(presets[presetName]);
       await setUpLanguage(currentPreset.editorConfig, isFieldLocalized);
 
       if (placeholder) {
@@ -131,4 +131,22 @@ export function EditorProvider({
   );
 
   return <EditorContext.Provider value={EditorContextValue}>{children}</EditorContext.Provider>;
+}
+
+function clonePreset(preset: Preset): Preset {
+  const clonedPreset = {
+    ...preset,
+    editorConfig: {
+      ...preset.editorConfig,
+    },
+  };
+
+  Object.entries(clonedPreset.editorConfig).forEach(([key, val]) => {
+    if (val && typeof val === 'object' && Object.getPrototypeOf(val) === Object.prototype) {
+      // @ts-ignore
+      clonedPreset.editorConfig[key] = { ...val };
+    }
+  });
+
+  return clonedPreset;
 }

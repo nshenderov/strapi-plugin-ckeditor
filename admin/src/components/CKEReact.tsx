@@ -6,7 +6,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import 'ckeditor5/ckeditor5.css';
 
 import { useEditorContext } from './EditorProvider';
-import { getStoredToken } from '../utils';
+import { getStoredToken, prefixFileUrlWithBackendUrl } from '../utils';
 import { MediaLib } from './MediaLib';
 import type {
   StrapiMediaLibPlugin,
@@ -130,12 +130,9 @@ export function CKEReact() {
       'StrapiUploadAdapter'
     ) as StrapiUploadAdapterPlugin;
     const token = getStoredToken();
-    const { backendURL } = window.strapi;
     const config: StrapiUploadAdapterConfig = {
-      uploadUrl: `${backendURL}/upload`,
-      backendUrl: backendURL,
+      uploadUrl: prefixFileUrlWithBackendUrl('/upload'),
       headers: { Authorization: `Bearer ${token}` },
-      responsive: window.SH_CKE_UPLOAD_ADAPTER_IS_RESPONSIVE,
     };
 
     StrapiUploadAdapterPlugin.initAdapter(config);

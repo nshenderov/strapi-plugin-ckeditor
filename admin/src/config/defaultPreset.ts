@@ -355,15 +355,7 @@ const defaultEditorConfig: EditorConfig = {
 };
 
 export const defaultPreset: Preset = {
-  field: {
-    key: 'default',
-    value: 'default',
-    metadatas: {
-      intlLabel: {
-        id: 'ckeditor.preset.default.label',
-        defaultMessage: 'default',
-      },
-    },
-  },
+  name: 'default',
+  description: 'default',
   editorConfig: defaultEditorConfig,
 };

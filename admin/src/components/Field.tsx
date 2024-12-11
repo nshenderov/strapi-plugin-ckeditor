@@ -1,5 +1,5 @@
 import React from 'react';
-import { type InputProps, type FieldValue } from '@strapi/strapi/admin';
+import type { InputProps, FieldValue } from '@strapi/strapi/admin';
 
 import { Editor } from './Editor';
 import { EditorProvider } from './EditorProvider';

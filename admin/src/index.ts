@@ -1,16 +1,38 @@
 import * as yup from 'yup';
 
 import { PLUGIN_ID } from './utils';
-import { getPresetsFields, getPluginConfig, exportToGlobal } from './config';
+import { getPluginConfig, type Option } from './config';
 import { CKEditorIcon } from './components/CKEditorIcon';
+
+export * from './exports';
+
+const AVAILABLE_OPTIONS: Option[] = [];
+
+function fillAvailableOptions(): void {
+  const { presets } = getPluginConfig();
+
+  Object.values(presets).forEach(({ name, description }) => {
+    const option: Option = {
+      key: name,
+      value: name,
+      metadatas: {
+        intlLabel: {
+          id: `${PLUGIN_ID}.preset.${name}.label`,
+          defaultMessage: description,
+        },
+      },
+    };
+
+    AVAILABLE_OPTIONS.push(option);
+  });
+}
 
 // eslint-disable-next-line import/no-default-export
 export default {
+  bootstrap() {
+    fillAvailableOptions();
+  },
   async register(app: any): Promise<void> {
-    exportToGlobal();
-    const pluginConfig = await getPluginConfig();
-    const optionsPreset = getPresetsFields(pluginConfig);
-
     app.customFields.register({
       name: 'CKEditor',
       type: 'richtext',
@@ -43,7 +65,7 @@ export default {
             },
             name: 'options.preset',
             type: 'select',
-            options: optionsPreset,
+            options: AVAILABLE_OPTIONS,
           },
         ],
         advanced: [

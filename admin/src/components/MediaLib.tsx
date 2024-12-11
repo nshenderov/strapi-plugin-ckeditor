@@ -1,7 +1,7 @@
 import React from 'react';
 import { useStrapiApp } from '@strapi/strapi/admin';
 
-import { prefixFileUrlWithBackendUrl } from '../utils';
+import { prefixFileUrlWithBackendUrl, isImageResponsive } from '../utils';
 
 type MediaLibProps = {
   isOpen: boolean;
@@ -34,8 +34,8 @@ function MediaLib({ isOpen = false, toggle, handleChangeAssets }: MediaLibProps)
 
     assets.forEach(({ name, url, alt, formats, mime, width, height }: any) => {
       if (mime.includes('image')) {
-        if (formats && window.SH_CKE_UPLOAD_ADAPTER_IS_RESPONSIVE) {
-          const set = formSet(formats);
+        if (formats && isImageResponsive(formats)) {
+          const set = formSrcSet(formats);
           newElems += `<img src="${url}" alt="${alt}" width="${width}" height="${height}" srcset="${set}" />`;
         } else {
           newElems += `<img src="${url}" alt="${alt}" width="${width}" height="${height}" />`;
@@ -53,7 +53,7 @@ function MediaLib({ isOpen = false, toggle, handleChangeAssets }: MediaLibProps)
     return newElems;
   }
 
-  function formSet(formats: any): string {
+  function formSrcSet(formats: any): string {
     let set = '';
     const keys = Object.keys(formats).sort((a, b) => formats[a].width - formats[b].width);
     keys.forEach(k => {

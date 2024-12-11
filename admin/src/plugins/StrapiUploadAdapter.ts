@@ -8,10 +8,9 @@ import {
   type UploadResponse,
 } from 'ckeditor5';
 
-export interface StrapiUploadAdapterConfig extends SimpleUploadConfig {
-  backendUrl?: string;
-  responsive?: boolean;
-}
+import { isImageResponsive, prefixFileUrlWithBackendUrl } from '../utils';
+
+export interface StrapiUploadAdapterConfig extends SimpleUploadConfig {}
 
 export interface StrapiUploadAdapterPlugin extends Plugin {
   initAdapter: (config: StrapiUploadAdapterConfig) => void;
@@ -138,27 +137,20 @@ class Adapter implements StrapiAdapter {
         );
       }
 
-      const { backendUrl, responsive } = this.config || {};
-      const { name, url, alternativeText, formats, provider } = response[0];
-      const defaultUrl = provider !== 'local' ? url : backendUrl + url;
+      const { name, url, alternativeText, formats } = response[0];
+      const urls: { [k: string]: string } = { default: prefixFileUrlWithBackendUrl(url) };
+      const alt = alternativeText || name;
 
-      if (formats && responsive) {
-        const urls: { [k: string]: string } = { default: defaultUrl };
-        const keys = Object.keys(formats).sort((a, b) => formats[a].width - formats[b].width);
-        keys.forEach(k => {
-          urls[formats[k].width] = provider !== 'local' ? url : backendUrl + formats[k].url;
-        });
-        resolve({ alt: alternativeText || name, urls });
-      } else {
-        resolve(
-          url
-            ? {
-                alt: alternativeText || name,
-                urls: { default: defaultUrl },
-              }
-            : {}
+      if (formats && isImageResponsive(formats)) {
+        const sortedFormatsKeys = Object.keys(formats).sort(
+          (a, b) => formats[a].width - formats[b].width
         );
+        sortedFormatsKeys.forEach(k => {
+          urls[formats[k].width] = prefixFileUrlWithBackendUrl(formats[k].url);
+        });
       }
+
+      resolve(url ? { alt, urls } : {});
 
       return undefined;
     });
