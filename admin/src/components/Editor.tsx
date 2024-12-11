@@ -11,7 +11,7 @@ export function Editor() {
   const { name, hint, required, labelAction, label, error, preset } = useEditorContext();
 
   return (
-    <Field.Root id={name} name={name} error={error ?? false} hint={hint} required={required}>
+    <Field.Root id={name} name={name} error={error} hint={hint} required={required}>
       <Flex direction="column" alignItems="stretch" gap={1}>
         <Field.Label action={labelAction}>{label}</Field.Label>
         {preset ? (
