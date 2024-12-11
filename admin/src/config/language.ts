@@ -1,5 +1,9 @@
+import type { Translations } from 'ckeditor5';
+
 import type { EditorConfig } from './types';
 import { getPreferedLanguage } from '../utils/localStorage';
+
+const TRANSLATIONS: Record<string, Translations> = {};
 
 export async function setUpLanguage(
   config: EditorConfig,
@@ -25,8 +29,11 @@ export async function setUpLanguage(
 }
 
 async function importLang(config: EditorConfig, language: string): Promise<void> {
-  if (translationImports[language]) {
+  if (TRANSLATIONS[language]) {
+    config.translations = TRANSLATIONS[language];
+  } else if (translationImports[language]) {
     const translation = await translationImports[language]();
+    TRANSLATIONS[language] = translation.default;
     config.translations = translation.default;
   } else {
     console.warn(`CKEditor: no translation found for language: ${language}`);
