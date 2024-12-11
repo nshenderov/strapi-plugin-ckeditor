@@ -31,6 +31,7 @@ import type { Preset, EditorConfig } from './types';
 import { StrapiMediaLib, StrapiUploadAdapter } from '../plugins';
 
 const editorConfig: EditorConfig = {
+  licenseKey: 'GPL',
   plugins: [
     Autoformat,
     BlockQuote,
