@@ -1,27 +1,56 @@
-import type { PluginConfig } from './types';
-import { PLUGIN_ID } from '../utils';
+import { defaultTheme } from '../theme';
+import { defaultPreset } from './defaultPreset';
+import type { PluginConfig, UserPluginConfig } from './types';
 
-export async function getPluginConfig(): Promise<PluginConfig | null> {
-  const config = await loadConfig().catch(error => console.error('CKEditor: ', error));
+const PLUGIN_CONFIG: PluginConfig = {
+  presets: {
+    default: defaultPreset,
+  },
+  theme: defaultTheme,
+};
 
-  return config || null;
+/**
+ * Sets a configuration for the plugin.
+ *
+ * @remarks
+ *
+ * - The function must be invoked before the admin panel's bootstrap lifecycle function.
+ *
+ * - Provided objects will overwrite the default configuration values.
+ *
+ * - The provided configuration will be frozen after the first invocation, preventing further modifications.
+ *
+ * @param userConfig - The configuration object provided by the user.
+ *
+ * @public
+ */
+export function setPluginConfig(userConfig: UserPluginConfig): void {
+  const { presets, theme } = userConfig || {};
+
+  if (presets) {
+    presets.forEach(preset => {
+      PLUGIN_CONFIG.presets[preset.name] = preset;
+    });
+  }
+
+  if (theme) {
+    PLUGIN_CONFIG.theme = theme;
+  }
+
+  deepFreeze(PLUGIN_CONFIG);
 }
 
-async function loadConfig(): Promise<PluginConfig | null> {
-  return new Promise((resolve, reject) => {
-    const { backendURL } = window.strapi;
-    const url =
-      backendURL !== '/'
-        ? `${backendURL}/${PLUGIN_ID}/config/ckeditor`
-        : `/${PLUGIN_ID}/config/ckeditor`;
+export function getPluginConfig(): PluginConfig {
+  if (!Object.isFrozen(PLUGIN_CONFIG)) deepFreeze(PLUGIN_CONFIG);
+  return PLUGIN_CONFIG;
+}
 
-    const script = document.createElement('script');
-    script.id = 'ckeditor-config';
-    script.src = url;
-
-    script.onload = () => resolve(window.SH_CKE_CONFIG);
-    script.onerror = () => reject(new Error('Failed loading config script'));
-
-    document.body.appendChild(script);
+function deepFreeze(obj: Object): Readonly<Object> {
+  (Object.keys(obj) as (keyof typeof obj)[]).forEach(p => {
+    if (typeof obj[p] === 'object' && obj[p] !== null && !Object.isFrozen(obj[p])) {
+      deepFreeze(obj[p]);
+    }
   });
+
+  return Object.freeze(obj);
 }

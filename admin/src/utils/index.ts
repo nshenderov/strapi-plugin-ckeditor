@@ -1,3 +1,4 @@
 export * from './pluginId';
-export * from './prefixWithBackendUrl';
 export * from './localStorage';
+export * from './isImageResponsive';
+export * from './prefixWithBackendUrl';

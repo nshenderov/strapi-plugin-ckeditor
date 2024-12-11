@@ -1,14 +1,13 @@
 import React from 'react';
 import { createGlobalStyle, css } from 'styled-components';
 
-import { defaultTheme } from '../theme';
 import { getProfileTheme } from '../utils';
-import type { Theme, Styles } from '../config';
+import { type Theme, type CSS, getPluginConfig } from '../config';
 
 const GlobalStyle = createGlobalStyle<{
   $editortTheme?: Theme;
   $variant: 'light' | 'dark';
-  $presetStyles?: Styles;
+  $presetStyles?: CSS;
 }>`
   ${({ $editortTheme, $variant }) =>
     $editortTheme &&
@@ -23,11 +22,9 @@ const getSystemColorScheme = (): 'light' | 'dark' =>
   window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 
 function GlobalStyling() {
-  const { theme: userTheme, dontMergeTheme } = window.SH_CKE_CONFIG || {};
-
+  const { theme } = getPluginConfig();
   const profileTheme = getProfileTheme();
   const variant = profileTheme && profileTheme !== 'system' ? profileTheme : getSystemColorScheme();
-  const theme = dontMergeTheme ? userTheme : { ...defaultTheme, ...userTheme };
 
   return <GlobalStyle $editortTheme={theme} $variant={variant} />;
 }

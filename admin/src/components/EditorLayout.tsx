@@ -3,7 +3,7 @@ import { Box, Flex, IconButton, FocusTrap, Portal } from '@strapi/design-system'
 import { Expand, Collapse } from '@strapi/icons';
 import { css, styled } from 'styled-components';
 
-import type { Styles } from 'src/config';
+import type { CSS } from '../config';
 import { useEditorContext } from './EditorProvider';
 
 export function EditorLayout({ children }: { children: ReactNode }) {
@@ -85,7 +85,7 @@ export function EditorLayout({ children }: { children: ReactNode }) {
 const EditorWrapper = styled('div')<{
   $isExpanded: boolean;
   $hasError: boolean;
-  $presetStyles?: Styles;
+  $presetStyles?: CSS;
 }>`
   position: relative;
   width: 100%;

@@ -1,11 +1,13 @@
-import register from './register';
-import controllers from './controllers';
-import routes from './routes';
-import services from './services';
+import type { Core } from '@strapi/strapi';
+
+import pluginPkg from '../../package.json';
 
 export default {
-  register,
-  controllers,
-  routes,
-  services,
+  register: ({ strapi }: { strapi: Core.Strapi }) => {
+    strapi.customFields.register({
+      name: 'CKEditor',
+      plugin: pluginPkg.strapi.name,
+      type: 'richtext',
+    });
+  },
 };
