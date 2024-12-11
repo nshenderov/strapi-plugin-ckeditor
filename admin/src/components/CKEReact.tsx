@@ -1,6 +1,7 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { useField } from '@strapi/strapi/admin';
 import { Flex } from '@strapi/design-system';
+import { styled, css } from 'styled-components';
 import { ClassicEditor } from 'ckeditor5';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import 'ckeditor5/ckeditor5.css';
@@ -22,12 +23,23 @@ export type WordCountPluginStats = {
 export function CKEReact() {
   const [mediaLibVisible, setMediaLibVisible] = useState<boolean>(false);
   const [editorInstance, setEditorInstance] = useState<ClassicEditor | null>(null);
+  const [isWordsMax, setIsWordsMax] = useState(false);
+  const [isCharsMax, setIsCharsMax] = useState(false);
 
-  const { name, disabled, error, preset, wordsLimit, charsLimit, validateInputLength } =
-    useEditorContext();
+  const { name, disabled, preset, wordsLimit, charsLimit } = useEditorContext();
   const { onChange: fieldOnChange, value: fieldValue } = useField(name);
 
   const wordCounterRef = useRef<HTMLElement>(null);
+
+  const onEditorReady = (editor: ClassicEditor): void => {
+    setUpPlugins(editor);
+    setEditorInstance(editor);
+  };
+
+  const onEditorChange = (_e: any, editor: ClassicEditor): void => {
+    const data = editor.getData();
+    fieldOnChange(name, data);
+  };
 
   const toggleMediaLib = useCallback(() => setMediaLibVisible(prev => !prev), [setMediaLibVisible]);
 
@@ -46,16 +58,6 @@ export function CKEReact() {
     [toggleMediaLib, editorInstance]
   );
 
-  const onEditorReady = (editor: ClassicEditor): void => {
-    setUpPlugins(editor);
-    setEditorInstance(editor);
-  };
-
-  const onEditorChange = (_e: any, editor: ClassicEditor): void => {
-    const data = editor.getData();
-    fieldOnChange(name, data);
-  };
-
   if (!preset) {
     return null;
   }
@@ -70,7 +72,7 @@ export function CKEReact() {
         onReady={onEditorReady}
         onChange={onEditorChange}
       />
-      <Flex ref={wordCounterRef} color={error ? 'danger600' : 'neutral400'} />
+      <WordCounter ref={wordCounterRef} $isWordsMax={isWordsMax} $isCharsMax={isCharsMax} />
       <MediaLib
         isOpen={mediaLibVisible}
         toggle={toggleMediaLib}
@@ -103,6 +105,8 @@ export function CKEReact() {
 
     if (wordsLimit || charsLimit) {
       wordCountPlugin.on('update', (_e, stats: WordCountPluginStats) => validateInputLength(stats));
+      const { words, characters } = wordCountPlugin;
+      validateInputLength({ words, characters });
     }
 
     wordCounterRef.current?.appendChild(wordCountPlugin.wordCountContainer);
@@ -137,4 +141,24 @@ export function CKEReact() {
 
     StrapiUploadAdapterPlugin.initAdapter(config);
   }
+
+  function validateInputLength(stats: WordCountPluginStats): void {
+    if (wordsLimit) {
+      setIsWordsMax(stats.words > wordsLimit);
+    }
+    if (charsLimit) {
+      setIsCharsMax(stats.characters > charsLimit);
+    }
+  }
 }
+
+const WordCounter = styled(Flex)<{ $isWordsMax: boolean; $isCharsMax: boolean }>`
+  ${({ theme, $isWordsMax, $isCharsMax }) => css`
+    .ck-word-count__words {
+      color: ${$isWordsMax ? theme.colors.danger600 : theme.colors.neutral400};
+    }
+    .ck-word-count__characters {
+      color: ${$isCharsMax ? theme.colors.danger600 : theme.colors.neutral400};
+    }
+  `}
+`;

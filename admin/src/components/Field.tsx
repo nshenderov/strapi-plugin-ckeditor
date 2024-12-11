@@ -40,7 +40,7 @@ function Field({
   return (
     <EditorProvider
       name={name}
-      fieldError={error}
+      error={error}
       disabled={disabled}
       required={required}
       placeholder={placeholder}
