@@ -16,7 +16,7 @@ export type {
   EditorConfig,
   Preset,
   Theme,
-  CSS,
+  EditorStyles,
 } from './config/types';
 
 export { setPluginConfig } from './config';

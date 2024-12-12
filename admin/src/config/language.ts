@@ -5,6 +5,19 @@ import { getPreferedLanguage } from '../utils/localStorage';
 
 const TRANSLATIONS: Record<string, Translations> = {};
 
+/**
+ * Sets the language property for the provided editor configuration and loads translations.
+ *
+ * @internal
+ *
+ * @remarks
+ *
+ * - UI language: If the language is not set, it defaults to the admin's preferred language, falling
+ * back to 'en'. If the language is other than 'en', the CKEditor translation will be loaded.
+ *
+ * - Content language: Checks whether the field is localized (`isFieldLocalized`) and applies
+ * the determined i18n language accordingly.
+ */
 export async function setUpLanguage(
   config: EditorConfig,
   isFieldLocalized: boolean

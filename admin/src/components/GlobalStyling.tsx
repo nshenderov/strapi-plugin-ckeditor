@@ -2,12 +2,12 @@ import React from 'react';
 import { createGlobalStyle, css } from 'styled-components';
 
 import { getProfileTheme } from '../utils';
-import { type Theme, type CSS, getPluginConfig } from '../config';
+import { type Theme, type EditorStyles, getPluginConfig } from '../config';
 
 const GlobalStyle = createGlobalStyle<{
   $editortTheme?: Theme;
   $variant: 'light' | 'dark';
-  $presetStyles?: CSS;
+  $presetStyles?: EditorStyles;
 }>`
   ${({ $editortTheme, $variant }) =>
     $editortTheme &&

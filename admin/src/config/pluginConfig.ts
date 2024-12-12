@@ -17,31 +17,37 @@ const PLUGIN_CONFIG: PluginConfig = {
  * @remarks
  *
  * - The function must be invoked before the admin panel's bootstrap lifecycle function.
+ * The general recommendation is to call it inside the admin panel's register lifecycle function.
  *
- * - Provided objects will overwrite the default configuration values.
+ * - Provided properties will overwrite the default configuration values.
  *
- * - The provided configuration will be frozen after the first invocation, preventing further modifications.
+ * - The configuration becomes immutable after the first invocation, preventing further
+ * modifications.
  *
- * @param userConfig - The configuration object provided by the user.
- *
- * @public
+ * @param userConfig - The plugin configuration object.
  */
-export function setPluginConfig(userConfig: UserPluginConfig): void {
-  const { presets, theme } = userConfig || {};
+export function setPluginConfig(userPluginConfig: UserPluginConfig): void {
+  const { presets: userPresets, theme: userTheme } = userPluginConfig || {};
 
-  if (presets) {
-    presets.forEach(preset => {
+  if (userPresets) {
+    PLUGIN_CONFIG.presets = {};
+    userPresets.forEach(preset => {
       PLUGIN_CONFIG.presets[preset.name] = preset;
     });
   }
 
-  if (theme) {
-    PLUGIN_CONFIG.theme = theme;
+  if (userTheme) {
+    PLUGIN_CONFIG.theme = userTheme;
   }
 
   deepFreeze(PLUGIN_CONFIG);
 }
 
+/**
+ * Retrieves the current plugin configuration, ensuring it is immutable.
+ *
+ * @internal
+ */
 export function getPluginConfig(): PluginConfig {
   if (!Object.isFrozen(PLUGIN_CONFIG)) deepFreeze(PLUGIN_CONFIG);
   return PLUGIN_CONFIG;
