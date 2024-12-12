@@ -663,9 +663,9 @@ export default {
 
 <br />
 
-📂 Default HTML preset: [**admin/src/config/htmlPreset.js**](https://github.com/nshenderov/strapi-plugin-ckeditor/blob/master/admin/src/config/htmlPreset.js)
+📂 Default HTML preset: [**admin/src/config/htmlPreset.ts**](https://github.com/nshenderov/strapi-plugin-ckeditor/blob/master/admin/src/config/htmlPreset.ts)
 
-📂 Default Markdown preset: [**admin/src/config/markdownPreset.js**](https://github.com/nshenderov/strapi-plugin-ckeditor/blob/master/admin/src/config/markdownPreset.js)
+📂 Default Markdown preset: [**admin/src/config/markdownPreset.ts**](https://github.com/nshenderov/strapi-plugin-ckeditor/blob/master/admin/src/config/markdownPreset.ts)
 
 📂 Default theme: [**admin/src/theme**](https://github.com/nshenderov/strapi-plugin-ckeditor/blob/master/admin/src/theme)
 
