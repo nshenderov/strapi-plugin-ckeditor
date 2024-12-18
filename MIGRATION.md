@@ -24,9 +24,9 @@ To facilitate a smooth transition, guidance is provided for the following scenar
 #### <a id="no-custom-configuration"></a>No custom configuration:
 
 If you don't have custom plugin configuration, you only need to update the existing fields to use
-the new default HTML preset to avoid missing preset error. There are two options how to solve it:
+the new default HTML preset to avoid missing preset error. There are two options to solve it:
 
-- **Option1 (Preferable)**: Update the fields in the Content-Type Builder or modify your shemas
+- **Option1 (Preferable)**: Update the fields in the Content-Type Builder or modify your schemas
   manually to use `defaultHtml` preset instead of `default`:
 
 ```js
@@ -77,7 +77,7 @@ directly.
 To transition to the new configuration method, copy and paste your configuration from the existing
 configuration file into `/src/admin/app.js|tsx`:
 
-(Alternatively you can move you configuration file to `/src/admin/`, export the configuration,
+(Alternatively you can move your configuration file to `/src/admin/`, export the configuration,
 and then import it in `admin.js|tsx`)
 
 **Before (v4):**

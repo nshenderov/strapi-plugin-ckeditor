@@ -73,7 +73,7 @@ export type UserPluginConfig = {
  * @remarks
  *
  * The `common` styles are applied first, followed by `light` or `dark` styles
- * according to the preferences, and finally `additional` styles.
+ * according to user preferences, and finally `additional` styles.
  */
 export type Theme = {
   /**
@@ -81,11 +81,11 @@ export type Theme = {
    */
   common?: EditorStyles;
   /**
-   * Styles apllied in light mode.
+   * Styles applied in light mode.
    */
   light?: EditorStyles;
   /**
-   * Styles apllied in dark mode.
+   * Styles applied in dark mode.
    */
   dark?: EditorStyles;
   /**

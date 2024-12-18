@@ -60,7 +60,7 @@ for setup instructions.
 
 ## <a id="usage"></a>✍️ Usage
 
-The field can be fould in the Content-Type Builder under the `CUSTOM` tab:
+The field can be found in the Content-Type Builder under the `CUSTOM` tab:
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/nshenderov/strapi-plugin-ckeditor/master/assets/v5-usage-guide-2.png" width="700" />
@@ -68,7 +68,7 @@ The field can be fould in the Content-Type Builder under the `CUSTOM` tab:
 
 **Presets**
 
-A preset is a set of settings that define the editor's features and appearence. You
+A preset is a set of settings that define the editor's features and appearance. You
 can specify a dedicated preset for each field. The available presets can be customized through the
 [configuration](#configuration).
 
@@ -187,7 +187,7 @@ following properties:
 ```ts
 /**
  * The `common` styles are applied first, followed by `light` or `dark` styles
- * according to the preferences, and finally `additional` styles.
+ * according to user preferences, and finally `additional` styles.
  */
 type Theme = {
   /**
@@ -195,11 +195,11 @@ type Theme = {
    */
   common?: EditorStyles;
   /**
-   * Styles apllied in light mode.
+   * Styles applied in light mode.
    */
   light?: EditorStyles;
   /**
-   * Styles apllied in dark mode.
+   * Styles applied in dark mode.
    */
   dark?: EditorStyles;
   /**
@@ -322,11 +322,11 @@ export type Theme = {
    */
   common?: EditorStyles;
   /**
-   * Styles apllied in light mode.
+   * Styles applied in light mode.
    */
   light?: EditorStyles;
   /**
-   * Styles apllied in dark mode.
+   * Styles applied in dark mode.
    */
   dark?: EditorStyles;
   /**
@@ -558,7 +558,7 @@ const defaultHtml: Preset = {
 const defaultMarkdown: Preset = {
   ...defaultMarkdownPreset,
   description: 'Modified default Markdown editor',
-  styles: `
+  styles: css`
     .ck {
       --ck-editor-max-width: 1500px;
       --ck-editor-min-height: 700px;
