@@ -49,7 +49,7 @@ async function importLang(config: EditorConfig, language: string): Promise<void>
     TRANSLATIONS[language] = translation.default;
     config.translations = translation.default;
   } else {
-    console.warn(`CKEditor: no translation found for language: ${language}`);
+    console.warn(`No CKEditor translation found for language: ${language}`);
   }
 }
 

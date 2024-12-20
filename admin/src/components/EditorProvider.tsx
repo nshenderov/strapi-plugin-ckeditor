@@ -27,7 +27,11 @@ const EditorContext = createContext<EditorContextValue | null>(null);
 
 export function useEditorContext(): EditorContextValue {
   const context = useContext(EditorContext);
-  if (!context) throw Error('useEditorAttributes can only be used inside EditorProvider');
+
+  if (!context) {
+    throw new Error('The useEditorContext hook must be used within the EditorProvider.');
+  }
+
   return context;
 }
 

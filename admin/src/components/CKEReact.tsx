@@ -46,7 +46,7 @@ export function CKEReact() {
   const handleChangeAssets = useCallback(
     (newElems: string): void => {
       if (!editorInstance) {
-        throw new Error('CKEditor: Editor instance is not initialized');
+        throw new Error('The editor instance has not been initialized.');
       }
 
       const viewFragment = editorInstance.data.processor.toView(newElems);
@@ -94,7 +94,7 @@ export function CKEReact() {
         try {
           setUpFn(editor);
         } catch (err) {
-          console.error(`CKEditor: Error setting up ${pluginName} plugin `, err);
+          console.error(`Failed to set up the ${pluginName} plugin `, err);
         }
       }
     });
