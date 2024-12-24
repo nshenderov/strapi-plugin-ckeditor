@@ -120,6 +120,8 @@ default to the Strapi admin's preferred language. If no preference is set, Engli
 **Content language**: i18n for the editor's content language can be enabled by checking the
 `Enable localization for this field` option in the Advanced Settings tab.
 
+> 💡 It is important to use the content styles on the publishing side of your application. Otherwise, the content will look different in the editor and for your end users. [Follow the documentation](https://ckeditor.com/docs/ckeditor5/latest/getting-started/setup/css.html#styling-the-published-content).
+
 ## <a id="configuration"></a>⚙️ Configuration
 
 The plugin configuration must be defined on the front-end. The plugin provides a `setPluginConfig`
