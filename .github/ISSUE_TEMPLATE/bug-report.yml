@@ -1,0 +1,64 @@
+name: 🪲 Bug report
+description: File a bug report
+labels: ["issue: bug"]
+assignees:
+  - nshenderov
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+
+        ## Important
+        - Please search existing issues to avoid creating duplicates.
+        - For questions and enhancement requests, please use GitHub Discussions.
+        - Please fill out the template below to the best of your ability.
+        - Please describe the issue as much as possible and provide steps to reproduce it along with visual aids if possible.
+  - type: checkboxes
+    id: captchas
+    attributes:
+      label: Captchas
+      description: Just making sure you did actually read the instructions.
+      options:
+        - label: I have read the instructions.
+        - label: I have searched existing issues and avoided creating duplicates.
+        - label: I am not filing a question or an enhancement request.
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Also tell us, what did you expect to happen?
+      placeholder: |
+        Tell us what you see!
+        If applicable, add screenshots to help explain your problem.
+    validations:
+      required: true
+  - type: textarea
+    id: to-reproduce
+    attributes:
+      label: To reproduce
+      description: Steps to reproduce the behavior
+      placeholder: |
+        1. Go to '...'
+        2. Click on '....'
+        3. Scroll down to '....'
+        4. See error
+  - type: textarea
+    id: setup-info
+    attributes:
+      label: Setup information
+      description: |
+        Please complete the following information:
+        - plugin configuration (if exist)
+        - plugins.js (if exist)
+        - package.json
+        - node version
+    validations:
+      required: true
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: Add any other context relevant to the problem here.
