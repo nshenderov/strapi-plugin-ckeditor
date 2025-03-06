@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useMemo, useState } from '
 import type { InputProps } from '@strapi/strapi/admin';
 
 import { type Preset, setUpLanguage, getPluginConfig } from '../config';
+import cloneDeep from 'lodash/cloneDeep';
 
 type EditorProviderBaseProps = Pick<
   InputProps,
@@ -55,7 +56,7 @@ export function EditorProvider({
   useEffect(() => {
     (async () => {
       const { presets } = getPluginConfig();
-      const currentPreset = clonePreset(presets[presetName]);
+      const currentPreset = cloneDeep(presets[presetName]);
       await setUpLanguage(currentPreset.editorConfig, isFieldLocalized);
 
       if (placeholder) {
@@ -100,22 +101,4 @@ export function EditorProvider({
   );
 
   return <EditorContext.Provider value={EditorContextValue}>{children}</EditorContext.Provider>;
-}
-
-function clonePreset(preset: Preset): Preset {
-  const clonedPreset = {
-    ...preset,
-    editorConfig: {
-      ...preset.editorConfig,
-    },
-  };
-
-  Object.entries(clonedPreset.editorConfig).forEach(([key, val]) => {
-    if (val && typeof val === 'object' && Object.getPrototypeOf(val) === Object.prototype) {
-      // @ts-ignore
-      clonedPreset.editorConfig[key] = { ...val };
-    }
-  });
-
-  return clonedPreset;
 }
