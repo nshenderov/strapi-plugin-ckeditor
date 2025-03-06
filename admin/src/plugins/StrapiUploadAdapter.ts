@@ -178,7 +178,7 @@ class Adapter implements StrapiAdapter {
     // Use the withCredentials flag if specified.
     const withCredentials = this.config.withCredentials || false;
 
-    Object.keys(headers).forEach(headerName => {
+    (Object.keys(headers) as (keyof typeof headers)[]).forEach(headerName => {
       this.xhr!.setRequestHeader(headerName, headers[headerName]);
     });
 
