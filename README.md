@@ -122,6 +122,10 @@ default to the Strapi admin's preferred language. If no preference is set, Engli
 
 > 💡 It is important to use the content styles on the publishing side of your application. Otherwise, the content will look different in the editor and for your end users. [Follow the documentation](https://ckeditor.com/docs/ckeditor5/latest/getting-started/setup/css.html#styling-the-published-content).
 
+> To display content from external sources, such as images or videos, in your admin panel,
+> you need to configure your `middlewares.js` file.
+> [**Check the documentation for details.**](https://docs.strapi.io/dev-docs/configurations/middlewares#security)
+
 ## <a id="configuration"></a>⚙️ Configuration
 
 The plugin configuration must be defined on the front-end. The plugin provides a `setPluginConfig`
@@ -672,10 +676,6 @@ export default {
 📂 Default theme: [**admin/src/theme**](https://github.com/nshenderov/strapi-plugin-ckeditor/blob/master/admin/src/theme)
 
 > 📌 It is highly recommended to explore [**the official CKEditor5 documentation**](https://ckeditor.com/docs/ckeditor5/latest/getting-started/setup/configuration.html).
-
-> 💡 To display content from external sources, such as images or videos, in your admin panel,
-> you need to configure your `middlewares.js` file.
-> [**Check the documentation for details.**](https://docs.strapi.io/dev-docs/configurations/middlewares#security)
 
 ## <a id="contributing"></a>🛠 Contributing
 
