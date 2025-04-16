@@ -68,6 +68,20 @@ export type UserPluginConfig = {
 };
 
 /**
+ * Plugin configuration object.
+ */
+export type BareUserPluginConfig = {
+  /**
+   * Presets are sets of settings that define the editor's features and appearance.
+   */
+  presets?: Record<string, Preset>;
+  /**
+   * Styles applied globally to every editor instance.
+   */
+  theme?: Theme;
+};
+
+/**
  * Styles applied globally to every editor instance.
  *
  * @remarks
@@ -129,4 +143,4 @@ export type Preset = {
  *
  * @see {@link https://ckeditor.com/docs/ckeditor5/latest/getting-started/setup/configuration.html | CKEditor documentation}
  */
-export type EditorConfig = CKE5EditorConfig;
+export interface EditorConfig extends CKE5EditorConfig {}

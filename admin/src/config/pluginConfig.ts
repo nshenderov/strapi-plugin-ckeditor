@@ -1,7 +1,7 @@
 import { defaultTheme } from '../theme';
 import { defaultHtmlPreset } from './htmlPreset';
 import { defaultMarkdownPreset } from './markdownPreset';
-import type { PluginConfig, UserPluginConfig } from './types';
+import type { PluginConfig, UserPluginConfig, BareUserPluginConfig } from './types';
 
 const PLUGIN_CONFIG: PluginConfig = {
   presets: {
@@ -16,15 +16,12 @@ const PLUGIN_CONFIG: PluginConfig = {
  *
  * @remarks
  *
- * - The function must be invoked before the admin panel's bootstrap lifecycle function.
- * The general recommendation is to call it inside the admin panel's register lifecycle function.
+ * - Function must be invoked before the admin panel's bootstrap lifecycle function.
+ * The recommended way is to invoke it within the admin panel's register lifecycle function.
  *
  * - Provided properties will overwrite the default configuration values.
  *
- * - The configuration becomes immutable after the first invocation, preventing further
- * modifications.
- *
- * @param userConfig - The plugin configuration object.
+ * @param userConfig - Plugin configuration object.
  */
 export function setPluginConfig(userPluginConfig: UserPluginConfig): void {
   const { presets: userPresets, theme: userTheme } = userPluginConfig || {};
@@ -39,26 +36,31 @@ export function setPluginConfig(userPluginConfig: UserPluginConfig): void {
   if (userTheme) {
     PLUGIN_CONFIG.theme = userTheme;
   }
-
-  deepFreeze(PLUGIN_CONFIG);
 }
 
 /**
- * Retrieves the current plugin configuration, ensuring it is immutable.
+ * Allows to modify the configuration object directly.
+ *
+ * @remarks
+ *
+ * - The property name for the preset must match the preset's name.
+ *
+ * - In order to extend or edit options visible in the admin panel's content manager,
+ * the function must be invoked before the admin panel's bootstrap lifecycle function.
+ * The recommended way is to invoke it within the admin panel's register lifecycle function.
+ *
+ * @param modificator - A function that takes the config object and modifies it.
+ */
+export function modifyPluginConfig(modificator: (config: BareUserPluginConfig) => void) {
+  const { presets, theme } = PLUGIN_CONFIG;
+  modificator({ presets, theme });
+}
+
+/**
+ * Retrieves current plugin configuration.
  *
  * @internal
  */
 export function getPluginConfig(): PluginConfig {
-  if (!Object.isFrozen(PLUGIN_CONFIG)) deepFreeze(PLUGIN_CONFIG);
   return PLUGIN_CONFIG;
-}
-
-function deepFreeze(obj: Object): Readonly<Object> {
-  (Object.keys(obj) as (keyof typeof obj)[]).forEach(p => {
-    if (typeof obj[p] === 'object' && obj[p] !== null && !Object.isFrozen(obj[p])) {
-      deepFreeze(obj[p]);
-    }
-  });
-
-  return Object.freeze(obj);
 }
