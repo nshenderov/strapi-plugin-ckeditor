@@ -13,12 +13,11 @@ export { clonedDefaultMarkdownPreset as defaultMarkdownPreset };
 
 export type {
   UserPluginConfig as PluginConfig,
-  BareUserPluginConfig as BarePluginConfig,
   EditorConfig,
   Preset,
   Theme,
   EditorStyles,
 } from './config/types';
 
-export { setPluginConfig, modifyPluginConfig } from './config';
+export { setPluginConfig, getPluginPresets, getPluginTheme } from './config';
 export { StrapiMediaLib, StrapiUploadAdapter } from './plugins';

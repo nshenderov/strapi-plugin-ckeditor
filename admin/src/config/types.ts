@@ -68,20 +68,6 @@ export type UserPluginConfig = {
 };
 
 /**
- * Plugin configuration object.
- */
-export type BareUserPluginConfig = {
-  /**
-   * Presets are sets of settings that define the editor's features and appearance.
-   */
-  presets?: Record<string, Preset>;
-  /**
-   * Styles applied globally to every editor instance.
-   */
-  theme?: Theme;
-};
-
-/**
  * Styles applied globally to every editor instance.
  *
  * @remarks

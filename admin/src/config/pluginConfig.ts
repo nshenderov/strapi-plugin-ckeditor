@@ -1,7 +1,7 @@
 import { defaultTheme } from '../theme';
 import { defaultHtmlPreset } from './htmlPreset';
 import { defaultMarkdownPreset } from './markdownPreset';
-import type { PluginConfig, UserPluginConfig, BareUserPluginConfig } from './types';
+import type { PluginConfig, UserPluginConfig, Preset, Theme } from './types';
 
 const PLUGIN_CONFIG: PluginConfig = {
   presets: {
@@ -39,21 +39,26 @@ export function setPluginConfig(userPluginConfig: UserPluginConfig): void {
 }
 
 /**
- * Allows to modify the configuration object directly.
+ * Returns the presets object.
  *
  * @remarks
  *
  * - The property name for the preset must match the preset's name.
  *
- * - In order to extend or edit options visible in the admin panel's content manager,
- * the function must be invoked before the admin panel's bootstrap lifecycle function.
- * The recommended way is to invoke it within the admin panel's register lifecycle function.
+ * - To extend or modify the options visible in the admin panel's content manager,
+ *   changes must be made before the admin panel's bootstrap lifecycle function.
  *
- * @param modificator - A function that takes the config object and modifies it.
  */
-export function modifyPluginConfig(modificator: (config: BareUserPluginConfig) => void) {
-  const { presets, theme } = PLUGIN_CONFIG;
-  modificator({ presets, theme });
+export function getPluginPresets(): Record<string, Preset> {
+  return PLUGIN_CONFIG.presets;
+}
+
+/**
+ * Returns the theme object.
+ *
+ */
+export function getPluginTheme(): Theme {
+  return PLUGIN_CONFIG.presets;
 }
 
 /**
