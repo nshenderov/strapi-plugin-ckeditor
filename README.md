@@ -128,8 +128,19 @@ default to the Strapi admin's preferred language. If no preference is set, Engli
 
 ## <a id="configuration"></a>⚙️ Configuration
 
-The plugin configuration must be defined on the front-end. The plugin provides a `setPluginConfig`
-function, which accepts a plugin configuration (`PluginConfig`) that can include an array of presets
+The plugin configuration must be defined on the front-end.
+
+The plugin provides a set of functions that allow you to modify the plugin's configuration:
+
+```ts
+setPluginConfig(config);
+getPluginPresets();
+getPluginTheme();
+```
+
+**setPluginConfig**
+
+The function, accepts a plugin configuration (`PluginConfig`) that can include an array of presets
 and a theme object:
 
 ```ts
@@ -222,6 +233,28 @@ type Theme = {
  */
 export type EditorStyles = string | Interpolation<object>[];
 ```
+
+**getPluginPresets**
+
+```ts
+function getPluginPresets(): {
+  [key: string]: Preset;
+};
+```
+
+Returns `presets` object.
+
+- Each property name must match the corresponding preset's name.
+- To extend or modify the options visible in the admin panel's content manager,
+  changes must be made before the admin panel's bootstrap lifecycle function.
+
+**getPluginTheme**
+
+```ts
+function getPluginTheme(): Theme;
+```
+
+Returns `theme` object.
 
 **Default presets and theme**
 
@@ -355,7 +388,7 @@ export type EditorStyles = string | Interpolation<object>[];
 ### Configuration examples:
 
 <details>
-  <summary>Adding a new preset [JS]</summary>
+  <summary>Setting a new set of presets [JS]</summary>
 
 ```js
 // src/admin/app.js
@@ -433,7 +466,7 @@ export default {
 </details>
 
 <details>
-  <summary>Adding a new preset [TS]</summary>
+  <summary>Setting a new set of presets [TS]</summary>
 
 ```ts
 // src/admin/app.tsx
@@ -517,7 +550,7 @@ export default {
 </details>
 
 <details>
-  <summary>Default presets modification [TS]</summary>
+  <summary>Default presets modification using setPluginConfig [TS]</summary>
 
 ```ts
 // src/admin/app.tsx
@@ -591,7 +624,67 @@ export default {
 </details>
 
 <details>
-  <summary>Modifying theme [TS]</summary>
+  <summary>Default presets modification using getPluginPresets [TS]</summary>
+
+```ts
+// src/admin/app.tsx
+
+import { css } from 'styled-components';
+import { getPluginPresets } from '@_sh/strapi-plugin-ckeditor';
+
+export default {
+  register() {
+    const presets = getPluginPresets();
+
+    presets.defaultHtml.styles = css`
+      .ck {
+        color: red;
+      }
+    `;
+
+    presets.defaultHtml.editorConfig = {
+      ...presets.defaultHtml.editorConfig,
+      placeholder: 'Modified default HTML editor',
+      toolbar: [
+        'heading',
+        '|',
+        'bold',
+        'italic',
+        'link',
+        'bulletedList',
+        'numberedList',
+        '|',
+        'strapiMediaLib',
+        'insertTable',
+        '|',
+        'undo',
+        'redo',
+      ],
+    };
+
+    presets.defaultMarkdown = {
+      ...presets.defaultMarkdown,
+      description: 'Modified default Markdown editor',
+      styles: css`
+        .ck {
+          --ck-editor-max-width: 1500px;
+          --ck-editor-min-height: 700px;
+          --ck-editor-max-height: 700px;
+        }
+
+        .ck.ck-editor__main {
+          border: 3px dashed ${({ theme }) => theme.colors.warning500};
+        }
+      `,
+    };
+  },
+};
+```
+
+</details>
+
+<details>
+  <summary>Modifying theme using setPluginConfig [TS]</summary>
 
 ```ts
 // src/admin/app.tsx
@@ -620,6 +713,36 @@ const myConfig: PluginConfig = {
 export default {
   register() {
     setPluginConfig(myConfig);
+  },
+};
+```
+
+</details>
+
+<details>
+  <summary>Modifying theme using getPluginTheme [TS]</summary>
+
+```ts
+// src/admin/app.tsx
+
+import { css } from 'styled-components';
+import { getPluginTheme } from '@_sh/strapi-plugin-ckeditor';
+
+export default {
+  register() {
+    const theme = getPluginTheme();
+
+    theme.additional = css`
+      .ck {
+        --ck-editor-max-width: 1500px;
+        --ck-editor-min-height: 700px;
+        --ck-editor-max-height: 700px;
+      }
+
+      .ck.ck-editor__main {
+        border: 3px dashed ${({ theme }) => theme.colors.warning500};
+      }
+    `;
   },
 };
 ```

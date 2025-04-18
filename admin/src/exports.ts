@@ -19,5 +19,5 @@ export type {
   EditorStyles,
 } from './config/types';
 
-export { setPluginConfig } from './config';
+export { setPluginConfig, getPluginPresets, getPluginTheme } from './config';
 export { StrapiMediaLib, StrapiUploadAdapter } from './plugins';

@@ -129,4 +129,4 @@ export type Preset = {
  *
  * @see {@link https://ckeditor.com/docs/ckeditor5/latest/getting-started/setup/configuration.html | CKEditor documentation}
  */
-export type EditorConfig = CKE5EditorConfig;
+export interface EditorConfig extends CKE5EditorConfig {}
