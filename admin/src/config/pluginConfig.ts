@@ -43,7 +43,7 @@ export function setPluginConfig(userPluginConfig: UserPluginConfig): void {
  *
  * @remarks
  *
- * - The property name for the preset must match the preset's name.
+ * - Each property name must match the corresponding preset's name.
  *
  * - To extend or modify the options visible in the admin panel's content manager,
  *   changes must be made before the admin panel's bootstrap lifecycle function.
