@@ -67,7 +67,7 @@
     "@ckeditor/ckeditor5-react": "~9.5.0",
     "@strapi/design-system": "2.0.0-rc.18",
     "@strapi/icons": "2.0.0-rc.18",
-    "ckeditor5": "~44.3.0",
+    "ckeditor5": "~45.0.0",
     "lodash": "4.17.21",
     "sanitize-html": "2.13.0",
     "yup": "0.32.9"

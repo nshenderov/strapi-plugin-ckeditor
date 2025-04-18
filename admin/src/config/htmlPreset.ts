@@ -53,7 +53,7 @@ import {
   TodoList,
   Underline,
   WordCount,
-  icons,
+  IconIndent,
 } from 'ckeditor5';
 import * as sanitizeHtml from 'sanitize-html';
 
@@ -131,7 +131,7 @@ const editorConfig: EditorConfig = {
     'alignment',
     {
       label: 'Indentation',
-      icon: icons.indent,
+      icon: IconIndent,
       items: ['outdent', 'indent'],
     },
     'bulletedList',
