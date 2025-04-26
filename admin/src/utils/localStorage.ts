@@ -4,15 +4,29 @@ const STORAGE_KEYS = {
   PROFILE_THEME: 'STRAPI_THEME',
 };
 
+export function getCookieValue(name: string): string | null {
+  let result = null;
+  const cookieArray = document.cookie.split(';');
+  cookieArray.forEach(cookie => {
+    const [key, value] = cookie.split('=').map(item => item.trim());
+    if (key === name) {
+      result = decodeURIComponent(value);
+    }
+  });
+  return result;
+}
+
 export function getStoredToken(): string | null {
-  const token =
+  const tokenFromStorage =
     localStorage.getItem(STORAGE_KEYS.TOKEN) ?? sessionStorage.getItem(STORAGE_KEYS.TOKEN);
 
-  if (typeof token === 'string') {
-    return JSON.parse(token);
+  if (tokenFromStorage) {
+    return JSON.parse(tokenFromStorage);
   }
 
-  return null;
+  const tokenFromCookie = getCookieValue(STORAGE_KEYS.TOKEN);
+
+  return tokenFromCookie;
 }
 
 export function getPreferedLanguage(): string | 'en' {
