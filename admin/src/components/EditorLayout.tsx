@@ -1,5 +1,5 @@
-import React, { type ReactNode, useEffect, useState } from 'react';
-import { Box, Flex, IconButton, FocusTrap, Portal } from '@strapi/design-system';
+import React, { type ReactNode, useEffect, useReducer } from 'react';
+import { Flex, IconButton, Modal } from '@strapi/design-system';
 import { Expand, Collapse } from '@strapi/icons';
 import { css, styled } from 'styled-components';
 
@@ -9,10 +9,7 @@ import { useEditorContext } from './EditorProvider';
 export function EditorLayout({ children }: { children: ReactNode }) {
   const { error, preset } = useEditorContext();
 
-  const [isExpandedMode, setIsExpandedMode] = useState(false);
-
-  const handleToggleExpand = () => setIsExpandedMode(true);
-  const handleOnCollapse = () => setIsExpandedMode(false);
+  const [isExpandedMode, handleToggleExpand] = useReducer(prev => !prev, false);
 
   useEffect(() => {
     if (isExpandedMode) {
@@ -26,45 +23,23 @@ export function EditorLayout({ children }: { children: ReactNode }) {
 
   if (isExpandedMode) {
     return (
-      <Portal role="dialog" aria-modal={false}>
-        <FocusTrap onEscape={handleOnCollapse}>
-          <Backdrop
-            position="fixed"
-            top={0}
-            left={0}
-            right={0}
-            bottom={0}
-            zIndex={4}
-            justifyContent="center"
-            onClick={handleOnCollapse}
-          >
-            <FullScreenBox
-              background="neutral100"
-              hasRadius
-              shadow="popupShadow"
-              overflow="hidden"
-              width="90%"
-              height="90%"
-              onClick={(e: React.MouseEvent<HTMLElement>) => e.stopPropagation()}
-              position="relative"
+      <Modal.Root open={isExpandedMode} onOpenChange={handleToggleExpand}>
+        <Modal.Content style={{ maxWidth: 'unset', width: 'unset' }}>
+          <FullScreenBox height="90vh" width="90vw" background="neutral100">
+            <EditorWrapper
+              $presetStyles={preset?.styles}
+              $isExpanded={isExpandedMode}
+              $hasError={Boolean(error)}
+              className="ck-editor__expanded"
             >
-              <Flex height="100%" alignItems="flex-start" direction="column">
-                <EditorWrapper
-                  $presetStyles={preset?.styles}
-                  $isExpanded={isExpandedMode}
-                  $hasError={Boolean(error)}
-                  className="ck-editor__expanded"
-                >
-                  {children}
-                  <CollapseButton label="Collapse" onClick={handleOnCollapse}>
-                    <Collapse />
-                  </CollapseButton>
-                </EditorWrapper>
-              </Flex>
-            </FullScreenBox>
-          </Backdrop>
-        </FocusTrap>
-      </Portal>
+              {children}
+              <CollapseButton label="Collapse" onClick={handleToggleExpand}>
+                <Collapse />
+              </CollapseButton>
+            </EditorWrapper>
+          </FullScreenBox>
+        </Modal.Content>
+      </Modal.Root>
     );
   }
 
@@ -110,15 +85,12 @@ const EditorWrapper = styled('div')<{
   `}
 `;
 
-const Backdrop = styled(Flex)`
-  background: ${({ theme }) => `${theme.colors.neutral800}1F`};
-`;
-
 const ExpandButton = styled(IconButton)`
   position: absolute;
   bottom: 1.4rem;
   right: 1.2rem;
   z-index: 2;
+  box-shadow: ${({ theme }) => theme.shadows.filterShadow};
 `;
 
 const CollapseButton = styled(IconButton)`
@@ -126,8 +98,9 @@ const CollapseButton = styled(IconButton)`
   bottom: 2.5rem;
   right: 1.2rem;
   z-index: 2;
+  box-shadow: ${({ theme }) => theme.shadows.filterShadow};
 `;
 
-const FullScreenBox = styled(Box)`
+const FullScreenBox = styled(Flex)`
   max-width: var(--ck-editor-full-screen-box-max-width);
 `;
