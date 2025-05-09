@@ -1,6 +1,5 @@
 import React from 'react';
 import { useStrapiApp } from '@strapi/strapi/admin';
-
 import { prefixFileUrlWithBackendUrl, isImageResponsive } from '../utils';
 
 type MediaLibProps = {
@@ -33,6 +32,8 @@ function MediaLib({ isOpen = false, toggle, handleChangeAssets }: MediaLibProps)
     let newElems = '';
 
     assets.forEach(({ name, url, alt, formats, mime, width, height }: any) => {
+      const isYouTube = isYouTubeUrl(url);
+
       if (mime.includes('image')) {
         if (formats && isImageResponsive(formats)) {
           const set = formSrcSet(formats);
@@ -40,11 +41,26 @@ function MediaLib({ isOpen = false, toggle, handleChangeAssets }: MediaLibProps)
         } else {
           newElems += `<img src="${url}" alt="${alt}" width="${width}" height="${height}" />`;
         }
-      } else if (mime.includes('video')) {
-        newElems += `
-            <video class="video" controls width="500px">
-                <source src="${url}" type="${mime}" />
-            </video>`;
+      } else if (mime.includes('video') || isYouTube) {
+        if (isYouTube) {
+          const videoId = extractYouTubeVideoId(url);
+          if (videoId) {
+            newElems += `
+              <iframe width="560" height="315"
+                src="https://www.youtube.com/embed/${videoId}"
+                frameborder="0"
+                allowfullscreen
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              ></iframe>`;
+          } else {
+            newElems += `<a href="${url}">${name || 'Watch on YouTube'}</a>`;
+          }
+        } else {
+          newElems += `
+              <video class="video" controls width="500px">
+                  <source src="${url}" type="${mime}" />
+              </video>`;
+        }
       } else {
         newElems += `<a href="${url}">${name || 'Open document'}</a>`;
       }
@@ -61,6 +77,15 @@ function MediaLib({ isOpen = false, toggle, handleChangeAssets }: MediaLibProps)
     });
 
     return set;
+  }
+
+  function isYouTubeUrl(url: string): boolean {
+    return /(?:youtube\.com\/watch\?v=|youtu\.be\/)/.test(url);
+  }
+
+  function extractYouTubeVideoId(url: string): string | null {
+    const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+    return match ? match[1] : null;
   }
 
   if (!isOpen) {
