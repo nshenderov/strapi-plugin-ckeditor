@@ -1,5 +1,5 @@
 import React, { type ReactNode, useEffect, useReducer } from 'react';
-import { Flex, IconButton, Modal } from '@strapi/design-system';
+import { Box, Flex, FocusTrap, IconButton, Portal } from '@strapi/design-system';
 import { Expand, Collapse } from '@strapi/icons';
 import { css, styled } from 'styled-components';
 
@@ -23,23 +23,46 @@ export function EditorLayout({ children }: { children: ReactNode }) {
 
   if (isExpandedMode) {
     return (
-      <Modal.Root open={isExpandedMode} onOpenChange={handleToggleExpand}>
-        <Modal.Content style={{ maxWidth: 'unset', width: 'unset' }}>
-          <FullScreenBox height="90vh" width="90vw" background="neutral100">
-            <EditorWrapper
-              $presetStyles={preset?.styles}
-              $isExpanded={isExpandedMode}
-              $hasError={Boolean(error)}
-              className="ck-editor__expanded"
+      <Portal role="dialog" aria-modal={false}>
+        <FocusTrap onEscape={handleToggleExpand}>
+          <Backdrop
+            position="fixed"
+            top={0}
+            left={0}
+            right={0}
+            bottom={0}
+            zIndex={4}
+            justifyContent="center"
+            onClick={handleToggleExpand}
+          >
+            <FullScreenBox
+              background="neutral100"
+              hasRadius
+              shadow="popupShadow"
+              overflow="hidden"
+              width="90%"
+              height="90%"
+              onClick={(e: React.MouseEvent<HTMLElement>) => e.stopPropagation()}
+              position="relative"
             >
-              {children}
-              <CollapseButton label="Collapse" onClick={handleToggleExpand}>
-                <Collapse />
-              </CollapseButton>
-            </EditorWrapper>
-          </FullScreenBox>
-        </Modal.Content>
-      </Modal.Root>
+              <Flex height="100%" alignItems="flex-start" direction="column">
+                <EditorWrapper
+                  $presetStyles={preset?.styles}
+                  $isExpanded={isExpandedMode}
+                  $hasError={Boolean(error)}
+                  className="ck-editor__expanded"
+                >
+                  {children}
+
+                  <CollapseButton label="Collapse" onClick={handleToggleExpand}>
+                    <Collapse />
+                  </CollapseButton>
+                </EditorWrapper>
+              </Flex>
+            </FullScreenBox>
+          </Backdrop>
+        </FocusTrap>
+      </Portal>
     );
   }
 
@@ -101,6 +124,10 @@ const CollapseButton = styled(IconButton)`
   box-shadow: ${({ theme }) => theme.shadows.filterShadow};
 `;
 
-const FullScreenBox = styled(Flex)`
+const FullScreenBox = styled(Box)`
   max-width: var(--ck-editor-full-screen-box-max-width);
+`;
+
+const Backdrop = styled(Flex)`
+  background: ${({ theme }) => `${theme.colors.neutral800}1F`};
 `;
