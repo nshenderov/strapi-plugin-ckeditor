@@ -7,7 +7,7 @@ import { EditorLayout } from './EditorLayout';
 import { GlobalStyling } from './GlobalStyling';
 import { useEditorContext } from './EditorProvider';
 
-export function Editor() {
+export const Editor = React.forwardRef<{ focus: () => void }>((_, forwardedRef) => {
   const { name, hint, required, labelAction, label, error, preset } = useEditorContext();
 
   return (
@@ -18,7 +18,7 @@ export function Editor() {
           <>
             <GlobalStyling />
             <EditorLayout>
-              <CKEReact />
+              <CKEReact ref={forwardedRef} />
             </EditorLayout>
           </>
         ) : (
@@ -31,7 +31,7 @@ export function Editor() {
       </Flex>
     </Field.Root>
   );
-}
+});
 
 const LoaderBox = styled(Box)`
   display: flex;

@@ -243,6 +243,8 @@ const plugin = css`
 
 const expanded = css`
   .ck-editor__expanded {
+    max-width: var(--ck-editor-full-screen-box-max-width);
+
     .ck.ck-content.ck-editor__editable,
     .ck-source-editing-area {
       min-height: 100% !important;
@@ -281,6 +283,10 @@ const expanded = css`
       bottom: 0.3rem;
       right: 1.2rem;
     }
+  }
+
+  .ck-body-wrapper {
+    pointer-events: all;
   }
 `;
 

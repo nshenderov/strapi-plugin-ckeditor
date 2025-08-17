@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState, useImperativeHandle } from 'react';
 import { useField } from '@strapi/strapi/admin';
 import { Flex } from '@strapi/design-system';
 import { styled, css } from 'styled-components';
@@ -20,7 +20,7 @@ export type WordCountPluginStats = {
   characters: number;
 };
 
-export function CKEReact() {
+export const CKEReact = React.forwardRef<{ focus: () => void }>((_, forwardedRef) => {
   const [mediaLibVisible, setMediaLibVisible] = useState<boolean>(false);
   const [editorInstance, setEditorInstance] = useState<ClassicEditor | null>(null);
   const [isWordsMax, setIsWordsMax] = useState(false);
@@ -30,6 +30,7 @@ export function CKEReact() {
   const { onChange: fieldOnChange, value: fieldValue } = useField(name);
 
   const wordCounterRef = useRef<HTMLElement>(null);
+  const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
 
   const onEditorReady = (editor: ClassicEditor): void => {
     setUpPlugins(editor);
@@ -37,8 +38,18 @@ export function CKEReact() {
   };
 
   const onEditorChange = (_e: any, editor: ClassicEditor): void => {
+    // Prevents updating the whole strapi state
+    // on every input change by debouncing it
+    if (debounceTimeout.current) {
+      clearTimeout(debounceTimeout.current);
+    }
+
     const data = editor.getData();
-    fieldOnChange(name, data);
+
+    debounceTimeout.current = setTimeout(() => {
+      fieldOnChange(name, data);
+      debounceTimeout.current = null;
+    }, 300);
   };
 
   const toggleMediaLib = useCallback(() => setMediaLibVisible(prev => !prev), [setMediaLibVisible]);
@@ -48,14 +59,32 @@ export function CKEReact() {
       if (!editorInstance) {
         throw new Error('The editor instance has not been initialized.');
       }
-
       const viewFragment = editorInstance.data.processor.toView(newElems);
       const modelFragment = editorInstance.data.toModel(viewFragment);
       editorInstance?.model.insertContent(modelFragment);
-
       toggleMediaLib();
     },
     [toggleMediaLib, editorInstance]
+  );
+
+  useEffect(() => {
+    // A crutch that prevents strapi modals from closing
+    // when ckeditor popup buttons are clicked
+    const ckWrapper = document.querySelector<HTMLElement>('.ck-body-wrapper');
+    const listener = ckWrapper?.addEventListener('pointerdown', e => e.stopPropagation(), true);
+    return () => {
+      listener && ckWrapper?.removeEventListener('pointerdown', listener);
+    };
+  }, [editorInstance]);
+
+  useImperativeHandle(
+    forwardedRef,
+    () => ({
+      focus() {
+        editorInstance?.focus();
+      },
+    }),
+    [editorInstance]
   );
 
   if (!preset) {
@@ -150,7 +179,7 @@ export function CKEReact() {
       setIsCharsMax(stats.characters > charsLimit);
     }
   }
-}
+});
 
 const WordCounter = styled(Flex)<{ $isWordsMax: boolean; $isCharsMax: boolean }>`
   ${({ theme, $isWordsMax, $isCharsMax }) => css`

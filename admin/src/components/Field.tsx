@@ -23,39 +23,44 @@ type CKEditorFieldProps = Readonly<
     }
 >;
 
-function Field({
-  name,
-  hint,
-  error,
-  placeholder,
-  label,
-  attribute,
-  labelAction = null,
-  disabled = false,
-  required = false,
-}: CKEditorFieldProps) {
-  const { preset, maxLengthWords, maxLengthCharacters } = attribute.options;
-  const isFieldLocalized = attribute?.pluginOptions?.i18n?.localized ?? false;
+const Field = React.forwardRef<{ focus: () => void }, CKEditorFieldProps>(
+  (
+    {
+      name,
+      hint,
+      error,
+      placeholder,
+      label,
+      attribute,
+      labelAction = null,
+      disabled = false,
+      required = false,
+    }: CKEditorFieldProps,
+    forwardedRef
+  ) => {
+    const { preset, maxLengthWords, maxLengthCharacters } = attribute.options;
+    const isFieldLocalized = attribute?.pluginOptions?.i18n?.localized ?? false;
 
-  return (
-    <EditorProvider
-      name={name}
-      error={error}
-      disabled={disabled}
-      required={required}
-      placeholder={placeholder}
-      hint={hint}
-      label={label}
-      labelAction={labelAction}
-      presetName={preset}
-      wordsLimit={maxLengthWords}
-      charsLimit={maxLengthCharacters}
-      isFieldLocalized={isFieldLocalized}
-    >
-      <Editor />
-    </EditorProvider>
-  );
-}
+    return (
+      <EditorProvider
+        name={name}
+        error={error}
+        disabled={disabled}
+        required={required}
+        placeholder={placeholder}
+        hint={hint}
+        label={label}
+        labelAction={labelAction}
+        presetName={preset}
+        wordsLimit={maxLengthWords}
+        charsLimit={maxLengthCharacters}
+        isFieldLocalized={isFieldLocalized}
+      >
+        <Editor ref={forwardedRef} />
+      </EditorProvider>
+    );
+  }
+);
 
 function compare(oldProps: CKEditorFieldProps, newProps: CKEditorFieldProps): boolean {
   return oldProps.error === newProps.error && oldProps.labelAction === newProps.labelAction;
