@@ -65,8 +65,8 @@
   },
   "dependencies": {
     "@ckeditor/ckeditor5-react": "~9.5.0",
-    "@strapi/design-system": "2.0.0-rc.18",
-    "@strapi/icons": "2.0.0-rc.18",
+    "@strapi/design-system": "2.1.2",
+    "@strapi/icons": "2.1.2",
     "ckeditor5": "~45.2.0",
     "lodash": "4.17.21",
     "sanitize-html": "2.13.0",
@@ -74,11 +74,11 @@
   },
   "devDependencies": {
     "@release-it/conventional-changelog": "10.0.0",
-    "@strapi/sdk-plugin": "5.3.2",
-    "@strapi/strapi": "5.11.0",
-    "@strapi/typescript-utils": "5.11.0",
-    "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1",
+    "@strapi/sdk-plugin": "5.4.0",
+    "@strapi/strapi": "5.33.4",
+    "@strapi/typescript-utils": "5.33.4",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
     "@types/sanitize-html": "2.13.0",
     "@typescript-eslint/eslint-plugin": "7.0.0",
     "@typescript-eslint/parser": "7.0.0",
@@ -92,12 +92,12 @@
     "eslint-plugin-react": "7.28.0",
     "eslint-plugin-react-hooks": "4.3.0",
     "prettier": "3.4.0",
-    "react": "18.3.1",
-    "react-dom": "18.3.1",
-    "react-router-dom": "6.30.0",
     "release-it": "18.1.2",
-    "styled-components": "6.1.15",
-    "typescript": "5.6.3"
+    "typescript": "5.6.3",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-router-dom": "^6.0.0",
+    "styled-components": "^6.0.0"
   },
   "peerDependencies": {
     "@strapi/strapi": "^5.0.0",
@@ -107,7 +107,7 @@
     "styled-components": "^6.0.0"
   },
   "engines": {
-    "node": ">=18.0.0 <=22.x.x",
+    "node": ">=20.0.0 <=24.x.x",
     "npm": ">=6.0.0"
   },
   "license": "MIT"
