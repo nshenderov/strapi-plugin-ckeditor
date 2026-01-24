@@ -1,4 +1,4 @@
-import { type ReactNode, useEffect, useReducer } from 'react';
+import { type ReactNode, useEffect, useState } from 'react';
 import { Flex, IconButton, Modal } from '@strapi/design-system';
 import { Expand, Collapse } from '@strapi/icons';
 import { css, styled } from 'styled-components';
@@ -9,16 +9,40 @@ import { useEditorContext } from './EditorProvider';
 export function EditorLayout({ children }: { children: ReactNode }) {
   const { error, preset } = useEditorContext();
 
-  const [isExpandedMode, handleToggleExpand] = useReducer(prev => !prev, false);
+  const [isExpandedMode, setIsExpandedMode] = useState(false);
+
+  const handleToggleExpand = (open: boolean) => {
+    if (open) {
+      setTimeout(() => {
+        // Move ckeditor popups wrapper into the radix modal
+        // so that clicking them doesn’t close the modal
+        // otherwise, they’re treated as outside clicks and the modal closes
+        const ckPopupsWrapper = document.querySelector('.ck-body-wrapper');
+        const ckEditorModal = document.getElementById('ck-editor-modal');
+
+        if (ckPopupsWrapper && ckEditorModal) {
+          ckEditorModal.appendChild(ckPopupsWrapper);
+        }
+
+        document.querySelector<HTMLElement>('.ck-editor__expanded .ck-editor__editable')?.focus();
+      }, 0);
+    } else {
+      // On close, move the wrapper back before it gets unmounted
+      // so other editors on the page don’t lose their reference
+      const ckPopupsWrapper = document.querySelector('.ck-body-wrapper');
+
+      if (ckPopupsWrapper) {
+        document.body.appendChild(ckPopupsWrapper);
+      }
+    }
+
+    setIsExpandedMode(open);
+  };
 
   useEffect(() => {
     if (isExpandedMode) {
       document.body.classList.add('lock-body-scroll');
-      setTimeout(() => {
-        document.querySelector<HTMLElement>('.ck-editor__expanded .ck-editor__editable')?.focus();
-      }, 0);
     }
-
     return () => {
       document.body.classList.remove('lock-body-scroll');
     };
@@ -27,10 +51,15 @@ export function EditorLayout({ children }: { children: ReactNode }) {
   if (isExpandedMode) {
     return (
       <Modal.Root open={isExpandedMode} onOpenChange={handleToggleExpand}>
-        <Modal.Content
-          style={{ maxWidth: 'var(--ck-editor-full-screen-box-max-width)', width: 'unset' }}
-        >
-          <Flex height="90dvh" width="90dvw" alignItems="flex-start" direction="column">
+        <Content id="ck-editor-modal">
+          <Flex
+            height="90dvh"
+            width="90dvw"
+            maxWidth="100%"
+            direction="column"
+            alignItems="flex-start"
+            background="neutral100"
+          >
             <EditorWrapper
               $presetStyles={preset?.styles}
               $isExpanded={isExpandedMode}
@@ -39,12 +68,16 @@ export function EditorLayout({ children }: { children: ReactNode }) {
             >
               {children}
 
-              <CollapseButton tabindex="-1" label="Collapse" onClick={handleToggleExpand}>
+              <CollapseButton
+                tabIndex="-1"
+                label="Collapse"
+                onClick={() => handleToggleExpand(false)}
+              >
                 <Collapse />
               </CollapseButton>
             </EditorWrapper>
           </Flex>
-        </Modal.Content>
+        </Content>
       </Modal.Root>
     );
   }
@@ -56,7 +89,7 @@ export function EditorLayout({ children }: { children: ReactNode }) {
       $hasError={Boolean(error)}
     >
       {children}
-      <ExpandButton label="Expand" onClick={handleToggleExpand}>
+      <ExpandButton label="Expand" onClick={() => handleToggleExpand(true)}>
         <Expand />
       </ExpandButton>
     </EditorWrapper>
@@ -105,4 +138,10 @@ const CollapseButton = styled(IconButton)`
   right: 1.2rem;
   z-index: 2;
   box-shadow: ${({ theme }) => theme.shadows.filterShadow};
+`;
+
+const Content = styled(Modal.Content)`
+  max-width: var(--ck-editor-full-screen-box-max-width);
+  width: unset;
+  overflow: visible;
 `;
