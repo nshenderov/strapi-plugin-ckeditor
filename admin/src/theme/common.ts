@@ -3,18 +3,18 @@ import { css } from 'styled-components';
 const reset = css`
   ${({ theme }) => css`
     .ck {
-      --ck-color-image-caption-background: hsl(0, 0%, 97%);
-      --ck-color-image-caption-text: hsl(0, 0%, 20%);
-      --ck-color-mention-background: hsla(341, 100%, 30%, 0.1);
-      --ck-color-mention-text: hsl(341, 100%, 30%);
+      --ck-content-color-image-caption-background: hsl(0, 0%, 97%);
+      --ck-content-color-image-caption-text: hsl(0, 0%, 20%);
+      --ck-content-color-mention-background: hsla(341, 100%, 30%, 0.1);
+      --ck-content-color-mention-text: hsl(341, 100%, 30%);
       --ck-color-table-caption-background: hsl(0, 0%, 97%);
       --ck-color-table-caption-text: hsl(0, 0%, 20%);
-      --ck-highlight-marker-blue: hsl(201, 97%, 72%);
-      --ck-highlight-marker-green: hsl(120, 93%, 68%);
-      --ck-highlight-marker-pink: hsl(345, 96%, 73%);
-      --ck-highlight-marker-yellow: hsl(60, 97%, 73%);
-      --ck-highlight-pen-green: hsl(112, 100%, 27%);
-      --ck-highlight-pen-red: hsl(0, 85%, 49%);
+      --ck-content-highlight-marker-blue: hsl(201, 97%, 72%);
+      --ck-content-highlight-marker-green: hsl(120, 93%, 68%);
+      --ck-content-highlight-marker-pink: hsl(345, 96%, 73%);
+      --ck-content-highlight-marker-yellow: hsl(60, 97%, 73%);
+      --ck-content-highlight-pen-green: hsl(112, 100%, 27%);
+      --ck-content-highlight-pen-red: hsl(0, 85%, 49%);
       --ck-image-style-spacing: 1.5em;
       --ck-inline-image-style-spacing: calc(var(--ck-image-style-spacing) / 2);
       --ck-todo-list-checkmark-size: 16px;
@@ -31,47 +31,11 @@ const reset = css`
       --ck-font-face: 'Source Sans Pro', system-ui, Roboto, 'Helvetica Neue', 'Helvetica', Arial,
         sans-serif;
 
-      color: var(--ck-color-editor-base-text);
       font-family: var(--ck-font-face);
 
       * {
         font: revert;
         margin: revert;
-      }
-
-      h1 {
-        font-size: 2.3em;
-      }
-
-      h2 {
-        font-size: 1.84em;
-      }
-
-      h3 {
-        font-size: 1.48em;
-      }
-
-      h4 {
-        font-size: 1.22em;
-      }
-
-      h5 {
-        font-size: 1.06em;
-      }
-
-      h6 {
-        font-size: 1em;
-      }
-
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6 {
-        line-height: 1.2em;
-        padding-top: 0.8em;
-        margin-bottom: 0.4em;
       }
 
       blockquote,
@@ -85,9 +49,9 @@ const reset = css`
       }
 
       figcaption {
-        background-color: var(--ck-color-image-caption-background);
+        background-color: var(--ck-content-color-image-caption-background);
         caption-side: bottom;
-        color: var(--ck-color-image-caption-text);
+        color: var(--ck-content-color-image-caption-text);
         display: table-caption;
         font-size: 0.75em;
         outline-offset: -1px;
@@ -132,6 +96,11 @@ const reset = css`
 
       sup {
         vertical-align: super;
+      }
+
+      .ck-input-text.raw-html-embed__source,
+      .ck-button.raw-html-embed__edit-button {
+        color: var(--ck-color-text);
       }
     }
   `}
@@ -231,7 +200,7 @@ const plugin = css`
     }
 
     .ck.ck-editor__editable > .ck-placeholder::before {
-      color: var(--ck-color-editor-base-text);
+      color: var(--ck-content-font-color);
       opacity: 0.65;
     }
 

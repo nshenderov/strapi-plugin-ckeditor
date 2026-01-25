@@ -64,10 +64,10 @@
     "release:info": "release-it --changelog"
   },
   "dependencies": {
-    "@ckeditor/ckeditor5-react": "~9.5.0",
+    "@ckeditor/ckeditor5-react": "~11.0.1",
     "@strapi/design-system": "2.1.2",
     "@strapi/icons": "2.1.2",
-    "ckeditor5": "~45.2.0",
+    "ckeditor5": "~47.4.0",
     "lodash": "4.17.21",
     "sanitize-html": "2.13.0",
     "yup": "0.32.9"

@@ -17,7 +17,7 @@ export const colors = css`
       --ck-color-base-focus: ${theme.colors.primary200};
       --ck-color-base-active: ${theme.colors.primary500}8F;
       --ck-color-base-active-focus: ${theme.colors.primary600};
-      --ck-color-editor-base-text: ${theme.colors.neutral800};
+      --ck-content-font-color: ${theme.colors.neutral800};
       --ck-color-base-border: ${theme.colors.neutral200};
       --ck-color-base-background: ${theme.colors.neutral0};
       --ck-custom-foreground: ${theme.colors.neutral200};
@@ -103,8 +103,13 @@ export const colors = css`
 
       /* -- Image ------------------------------------------------------------------------------- */
 
-      --ck-color-image-caption-background: ${theme.colors.neutral100};
-      --ck-color-image-caption-text: ${theme.colors.neutral800};
+      --ck-content-color-image-caption-background: ${theme.colors.neutral100};
+      --ck-content-color-image-caption-text: ${theme.colors.neutral800};
+
+      /* -- Table ------------------------------------------------------------------------------- */
+
+      --ck-content-color-table-caption-background: ${theme.colors.neutral100};
+      --ck-content-color-table-caption-text: ${theme.colors.neutral800};
 
       /* -- Widget ------------------------------------------------------------------------------ */
 
