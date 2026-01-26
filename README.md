@@ -469,7 +469,7 @@ export default {
   <summary>Setting a new set of presets [TS]</summary>
 
 ```ts
-// src/admin/app.tsx
+// src/admin/app.ts
 
 import {
   Bold,
@@ -553,7 +553,7 @@ export default {
   <summary>Default presets modification using setPluginConfig [TS]</summary>
 
 ```ts
-// src/admin/app.tsx
+// src/admin/app.ts
 
 import { css } from 'styled-components';
 
@@ -627,7 +627,7 @@ export default {
   <summary>Default presets modification using getPluginPresets [TS]</summary>
 
 ```ts
-// src/admin/app.tsx
+// src/admin/app.ts
 
 import { css } from 'styled-components';
 import { getPluginPresets } from '@_sh/strapi-plugin-ckeditor';
@@ -687,7 +687,7 @@ export default {
   <summary>Modifying theme using setPluginConfig [TS]</summary>
 
 ```ts
-// src/admin/app.tsx
+// src/admin/app.ts
 
 import { css } from 'styled-components';
 
@@ -723,7 +723,7 @@ export default {
   <summary>Modifying theme using getPluginTheme [TS]</summary>
 
 ```ts
-// src/admin/app.tsx
+// src/admin/app.ts
 
 import { css } from 'styled-components';
 import { getPluginTheme } from '@_sh/strapi-plugin-ckeditor';
@@ -849,7 +849,7 @@ for detailed instructions.
 
 Strapi **>= 5.0.0**
 
-Node **>= 18.0.0 <= 22.x.x**
+Node **>= 20.0.0 <= 24.x.x**
 
 ---
 
