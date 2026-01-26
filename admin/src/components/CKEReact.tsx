@@ -73,7 +73,9 @@ export const CKEReact = React.forwardRef<{ focus: () => void }>((_, forwardedRef
     const ckWrapper = document.querySelector<HTMLElement>('.ck-body-wrapper');
     const listener = ckWrapper?.addEventListener('pointerdown', e => e.stopPropagation(), true);
     return () => {
-      listener && ckWrapper?.removeEventListener('pointerdown', listener);
+      if (listener) {
+        ckWrapper?.removeEventListener('pointerdown', listener);
+      }
     };
   }, [editorInstance]);
 
