@@ -5,6 +5,7 @@ import { getPluginConfig, type Option } from './config';
 import { CKEditorIcon } from './components/CKEditorIcon';
 
 export * from './exports';
+import exports from './exports';
 
 const AVAILABLE_OPTIONS: Option[] = [];
 
@@ -33,6 +34,13 @@ export default {
     fillAvailableOptions();
   },
   async register(app: any): Promise<void> {
+    app.registerPlugin({
+      id: PLUGIN_ID,
+      isReady: true,
+      name: 'CKEditor',
+      apis: exports,
+    });
+    
     app.customFields.register({
       name: 'CKEditor',
       type: 'richtext',
