@@ -1,11 +1,11 @@
 import * as yup from 'yup';
+import * as exports from './exports';
 
 import { PLUGIN_ID } from './utils';
 import { getPluginConfig, type Option } from './config';
 import { CKEditorIcon } from './components/CKEditorIcon';
 
 export * from './exports';
-import exports from './exports';
 
 const AVAILABLE_OPTIONS: Option[] = [];
 
