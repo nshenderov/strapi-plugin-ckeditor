@@ -1,4 +1,5 @@
 import * as yup from 'yup';
+import * as exports from './exports';
 
 import { PLUGIN_ID } from './utils';
 import { getPluginConfig, type Option } from './config';
@@ -33,6 +34,13 @@ export default {
     fillAvailableOptions();
   },
   async register(app: any): Promise<void> {
+    app.registerPlugin({
+      id: PLUGIN_ID,
+      isReady: true,
+      name: 'CKEditor',
+      apis: exports,
+    });
+    
     app.customFields.register({
       name: 'CKEditor',
       type: 'richtext',
