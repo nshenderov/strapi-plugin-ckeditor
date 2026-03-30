@@ -67,7 +67,7 @@
   },
   "dependencies": {
     "@ckeditor/ckeditor5-react": "~11.0.1",
-    "ckeditor5": "~47.4.0",
+    "ckeditor5": "~47.6.1",
     "lodash": "4.17.21",
     "sanitize-html": "2.13.0",
     "yup": "0.32.9"
