@@ -1,3 +1,4 @@
+import './styled';
 import * as yup from 'yup';
 import * as exports from './exports';
 

@@ -4,23 +4,22 @@ import { styled } from 'styled-components';
 
 import { CKEReact } from './CKEReact';
 import { EditorLayout } from './EditorLayout';
-import { GlobalStyling } from './GlobalStyling';
+import { useGlobalStyles } from '../hooks/useGlobalStyles';
 import { useEditorContext } from './EditorProvider';
 
 export const Editor = React.forwardRef<{ focus: () => void }>((_, forwardedRef) => {
   const { name, hint, required, labelAction, label, error, preset } = useEditorContext();
+
+  useGlobalStyles();
 
   return (
     <Field.Root id={name} name={name} error={error} hint={hint} required={required}>
       <Flex direction="column" alignItems="stretch" gap={1}>
         <Field.Label action={labelAction}>{label}</Field.Label>
         {preset ? (
-          <>
-            <GlobalStyling />
-            <EditorLayout>
-              <CKEReact ref={forwardedRef} />
-            </EditorLayout>
-          </>
+          <EditorLayout>
+            <CKEReact ref={forwardedRef} />
+          </EditorLayout>
         ) : (
           <LoaderBox hasRadius background="neutral100">
             <Loader>Loading...</Loader>

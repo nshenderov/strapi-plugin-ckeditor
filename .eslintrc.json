@@ -15,7 +15,8 @@
     "no-param-reassign": "warn",
     "react/jsx-no-bind": "warn",
     "react/react-in-jsx-scope": "off",
-    "no-console": ["warn", { "allow": ["warn", "error"] }]
+    "no-console": ["warn", { "allow": ["warn", "error"] }],
+    "no-plusplus": "off"
   },
   "overrides": [
     {
