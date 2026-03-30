@@ -58,7 +58,7 @@ export function getPluginPresets(): Record<string, Preset> {
  *
  */
 export function getPluginTheme(): Theme {
-  return PLUGIN_CONFIG.presets;
+  return PLUGIN_CONFIG.theme;
 }
 
 /**
