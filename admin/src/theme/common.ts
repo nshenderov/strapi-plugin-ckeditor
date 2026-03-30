@@ -28,8 +28,8 @@ const reset = css`
     }
 
     .ck-editor__main {
-      --ck-font-face: 'Source Sans Pro', system-ui, Roboto, 'Helvetica Neue', 'Helvetica', Arial,
-        sans-serif;
+      --ck-font-face:
+        'Source Sans Pro', system-ui, Roboto, 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
 
       font-family: var(--ck-font-face);
 
@@ -131,6 +131,15 @@ const plugin = css`
 
     .ck.ck-editor__top .ck-sticky-panel .ck-sticky-panel__content {
       border: none !important;
+    }
+
+    [role='dialog'] .ck.ck-sticky-panel .ck-sticky-panel__content_sticky {
+      position: static !important;
+      width: auto !important;
+    }
+
+    [role='dialog'] .ck.ck-sticky-panel .ck-sticky-panel__placeholder {
+      display: none !important;
     }
 
     .ck.ck-editor__main {
