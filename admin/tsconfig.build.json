@@ -1,6 +1,6 @@
 {
   "extends": "./tsconfig",
-  "include": ["./src", "./custom.d.ts"],
+  "include": ["./src"],
   "exclude": ["**/*.test.ts", "**/*.test.tsx"],
   "compilerOptions": {
     "rootDir": "../",
