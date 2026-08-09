@@ -55,7 +55,7 @@ import {
   WordCount,
   IconIndent,
 } from 'ckeditor5';
-import * as sanitizeHtml from 'sanitize-html';
+import DOMPurify from 'dompurify';
 
 import type { Preset, EditorConfig } from './types';
 import { StrapiMediaLib, StrapiUploadAdapter } from '../plugins';
@@ -246,7 +246,7 @@ const editorConfig: EditorConfig = {
   htmlEmbed: {
     showPreviews: true,
     sanitizeHtml: inputHtml => {
-      const outputHtml = sanitizeHtml.default(inputHtml);
+      const outputHtml = DOMPurify.sanitize(inputHtml);
       return {
         html: outputHtml,
         hasChanged: true,
