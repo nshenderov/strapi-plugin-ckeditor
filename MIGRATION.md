@@ -2,10 +2,57 @@
 
 ### Navigation
 
+- [From v7 to v8](#7to8)
 - [From v4 to v5](#4to5)
 - [From v3 to v4](#3to4)
 - [From v2 to v3](#2to3)
 - [From v1 to v2](#1to2)
+
+## <a id="7to8"></a>From v7 to v8
+
+Version 8 upgrades CKEditor to a new major version and changes two things in the default HTML
+preset. Most setups need no code changes, but review the points below.
+
+⚠️ **CKEditor 5 has been updated from 47.x to 48.x.**
+
+If you register custom CKEditor plugins or build your own presets, read the
+[official CKEditor 5 migration guide](https://ckeditor.com/docs/ckeditor5/latest/updating/guides/update-to-48.html).
+Two changes are worth knowing about even without custom plugins:
+
+- CSS is compiled differently. CKEditor's own selectors are now wrapped in `:is()`, which makes
+  them more specific. If you override CKEditor styles through the plugin theme, check that your
+  rules still apply.
+- Saved output changed for some features. Table alignment is written as CSS classes instead of
+  inline styles, header cells get a `scope` attribute, and media embeds are emitted with
+  `width`/`height` attributes plus `aspect-ratio` instead of the old `padding-bottom` technique.
+  Existing content is not rewritten, so old and new markup will coexist until an entry is edited.
+
+⚠️ **The default HTML preset now sanitizes HTML embed previews with DOMPurify.**
+
+`sanitize-html` has been replaced by `dompurify`, which Strapi already ships and which is a
+fraction of the size in the admin bundle. The two libraries have different defaults, so the
+preview of an HTML embed block now shows more than before: images, video, audio and inline styles
+are kept, while scripts, event handlers and iframes are still removed. This only affects the
+preview rendering inside the editor, not the stored value.
+
+To keep the previous behaviour, override `htmlEmbed.sanitizeHtml` in your own preset.
+
+⚠️ **The preset field option now has a default value instead of a validator.**
+
+Previously the Content-Type Builder refused to save a CKEditor field with no preset selected.
+Now the first configured preset is preselected, so the field can no longer end up without one.
+If you replace the preset list through `setPluginConfig()`, the default is the first preset you
+define, not `defaultHtml`.
+
+⚠️ **`yup` and `sanitize-html` are no longer dependencies of this plugin.**
+
+If your own code imported either of them and relied on this plugin to install them, add them to
+your project's dependencies explicitly.
+
+⚠️ **Node support has been widened to `>= 20.0.0 <= 26.x.x`** to match Strapi 5.51.
+
+Contributing to the plugin now requires Node 20 or later for consumers but Node 22 or later for
+development, since the Strapi plugin SDK's toolchain does not run on Node 20 anymore.
 
 ## <a id="4to5"></a>From v4 to v5
 

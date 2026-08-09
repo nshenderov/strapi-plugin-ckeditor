@@ -12,6 +12,7 @@
 - [Installation](#installation)
 - [Usage](#usage)
 - [Configuration](#configuration)
+- [Troubleshooting](#troubleshooting)
 - [Contributing](#contributing)
 - [Migration](#migration)
 - [Requirements](#requirements)
@@ -800,12 +801,62 @@ export default {
 
 > 📌 It is highly recommended to explore [**the official CKEditor5 documentation**](https://ckeditor.com/docs/ckeditor5/latest/getting-started/setup/configuration.html).
 
+## <a id="troubleshooting"></a>🩺 Troubleshooting
+
+### Blank admin panel on Strapi 5.51.x
+
+Strapi 5.51.0 added a heuristic that removes plugins like this one from Vite's dependency
+pre-bundling. Without pre-bundling, CommonJS packages in the plugin's dependency tree are served
+to the browser as-is, which native ESM cannot load. The admin panel renders a blank page and the
+console shows an error such as:
+
+```
+The requested module '/admin/node_modules/property-expr/index.js'
+does not provide an export named 'getter'
+```
+
+This only affects `strapi develop`. A production build made with `strapi build` is not affected,
+because it does not use dependency pre-bundling.
+
+The fix is tracked upstream in [strapi/strapi#27136](https://github.com/strapi/strapi/issues/27136)
+and merged in [strapi/strapi#27264](https://github.com/strapi/strapi/pull/27264). Until it lands in
+a release, put the plugin back on the pre-bundling path from your Strapi project:
+
+```ts
+// src/admin/vite.config.ts
+import type { UserConfig } from 'vite';
+
+const KEEP_PREBUNDLED = ['@_sh/strapi-plugin-ckeditor', '@ckeditor/ckeditor5-react'];
+
+export default (config: UserConfig) => {
+  config.optimizeDeps = config.optimizeDeps ?? {};
+  config.optimizeDeps.exclude = (config.optimizeDeps.exclude ?? []).filter(
+    dep => !KEEP_PREBUNDLED.includes(dep)
+  );
+
+  return config;
+};
+```
+
+Then clear the caches and restart:
+
+```bash
+rm -rf .strapi node_modules/.strapi
+```
+
+Both package names are required. With only the first one the admin panel loads but the editor
+does not, failing with `Failed to resolve import "@ckeditor/ckeditor5-react"`.
+
+Delete this file once you upgrade to a Strapi release that contains the upstream fix.
+
 ## <a id="contributing"></a>🛠 Contributing
 
 Feel free to [fork the repository](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo)
 and open a pull request, any help is appreciated.
 
-Follow these steps to set up a plugin development environment:
+Follow these steps to set up a plugin development environment. Note that developing the plugin
+requires Node **>= 22**, even though the published package supports Node 20, because the Strapi
+plugin SDK's toolchain no longer runs on Node 20.
 
 1. Clone the repository.
 
@@ -845,7 +896,15 @@ for detailed instructions.
 
 ## <a id="requirements"></a>⚠️ Requirements
 
-**v5.x.x**
+**v8.x.x**
+
+Strapi **>= 5.0.0**
+
+Node **>= 20.0.0 <= 26.x.x**
+
+---
+
+**v5.x.x - v7.x.x**
 
 Strapi **>= 5.0.0**
 
