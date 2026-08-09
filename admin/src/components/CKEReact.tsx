@@ -27,7 +27,7 @@ export const CKEReact = React.forwardRef<{ focus: () => void }>((_, forwardedRef
   const [isCharsMax, setIsCharsMax] = useState(false);
 
   const { name, disabled, preset, wordsLimit, charsLimit } = useEditorContext();
-  const { onChange: fieldOnChange, value: fieldValue } = useField(name);
+  const { onChange: fieldOnChange, value: fieldValue } = useField<string>(name);
 
   const wordCounterRef = useRef<HTMLElement>(null);
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
