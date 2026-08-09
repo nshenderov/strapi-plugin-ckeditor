@@ -1,5 +1,4 @@
 import './styled';
-import * as yup from 'yup';
 import * as exports from './exports';
 
 import { PLUGIN_ID } from './utils';
@@ -9,6 +8,23 @@ import { CKEditorIcon } from './components/CKEditorIcon';
 export * from './exports';
 
 const AVAILABLE_OPTIONS: Option[] = [];
+
+// Options are registered before the plugin config is final, so both the list and the
+// default value are filled in on bootstrap through the very same object references.
+const PRESET_OPTION = {
+  intlLabel: {
+    id: `${PLUGIN_ID}.preset.label`,
+    defaultMessage: 'Preset',
+  },
+  description: {
+    id: `${PLUGIN_ID}.preset.description`,
+    defaultMessage: ' ',
+  },
+  name: 'options.preset',
+  type: 'select',
+  options: AVAILABLE_OPTIONS,
+  defaultValue: '' as Option['value'],
+};
 
 function fillAvailableOptions(): void {
   const { presets } = getPluginConfig();
@@ -27,6 +43,8 @@ function fillAvailableOptions(): void {
 
     AVAILABLE_OPTIONS.push(option);
   });
+
+  PRESET_OPTION.defaultValue = AVAILABLE_OPTIONS[0]?.value ?? '';
 }
 
 // eslint-disable-next-line import/no-default-export
@@ -41,7 +59,7 @@ export default {
       name: 'CKEditor',
       apis: exports,
     });
-    
+
     app.customFields.register({
       name: 'CKEditor',
       type: 'richtext',
@@ -62,21 +80,7 @@ export default {
           })),
       },
       options: {
-        base: [
-          {
-            intlLabel: {
-              id: `${PLUGIN_ID}.preset.label`,
-              defaultMessage: 'Preset',
-            },
-            description: {
-              id: `${PLUGIN_ID}.preset.description`,
-              defaultMessage: ' ',
-            },
-            name: 'options.preset',
-            type: 'select',
-            options: AVAILABLE_OPTIONS,
-          },
-        ],
+        base: [PRESET_OPTION],
         advanced: [
           {
             name: 'required',
@@ -115,12 +119,6 @@ export default {
             ],
           },
         ],
-        validator: () => ({
-          preset: yup.string().required({
-            id: `${PLUGIN_ID}.preset.error.required`,
-            defaultMessage: 'Editor preset is required',
-          }),
-        }),
       },
     });
   },

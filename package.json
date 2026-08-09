@@ -69,8 +69,7 @@
     "@ckeditor/ckeditor5-react": "~11.2.0",
     "ckeditor5": "~48.4.0",
     "dompurify": "3.4.12",
-    "lodash": "4.17.21",
-    "yup": "0.32.9"
+    "lodash": "4.17.21"
   },
   "devDependencies": {
     "@release-it/conventional-changelog": "10.0.0",
