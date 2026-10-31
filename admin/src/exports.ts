@@ -20,4 +20,10 @@ export type {
 } from './config/types';
 
 export { setPluginConfig, getPluginPresets, getPluginTheme } from './config';
-export { StrapiMediaLib, StrapiUploadAdapter } from './plugins';
+export {
+  LinkTitle,
+  OPEN_IN_NEW_TAB_DECORATOR_NAME,
+  openInNewTabLinkDecorator,
+  StrapiMediaLib,
+  StrapiUploadAdapter,
+} from './plugins';
