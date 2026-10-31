@@ -6,6 +6,17 @@ import { getPreferedLanguage } from '../utils/localStorage';
 const TRANSLATIONS: Record<string, Translations> = {};
 
 /**
+ * Additional translations for strings introduced by the plugin.
+ *
+ * @internal
+ */
+const CUSTOM_TRANSLATIONS: Record<string, Record<string, string>> = {
+  ru: {
+    'Link title': 'Заголовок ссылки',
+  },
+};
+
+/**
  * Sets the language property for the provided editor configuration and loads translations.
  *
  * @internal
@@ -50,7 +61,33 @@ async function importLang(config: EditorConfig, language: string): Promise<void>
     config.translations = translation.default;
   } else {
     console.warn(`No CKEditor translation found for language: ${language}`);
+    return;
   }
+
+  applyCustomTranslations(config, language);
+}
+
+/**
+ * Merges {@link CUSTOM_TRANSLATIONS} into the loaded CKEditor dictionary.
+ */
+function applyCustomTranslations(config: EditorConfig, language: string): void {
+  const customTranslations = CUSTOM_TRANSLATIONS[language];
+  const translations = config.translations;
+
+  if (!customTranslations || !translations || Array.isArray(translations)) {
+    return;
+  }
+
+  const languageTranslations = translations[language];
+
+  if (!languageTranslations) {
+    return;
+  }
+
+  languageTranslations.dictionary = {
+    ...languageTranslations.dictionary,
+    ...customTranslations,
+  };
 }
 
 function detecti18n(): string {

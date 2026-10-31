@@ -58,7 +58,13 @@ import {
 import DOMPurify from 'dompurify';
 
 import type { Preset, EditorConfig } from './types';
-import { StrapiMediaLib, StrapiUploadAdapter } from '../plugins';
+import {
+  LinkTitle,
+  OPEN_IN_NEW_TAB_DECORATOR_NAME,
+  openInNewTabLinkDecorator,
+  StrapiMediaLib,
+  StrapiUploadAdapter,
+} from '../plugins';
 
 const editorConfig: EditorConfig = {
   licenseKey: 'GPL',
@@ -118,6 +124,7 @@ const editorConfig: EditorConfig = {
     Underline,
     WordCount,
 
+    LinkTitle,
     StrapiMediaLib,
     StrapiUploadAdapter,
   ],
@@ -322,6 +329,7 @@ const editorConfig: EditorConfig = {
           download: 'file',
         },
       },
+      [OPEN_IN_NEW_TAB_DECORATOR_NAME]: openInNewTabLinkDecorator,
     },
     addTargetToExternalLinks: true,
     defaultProtocol: 'https://',

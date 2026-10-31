@@ -24,6 +24,7 @@
 - **Dark theme support**
 - **Fullscreen expansion**
 - **Responsive images support**
+- **Link title and "open in a new tab" control**
 - **Automatic UI translations**
 - **i18n support**
 - **Self-Hosted**
@@ -114,6 +115,39 @@ an extensive set of non-premium CKEditor plugins.
 **Responsive images**
 
 The plugin generates `srcset` attribute for inserted images if the image has any `formats` other than `thumbnail`.
+
+**Link title and target blank**
+
+The default HTML editor adds two controls to the link form:
+
+- **Link title** — stored in the content as the `<a title="...">` attribute;
+- **Open in a new tab** — adds `target="_blank"` and `rel="noopener noreferrer"` to the link.
+
+Both are available for new and existing links. External links keep the default
+`addTargetToExternalLinks` behavior, so they open in a new tab even without the switch.
+
+To use the same controls in a custom preset, add the exported plugin and decorator:
+
+```ts
+import {
+  LinkTitle,
+  OPEN_IN_NEW_TAB_DECORATOR_NAME,
+  openInNewTabLinkDecorator,
+} from '@_sh/strapi-plugin-ckeditor';
+
+const preset = {
+  name: 'custom',
+  description: 'Custom preset',
+  editorConfig: {
+    plugins: [/* ... */, LinkTitle],
+    link: {
+      decorators: {
+        [OPEN_IN_NEW_TAB_DECORATOR_NAME]: openInNewTabLinkDecorator,
+      },
+    },
+  },
+};
+```
 
 **UI language**: If you don't specify the UI language in the editor configuration, the plugin will
 default to the Strapi admin's preferred language. If no preference is set, English will be used as a fallback.
