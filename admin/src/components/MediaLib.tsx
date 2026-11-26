@@ -16,7 +16,7 @@ function MediaLib({ isOpen = false, toggle, handleChangeAssets }: MediaLibProps)
   function handleSelectAssets(files: any[]): void {
     const formattedFiles = files.map(f => ({
       name: f.name,
-      alt: f.alternativeText || f.name,
+      alt: f.alternativeText || '',
       url: prefixFileUrlWithBackendUrl(f.url),
       mime: f.mime,
       formats: f.formats,
