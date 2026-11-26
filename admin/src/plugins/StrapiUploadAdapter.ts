@@ -137,9 +137,9 @@ class Adapter implements StrapiAdapter {
         );
       }
 
-      const { name, url, alternativeText, formats } = response[0];
+      const { url, alternativeText, formats } = response[0];
       const urls: { [k: string]: string } = { default: prefixFileUrlWithBackendUrl(url) };
-      const alt = alternativeText || name;
+      const alt = alternativeText || '';
 
       if (formats && isImageResponsive(formats)) {
         const sortedFormatsKeys = Object.keys(formats).sort(
